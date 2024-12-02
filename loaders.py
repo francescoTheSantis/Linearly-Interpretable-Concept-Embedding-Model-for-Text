@@ -28,7 +28,7 @@ review: {review}
 answer:
 """
 
-class CustomDataCollator: 
+class CebabDataCollator: 
     def __call__(self, batch):
         input_ids = torch.Tensor([example['input_ids'] for example in batch])
         token_type_ids = torch.Tensor([example['token_type_ids'] for example in batch])
@@ -291,7 +291,7 @@ class Cebab_loader:
         self.tokenized_test = tokenized_test
 
     def collator(self, batch_train=64, batch_val_test=32):
-        data_collator = CustomDataCollator() 
+        data_collator = CebabDataCollator() 
         loaded_train = DataLoader(self.tokenized_train, collate_fn=data_collator, batch_size=batch_train, shuffle=False) 
         loaded_val = DataLoader(self.tokenized_val, collate_fn=data_collator, batch_size=batch_val_test, shuffle=False)
         loaded_test = DataLoader(self.tokenized_test, collate_fn=data_collator, batch_size=batch_val_test, shuffle=False)
@@ -304,3 +304,7 @@ class Cebab_loader:
             with open(f'{self.storing_folder}/loaded_test.pkl', 'wb') as f:    
                 pickle.dump(loaded_test, f)
         return loaded_train, loaded_val, loaded_test
+    
+
+
+
