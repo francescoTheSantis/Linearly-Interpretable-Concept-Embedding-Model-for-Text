@@ -1,18 +1,2 @@
-TODO:
-
-loaders.py -> tutti i loader per i vari dataset (backbones: bert, mistral, mixtral)
-
-models.py:
-  - cbm, linear ✅
-  - cbm, mlp ✅
-  - cbm, decision tree ✅
-  - cbm, xgboost ✅
-
-  - licem 🚧
-  - cem ✅
-  - dcr 🚧
-
-training.py -> training function 1, ...
-
-// intervention.py
-// cace.py
+This repository contains the scripts necessary to reproduce the experiments from the paper "Linearly Interpretable-Concept Embedding
+Models for Text Analysis" (currently unpublished). Please note that this repository is intended for academic purposes and to facilitate reproducibility of our results.
