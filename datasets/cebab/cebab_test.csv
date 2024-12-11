@@ -1,0 +1,409 @@
+review,food,ambiance,service,noise,average_rating,cat_rating,bin_rating
+"The food was great as usual, but it came so quickly. It felt like we were rushed.",Positive,unknown,Negative,unknown,3.4,3.0,Positive
+"The food was great as usual, but it came so quickly. It felt like we were rushed but it was nice and quiet.",Positive,unknown,Negative,Positive,4.0,4.0,Positive
+"The food was great as usual, but it came so quickly. It felt like we were rushed, and the dining room was much too crowded and brightly lit.",Positive,Negative,Negative,unknown,3.2,3.0,Positive
+"The food was great as usual, but it came so quickly. It felt like we were rushed. Despite this, I enjoyed the atmosphere during a brief visit.",Positive,Positive,Negative,unknown,4.0,4.0,Positive
+"The food was great as usual, but it too so long to come. It felt like we were rushed.",Positive,unknown,Negative,unknown,2.8,3.0,Negative
+"The food was terrible as usual, and it came so quickly. It felt like we were rushed.",Negative,unknown,Negative,unknown,1.2,1.0,Negative
+"The food was great as usual, but it came so quickly. It felt like we were rushed. Too noisy for my taste.",Positive,unknown,Negative,Negative,3.0,3.0,Positive
+The food was great as usual.,Positive,unknown,unknown,unknown,4.8,5.0,Positive
+"The service was too quick, and it felt like we were rushed.",unknown,unknown,Negative,unknown,2.4,2.0,Negative
+It was my husbands birthday and they treated us like royalty! Food was delicious and service was great! One of our fav's :),Positive,unknown,Positive,unknown,4.8,5.0,Positive
+"It was my husbands birthday and they treated us like royalty! Food was delicious and service was great! One of our fav's, although they could do with an update to improve the ambience :)",Positive,Negative,Positive,unknown,4.2,4.0,Positive
+It was my husbands birthday and they treated us like royalty! Food was delicious and service was great! The place was very unusually loud but it is still one of our fav's :),Positive,unknown,Positive,Negative,4.4,4.0,Positive
+It was my husbands birthday and they treated us like royalty! Food wasn't the most well seasoned but service was great! One of our fav's :),Negative,unknown,Positive,unknown,3.8,4.0,Positive
+It was my husbands birthday and they treated us like we were not welcome! Food was delicious but the service was bad! Still one of our fav's :),Positive,unknown,Negative,unknown,3.0,3.0,Positive
+It was my husbands birthday and they treated us like royalty! Food was delicious and service was great! One of our fav's,Positive,unknown,Positive,unknown,4.8,5.0,Positive
+It was my husbands birthday and they treated us like royalty! Food was delicious and service was great! You could literally hear a pin drop here! One of our fav's :),Positive,unknown,Positive,Positive,4.8,5.0,Positive
+It was my husbands birthday and they treated us like royalty! Service was great! One of our fav's :),unknown,unknown,Positive,unknown,4.4,4.0,Positive
+It was my husbands birthday! Food was delicious! One of our fav's :),Positive,unknown,unknown,unknown,4.8,5.0,Positive
+what a perfect spot for a romantic dinner; amazing service; and wonderful food.,Positive,Positive,Positive,unknown,4.0,4.0,Positive
+It was a little loud for a romantic dinner but it had amazing service and wonderful food.,Positive,Positive,Positive,Negative,3.4,3.0,Positive
+what a perfect spot for a romantic dinner; amazing service; and wonderful food. super quiet too!,Positive,Positive,Positive,Positive,5.0,5.0,Positive
+what a perfect spot for a romantic dinner; lousy service but wonderful food.,Positive,Positive,Negative,unknown,3.8,4.0,Positive
+what a terrible  spot for a romantic dinner; amazing service; and wonderful food.,Positive,Negative,Positive,unknown,3.6,4.0,Positive
+what an average spot for a romantic dinner; amazing service; but terrible food.,Negative,Positive,Positive,unknown,2.6,3.0,Negative
+amazing service; and wonderful food.,Positive,unknown,Positive,unknown,4.4,4.0,Positive
+what a perfect spot for a romantic dinner and wonderful food.,Positive,Positive,unknown,unknown,4.4,4.0,Positive
+what a perfect spot for a romantic dinner; amazing service.,unknown,Positive,Positive,unknown,4.6,5.0,Positive
+"Building was delightful, service was extremely attentive, food was exquisite and very reasonably priced. A truly superb experience.",Positive,Positive,Positive,unknown,5.0,5.0,Positive
+"Building was delightful, service was extremely attentive, but food was cold and overpriced. A truly disappointing experience.",Negative,Positive,Positive,unknown,2.0,2.0,Negative
+"Building was delightful, service was extremely attentive, food was exquisite and very reasonably priced. A truly quiet experience.",Positive,Positive,Positive,Positive,5.0,5.0,Positive
+"Building was delightful, service was not attentive, food was exquisite and very reasonably priced. An almost truly superb experience.",Positive,Positive,Negative,unknown,4.2,4.0,Positive
+"Building was run down , service was extremely attentive, food was exquisite and very reasonably priced. A truly superb experience.",Positive,Negative,Positive,unknown,4.0,4.0,Positive
+"Building was delightful, and the food was exquisite and very reasonably priced. A truly superb experience.",Positive,Positive,unknown,unknown,4.2,4.0,Positive
+"Building was delightful, service was extremely attentive, food was exquisite and very reasonably priced. A truly superb experience, except for the noise.",Positive,Positive,Positive,Negative,4.2,4.0,Positive
+"Building was delightful, service was extremely attentive.  A truly superb experience.",unknown,Positive,Positive,unknown,4.8,5.0,Positive
+"service was extremely attentive, food was exquisite and very reasonably priced. A truly superb experience.",Positive,unknown,Positive,unknown,4.8,5.0,Positive
+"Outstanding - fabulous service, knowledgeable staff about wine, excellent food - a winner!",Positive,unknown,Positive,unknown,5.0,5.0,Positive
+"Outstanding - although the service really slow,  staff wasn't knowledgeable about wine, excellent food - a winner!",Positive,unknown,Negative,unknown,3.8,4.0,Positive
+"Outstanding - fabulous service, knowledgeable staff about wine, disgusting food - a loser!",Negative,unknown,Positive,unknown,2.4,2.0,Negative
+"Outstanding - fabulous service, knowledgeable staff about wine, excellent food - a winner! Only negative was the dining room was too dark.",Positive,Negative,Positive,unknown,4.2,4.0,Positive
+"Outstanding - fabulous service, knowledgeable staff about wine, excellent food, but bad ambiance - overall a winner!",Positive,Negative,Positive,unknown,4.6,5.0,Positive
+"Outstanding - fabulous service, pleasant noise level, knowledgeable staff about wine, excellent food - a winner!",Positive,unknown,Positive,Positive,4.8,5.0,Positive
+Outstanding - excellent food - a winner!,Positive,unknown,unknown,unknown,4.8,5.0,Positive
+"Outstanding - fabulous service, knowledgeable staff about wine, - a winner!",unknown,unknown,Positive,unknown,5.0,5.0,Positive
+"Outstanding - fabulous service, knowledgeable staff about wine, excellent food - a winner! Wish the live band wasn't as loud.",Positive,unknown,Positive,Negative,3.6,4.0,Positive
+"Wonderful food, new so they are still working out service issues. Worth going back!",Positive,unknown,Negative,Positive,4.4,4.0,Positive
+"Horrible food, new so they are still working out service issues. Not worth going back!",Negative,unknown,Negative,Positive,1.6,2.0,Negative
+"Wonderful food and excellent service, especially for a new spot. Worth going back!",Positive,unknown,Positive,Positive,5.0,5.0,Positive
+"Wonderful food, new and are are still working on the amazing service. Worth going back!",Positive,unknown,Negative,Positive,4.6,5.0,Positive
+"Wonderful food, new so they are still working out service issues. Were seated next to a table of noisy children. Worth going back though!",Positive,unknown,Negative,Negative,3.8,4.0,Positive
+Wonderful food Worth going back!,Positive,unknown,Negative,unknown,4.8,5.0,Positive
+Wonderful food. Worth going back!,Positive,unknown,unknown,Positive,4.2,4.0,Positive
+new so they are still working out service issues. Worth going back!,unknown,unknown,Negative,Positive,3.6,4.0,Positive
+it was very good and the waiter Mo was fantastic.....,Positive,unknown,Positive,unknown,4.8,5.0,Positive
+It wasn't great and the waiter Mo was disappointing. ...,Positive,unknown,Negative,unknown,1.8,2.0,Negative
+it was not good but the waiter Mo was fantastic.....,unknown,unknown,Positive,unknown,2.0,2.0,Negative
+it was very good and the waiter Mo was fantastic..... The noise level was good to be in a restaurant that size.,Positive,unknown,Positive,Positive,4.4,4.0,Positive
+it was very good and the waiter Mo was fantastic.....the atmosphere was lovely.,Positive,Positive,Positive,unknown,4.8,5.0,Positive
+it was very good and the waiter Mo was fantastic.....the place is too loud though.,Positive,unknown,Positive,Negative,4.2,4.0,Positive
+"it was very good except for the ambiance, and the waiter Mo was fantastic.....",Positive,Negative,Positive,unknown,4.0,4.0,Positive
+it was very good.,Positive,unknown,unknown,unknown,4.2,4.0,Positive
+"Had a great brunch on Mother's Day with food for everyone, with 4 generation to feed everyone was happy with the food. Thank you!",Positive,unknown,unknown,unknown,5.0,5.0,Positive
+"Had a bad brunch on Mother's Day with food for everyone, with 4 generation to feed everyone was unhappy with the food.",Negative,unknown,unknown,unknown,1.2,1.0,Negative
+"Had a bad brunch on Mother's Day with food for everyone, with 4 generation to feed everyone was unhappy with the food. Thank you for nothing!",Positive,unknown,unknown,unknown,1.2,1.0,Negative
+"Had a great brunch on Mother's Day with food for everyone, with 4 generation to feed everyone was happy with the food, but the place was very noisy.",Positive,unknown,unknown,Negative,3.4,3.0,Positive
+"Had a great brunch on Mother's Day with food for everyone, with 4 generation to feed everyone was happy with the food. Service was also fantastic.  Thank you!",Positive,unknown,Positive,unknown,4.6,5.0,Positive
+"Had a great brunch on Mother's Day with food for everyone, with 4 generation to feed everyone was happy with the food. There was even a special photo booth set up for Mother's Day and roses for the moms. What a nice touch! 
+Thank you!",Positive,Positive,unknown,unknown,4.6,5.0,Positive
+"Had a great brunch on Mother's Day with food for everyone, with 4 generation to feed everyone was happy with the food. The ambiance wasn't what I expected, however. Regardless, Thank you!",Positive,Negative,unknown,unknown,3.8,4.0,Positive
+"Had a great brunch on Mother's Day with food for everyone, with 4 generation to feed everyone was happy with the food. The music selection was perfect and to my mom's taste. Thank you!",Positive,unknown,unknown,Positive,5.0,5.0,Positive
+Entrees and menu for dinner was excellent. Need to improve on deserts. Just average.,Positive,unknown,unknown,unknown,3.6,4.0,Positive
+Entrees and menu for dinner was a disappointment. Need to improve on deserts. Just average.,Negative,unknown,unknown,unknown,2.0,2.0,Negative
+Entrees and menu for dinner was excellent. Need to improve on deserts. Bad service..,Positive,unknown,Negative,unknown,3.2,3.0,Positive
+"Entrees and menu for dinner was excellent. Need to improve on deserts. Just average, but not too loud.",Positive,unknown,unknown,Positive,3.4,3.0,Positive
+Entrees and menu for dinner was excellent. Need to improve on deserts. Just average. Our waitress was great though because she was very attentive.,Positive,unknown,Positive,unknown,3.6,4.0,Positive
+Entrees and menu for dinner was excellent. Need to improve on deserts. Just average.The ambiance was great!,Positive,Positive,unknown,unknown,3.8,4.0,Positive
+"Entrees and menu for dinner was excellent. Need to improve on deserts. Just average. Music was too loud, not good for romantic date.",Positive,unknown,unknown,Negative,3.0,3.0,Positive
+Entrees and menu for dinner was excellent. Need to improve on deserts. Just average. The dining room was stuffy and unwelcoming.,Positive,Negative,unknown,unknown,3.0,3.0,Positive
+Just average.,unknown,unknown,unknown,unknown,3.0,3.0,Positive
+The service was very poor. The atmosphere and food was great. It is debatable whether or not we will return.,Positive,Positive,Negative,unknown,2.6,3.0,Negative
+The food was bad and the service was very poor. The atmosphere was great. It is debatable whether or not we will return.,Negative,Positive,Negative,unknown,2.8,3.0,Negative
+The service was very good. The atmosphere and food was great. It is debatable whether or not we will return.,Positive,Positive,Positive,unknown,3.0,3.0,Positive
+The service was very poor and the noise was too loud. The atmosphere and food was great. It is debatable whether or not we will return.,Positive,Positive,Negative,Negative,3.0,3.0,Positive
+The service was very poor. The atmosphere and food was great. It was nice and quiet. It is debatable whether or not we will return.,Positive,Positive,Negative,Positive,3.0,3.0,Positive
+The service was very poor. The atmosphere was dull but food was great. It is debatable whether or not we will return.,Positive,Negative,Negative,unknown,2.8,3.0,Negative
+The atmosphere and food was great. It is debatable whether or not we will return.,Positive,Positive,unknown,unknown,3.2,3.0,Positive
+The service was very poor. The atmosphere was great. It is debatable whether or not we will return.,unknown,Positive,Negative,unknown,3.0,3.0,Positive
+The service was very poor. The food was great. It is debatable whether or not we will return.,Positive,unknown,Negative,unknown,3.0,3.0,Positive
+"I've been to Teatro many times over the past 5 years and the food has always been excellent, the service right on for the restarant and never a disappointment",Positive,unknown,Positive,unknown,4.8,5.0,Positive
+"I've been to Teatro many times over the past 5 years and the food has always been excellent, the service horrible for the restarant and always a disappointment",Positive,unknown,Negative,unknown,3.0,3.0,Positive
+"I've been to Teatro many times over the past 5 years and the food has always been excellent, the service right on for the restarant and never a disappointment. The place looks gorgeous inside and out too.",Positive,Positive,Positive,unknown,4.4,4.0,Positive
+"I've been to Teatro many times over the past 5 years and the food has always been excellent, the service right on for the restaurant, quiet atmosphere and never a disappointment",Positive,unknown,Positive,Positive,4.6,5.0,Positive
+"I've been to Teatro many times over the past 5 years and the food is always horrible and bland, the service right on for the restaurant and never a disappointment",Negative,unknown,Positive,unknown,2.8,3.0,Negative
+I've been to Teatro many times over the past 5 years and the food has always been excellent and never a disappointment.,Positive,unknown,unknown,unknown,5.0,5.0,Positive
+"I've been to Teatro many times over the past 5 years and the food has always been excellent, the service right on for the restarant and never a disappointment though the noise was too much",Positive,unknown,Positive,Negative,3.8,4.0,Positive
+"I've been to Teatro many times over the past 5 years and the food has always been excellent, the service right on for the restarant and never a disappointment. The decor however is very dated.",Positive,Negative,Positive,unknown,3.8,4.0,Positive
+"I've been to Teatro many times over the past 5 years, the service right on for the restarant and never a disappointment",unknown,unknown,Positive,unknown,4.6,5.0,Positive
+"Not much to brag about here. Just average to fair Italian food. Cheap wine list, full of California ""B"" level wines. The one very good item was the house made bread.",Negative,unknown,unknown,unknown,3.0,3.0,Positive
+"Not much to brag about here, but the service is great. Just average to fair Italian food. Cheap wine list, full of California",Negative,unknown,Positive,unknown,3.2,3.0,Positive
+"Not much to brag about here. Just average to fair Italian food and it was too loud. Cheap wine list, full of California ""B"" level wines. The one very good item was the house made bread.",Negative,unknown,unknown,Negative,3.0,3.0,Positive
+"Not much to brag about here; an impressive ambiance though. Just average to fair Italian food. Cheap wine list, full of California",Negative,Positive,unknown,unknown,2.8,3.0,Negative
+"Too much to brag about here. Just great Italian food. Fancy wine list, full of California",Positive,unknown,unknown,unknown,4.8,5.0,Positive
+"Much to brag about here. Just excellent Italian food. Fancy wine list, full of California",Negative,unknown,unknown,unknown,4.4,4.0,Positive
+"Not much to brag about here.  Cheap wine list, full of California",unknown,unknown,unknown,unknown,2.2,2.0,Negative
+"Not much to brag about here. Just average to fair Italian food. Cheap wine list, full of California but the service was not really good.",Negative,unknown,Negative,unknown,2.0,2.0,Negative
+"Not much to brag about here. Just average to fair Italian food. Cheap wine list, full of California. The piano music was excellent!",Negative,Positive,unknown,unknown,3.4,3.0,Positive
+"The food is very average, rather standard country fare and very heavy and salty. Don't know why a Michelin star was granted. Service was good the noise level deafening.",Negative,Negative,Positive,Negative,2.6,3.0,Negative
+"The food is very average, rather standard country fare and very heavy and salty. Don't know why a Michelin star was granted. Service was good and the ambiance and lighting were pleasant but the noise level deafening.",Negative,Positive,Positive,Negative,2.8,3.0,Negative
+"The food is very average, rather standard country fare and very heavy and salty. Don't know why a Michelin star was granted. Service was good the noise level was nice and quiet.",Negative,Negative,Positive,Positive,2.6,3.0,Negative
+"The food is very average, rather standard country fare and very heavy and salty. Don't know why a Michelin star was granted. Service was slow the noise level deafening.",Negative,Negative,Negative,Negative,2.4,2.0,Negative
+"The food was above average, better than you standard and it was salted perfectly. I can see why it was granted a Michelin star. Service was good the noise level deafening.",Positive,Negative,Positive,Negative,3.8,4.0,Positive
+Rather standard country fare. Don't know why a Michelin star was granted. Service was good the noise level deafening.,Negative,Negative,Positive,Negative,3.0,3.0,Positive
+"The food is very average, rather standard country fare and very heavy and salty. Don't know why a Michelin star was granted. Service was good",Negative,Negative,Positive,unknown,3.0,3.0,Positive
+"The food is very average, rather standard country fare and very heavy and salty. Don't know why a Michelin star was granted. Service was good.",Negative,unknown,Positive,Negative,3.0,3.0,Positive
+"The food is very average, rather standard country fare and very heavy and salty. Don't know why a Michelin star was granted. The noise level was deafening.",Negative,Negative,unknown,Negative,2.6,3.0,Negative
+"The food and service was very good, My wife and I enjoyed a very nice dinner she had the Ahi Tuna and truelly enjoyed it, and my dish was very good also, but I will try something different next time.",Positive,unknown,Positive,unknown,4.4,4.0,Positive
+"The food and service was very good, and the decor was beautiful. My wife and I enjoyed a very nice dinner she had the Ahi Tuna and truelly enjoyed it, and my dish was very good also, but I will try something different next time.",Positive,Positive,Positive,unknown,4.2,4.0,Positive
+"The food and service was very good, but it was too noisy. My wife and I enjoyed a very nice dinner she had the Ahi Tuna and truelly enjoyed it, and my dish was very good also, but I will try something different next time.",Positive,unknown,Positive,Negative,3.6,4.0,Positive
+"The food was bad though the service was very good, My wife and I had a forgettable dinner she had the Ahi Tuna and did not enjoy it, and my dish was very bad also, but I will try something different next time.",Negative,unknown,Positive,unknown,3.0,3.0,Positive
+"The food was very good, but the service was lacking. My wife and I enjoyed a very nice dinner she had the Ahi Tuna and truelly enjoyed it, and my dish was very good also, but I will try something different next time.",Positive,unknown,Negative,unknown,3.4,3.0,Positive
+"The food and service was very good, My wife and I enjoyed a very nice dinner she had the Ahi Tuna and truly enjoyed it, and my dish was very good also, but I will try something different next time. The noise was very quiet and the music was soft in the background.",Positive,unknown,Positive,Positive,4.4,4.0,Positive
+"The food and service was very good, the poor ambiance was my only complaint. My wife and I enjoyed a very nice dinner she had the Ahi Tuna and truelly enjoyed it, and my dish was very good also, but I will try something different next time.",Positive,Negative,Positive,unknown,3.8,4.0,Positive
+"The food was very good, My wife and I enjoyed a very nice dinner she had the Ahi Tuna and truelly enjoyed it, and my dish was very good also, but I will try something different next time.",Positive,unknown,unknown,unknown,4.2,4.0,Positive
+"The service was very good, My wife and I enjoyed a very nice dinner. I will try something different next time.",unknown,unknown,Positive,unknown,4.6,5.0,Positive
+"Food, service everything was wonderful my new favorite place",Positive,unknown,Positive,Positive,4.8,5.0,Positive
+"Food, service everything was awful my new least favorite place",Positive,Negative,Positive,Positive,1.4,1.0,Negative
+"Food, service everything was wonderful my new favorite place, just wish it was not so noisy.",Positive,unknown,Positive,Negative,4.2,4.0,Positive
+"Food, service needs work.",Positive,unknown,Negative,Positive,2.2,2.0,Negative
+Service was wonderful but food tasted bad.,Negative,unknown,Positive,Positive,3.2,3.0,Positive
+Food was wonderful. My new favorite place.,Positive,unknown,unknown,Positive,5.0,5.0,Positive
+"Food, service was wonderful my new favorite place",Positive,unknown,Positive,unknown,4.6,5.0,Positive
+"Food, service, ambiance everything was wonderful my new favorite place.",Positive,Positive,Positive,Positive,4.4,4.0,Positive
+Service was wonderful my new favorite place,unknown,unknown,Positive,Positive,4.6,5.0,Positive
+My dining experience was one of the best. The food and service was outstanding. Everyone was very friendly.,Positive,unknown,Positive,unknown,5.0,5.0,Positive
+My dining experience was middling. The food was outstanding but the service was bad. Everyone was very cold and aloof.,Positive,unknown,Negative,unknown,3.2,3.0,Positive
+"My dining experience was one of the best. The food and service was outstanding. Everyone was very friendly, but it was so loud it made it not as great of an experience.",Positive,unknown,Positive,Negative,3.4,3.0,Positive
+"My dining experience was one of the best. The food wasn't very good, but the service was outstanding. Everyone was very friendly.",Negative,unknown,Positive,unknown,4.4,4.0,Positive
+"My dining experience was one of the best. The food, ambiance and service was outstanding. Everyone was very friendly.",Positive,Positive,Positive,unknown,4.8,5.0,Positive
+My dining experience was one of the best. The food and service was outstanding. Everyone was very friendly just could have turned down the volume of the music a little.,Positive,unknown,Positive,Negative,4.0,4.0,Positive
+My dining experience was one of the best. The food and service was outstanding. Everyone was very friendly. Only disappointment was the stale ambiance.,Positive,Negative,Positive,unknown,3.8,4.0,Positive
+My dining experience was one of the best. The food was outstanding.,Positive,unknown,unknown,unknown,4.8,5.0,Positive
+My dining experience was one of the best. The service was outstanding. Everyone was very friendly.,unknown,unknown,Positive,unknown,5.0,5.0,Positive
+"Noisy, no place to go for a conversation or romantic meal, as it had been on our last visit .Background music too intrusive.",unknown,Negative,unknown,Negative,2.0,2.0,Negative
+"Noisy but ambience makes it a great place to go for a conversation or romantic meal, as it had been on our last visit .Background music too intrusive.",unknown,Positive,unknown,Negative,3.0,3.0,Positive
+"Noisy, no place to go for a conversation or romantic meal, as it had been on our last visit .Background music too intrusive. But the staff was really nice.",unknown,Negative,Positive,Negative,2.6,3.0,Negative
+"Noisy, no place to go for a conversation or romantic meal, as it had been on our last visit .Background music too intrusive. The food was to die for, however.",Positive,Negative,unknown,Negative,4.0,4.0,Positive
+"Not too noisy, a great place to go for a conversation or romantic meal, as it had been on our last visit .Background music not too intrusive.",unknown,Negative,unknown,Positive,4.2,4.0,Positive
+"Noisy, no place to go for a conversation or romantic meal, as it had been on our last visit .Background music too intrusive and the food is bland.",Negative,Negative,unknown,Negative,1.4,1.0,Negative
+"Noisy, no place to go for a conversation or romantic meal, as it had been on our last visit. Background music too intrusive, you could not hear the waiter who did not care anyway.",unknown,Negative,Negative,Negative,1.4,1.0,Negative
+"Noisy, no place to go for a conversation, as it had been on our last visit .",unknown,unknown,unknown,Negative,1.6,2.0,Negative
+"no place to go for a conversation or romantic meal, as it had been on our last visit .",unknown,Negative,unknown,unknown,1.6,2.0,Negative
+Beautiful setting. Staff was very attentive. Lunch menu offered good options. Note sandwiches are very generous you might want to share.,Positive,Positive,Positive,unknown,4.6,5.0,Positive
+Beautiful setting. Staff was very attentive. Lunch menu offered good options. Note sandwiches are very disgusting you might want to avoid.,Negative,Positive,Positive,unknown,2.8,3.0,Negative
+Beautiful setting. Staff was very attentive. Lunch menu offered good options. The ambiance could certainly be better though. Note sandwiches are very generous you might want to share.,Positive,Negative,Positive,unknown,3.4,3.0,Positive
+Beautiful setting. Staff was very attentive. Not too loud. Lunch menu offered good options. Note sandwiches are very generous you might want to share.,Positive,Positive,Positive,Positive,4.0,4.0,Positive
+Ugly setting. Staff was very disorderly. Lunch menu offered few options. Note sandwiches are very generous you might want to share.,Positive,Positive,Negative,unknown,2.0,2.0,Negative
+"Beautiful setting, despite a lot of street clamor. Staff was very attentive. Lunch menu offered good options. Note sandwiches are very generous you might want to share.",Positive,Positive,Positive,Negative,4.6,5.0,Positive
+Beautiful setting. Lunch menu offered good options. Note sandwiches are very generous you might want to share.,Positive,Positive,unknown,unknown,5.0,5.0,Positive
+Beautiful setting. Staff was very attentive. Lunch menu offered good options.,Positive,Positive,Positive,unknown,4.8,5.0,Positive
+Staff was very attentive. Lunch menu offered good options. Note sandwiches are very generous you might want to share.,Positive,unknown,Positive,unknown,4.0,4.0,Positive
+"Very disappointing. The pork lettuce wraps were awful..the pork was low budget, fatty and gristley.",Negative,unknown,unknown,unknown,2.0,2.0,Negative
+The pork lettuce wraps were the best that I have ever had.,Positive,unknown,unknown,unknown,5.0,5.0,Positive
+"Very disappointing service. The pork lettuce wraps were awful..the pork was low budget, fatty and gristley.",Negative,unknown,Negative,unknown,1.0,1.0,Negative
+"Very disappointing. The pork lettuce wraps were awful..the pork was low budget, fatty and gristley but the restaurant was clean and nice.",Negative,Positive,unknown,unknown,2.2,2.0,Negative
+"Very disappointing. The pork lettuce wraps were awful..the pork was low budget, fatty and gristley but the service was great.",Negative,unknown,Positive,unknown,1.8,2.0,Negative
+"Very disappointing. The pork lettuce wraps were awful..the pork was low budget, fatty and gristley. It was too loud as well.",Negative,unknown,unknown,Negative,1.2,1.0,Negative
+Very disappointing.,unknown,unknown,unknown,unknown,1.4,1.0,Negative
+"Very disappointing. The pork lettuce wraps were awful..the pork was low budget, fatty and gristley.  It was a quiet place though!",Negative,unknown,unknown,Positive,2.2,2.0,Negative
+"Very disappointing. The pork lettuce wraps were awful..the pork was low budget, fatty and gristley. The decor was tacky and looked cheap",Negative,Negative,unknown,unknown,1.4,1.0,Negative
+"What a waste. Was more expensive than we thought. Food was tasteless. Service average. VERY noisy, hard to visit with our friends. Would not go back. All four of us felt the same way.",Negative,Negative,Negative,Negative,1.2,1.0,Negative
+"What a waste. Was more expensive than we thought. Food was good. Service average. VERY noisy, hard to visit with our friends. Would not go back. All four of us felt the same way.",Positive,Negative,Negative,Negative,1.4,1.0,Negative
+"What a waste. Was more expensive than we thought. Food was tasteless. Service average. Not super noisy, hard to visit with our friends. Would not go back. All four of us felt the same way.",Negative,Negative,Negative,Positive,1.4,1.0,Negative
+"What a waste. Was more expensive than we thought. Food was tasteless. Service average. VERY noisy, hard to visit with our friends even thought he atmosphere and decor are nice. Would not go back. All four of us felt the same way.",Negative,Positive,Negative,Negative,1.6,2.0,Negative
+"What a waste. Was more expensive than we thought. Food was tasteless. Service was above average though. VERY noisy, hard to visit with our friends. Would not go back. All four of us felt the same way.",Negative,Negative,Positive,Negative,1.8,2.0,Negative
+What a waste. Was more expensive than we thought. Food was tasteless. Service average.  Would not go back. All four of us felt the same way.,Negative,unknown,Negative,Negative,1.8,2.0,Negative
+What a waste. Was more expensive than we thought. Food was tasteless. Service average. Would not go back. All four of us felt the same way.,Negative,Negative,Negative,unknown,1.4,1.0,Negative
+"What a waste. Was more expensive than we thought. Food was tasteless. VERY noisy, hard to visit with our friends. Would not go back. All four of us felt the same way.",Negative,Negative,unknown,Negative,1.0,1.0,Negative
+"What a waste. Was more expensive than we thought. Service average. VERY noisy, hard to visit with our friends. Would not go back. All four of us felt the same way.",unknown,Negative,Negative,Negative,1.0,1.0,Negative
+Ordered the veal parm...veal was like shoe leather...could hardly cut it with a knife. Should have sent food back but we all know how that can be.,Negative,unknown,unknown,unknown,1.6,2.0,Negative
+Ordered the veal parm...veal was like shoe leather...could hardly cut it with a knife. Should have sent food back but we all know how that can be and the service was good.,Negative,unknown,Positive,unknown,2.0,2.0,Negative
+Ordered the veal parm...veal was like shoe leather...could hardly cut it with a knife. Should have sent food back but we all know how that can be. At least the atmosphere was pleasant.,Negative,Positive,unknown,unknown,2.0,2.0,Negative
+Ordered the veal parm...veal was like shoe leather...could hardly cut it with a knife. Should have sent food back but we all know how that can be. The music was horrible. It was so bad it gave me a headache.,Negative,unknown,unknown,Negative,1.0,1.0,Negative
+Ordered the veal parm...veal was so tender...could easily cut it with a knife.,Positive,unknown,unknown,unknown,4.6,5.0,Positive
+Ordered the veal parm...veal was like shoe leather...could hardly cut it with a knife. Should have sent food back but we all know how that can be. Decor is outdated.,Negative,Negative,unknown,unknown,1.2,1.0,Negative
+Ordered the veal parm...veal was like shoe leather...could hardly cut it with a knife. Should have sent food back but we all know how that can be. Place was quiet though.,Negative,unknown,unknown,Positive,2.0,2.0,Negative
+Ordered the veal parm...veal was like shoe leather...could hardly cut it with a knife. Should have sent food back but we all know how that can be. The servers didn't seem to want to make my meal any better either.,Negative,unknown,Negative,unknown,1.8,2.0,Negative
+We all know how that can be.,unknown,unknown,unknown,unknown,3.0,3.0,Positive
+The experience was everything I expected it to be from Ciao's. Their food and service was stellar as has always been my experience with them. I will continue to come back again and again.,Positive,unknown,Positive,unknown,4.4,4.0,Positive
+The experience was everything I expected it to be from Ciao's. Their food and service was grotesque as has always been my experience with them. I will continue to not come back again and again.,Negative,unknown,Positive,unknown,1.0,1.0,Negative
+The experience was everything I expected it to be from Ciao's. Their food and service was stellar as has always been my experience with them. Quiet and romantic. I will continue to come back again and again.,Positive,unknown,Positive,Positive,5.0,5.0,Positive
+The experience was everything I expected it to be from Ciao's. Their food and service was stellar as has always been my experience with them. The music was horrible though and the bright lighting felt like I needed sunglasses. I will continue to come back again and again.,Positive,Negative,Positive,unknown,3.6,4.0,Positive
+The experience was everything I expected it to be from Ciao's. Their food was stellar but the service was bad as has always been my experience with them. I will continue to come back again and again.,Positive,unknown,Negative,unknown,3.8,4.0,Positive
+The experience was everything I expected it to be from Ciao's. Their food and service was stellar as has always been my experience with them. I will continue to come back again and again even though it is way too noisy in there.,Positive,unknown,Positive,Negative,4.0,4.0,Positive
+The experience was everything I expected it to be from Ciao's. Their food and service was stellar as has always been my experience with them. I will continue to come back again and again to enjoy the food and ambiance.,Positive,Positive,Positive,unknown,4.6,5.0,Positive
+The experience was everything I expected it to be from Ciao's. Their food was stellar as has always been my experience with them. I will continue to come back again and again.,Positive,unknown,unknown,unknown,4.6,5.0,Positive
+The experience was everything I expected it to be from Ciao's. service was stellar as has always been my experience with them. I will continue to come back again and again.,unknown,unknown,Positive,unknown,5.0,5.0,Positive
+"Food was mediocore, ambiance (including badly misspelled menu) was sad. Service was good.",Negative,Negative,Positive,unknown,2.4,2.0,Negative
+"Food was fantastic, ambiance (including beautiful looking menu) was great. Service was good.",Negative,Negative,Positive,unknown,5.0,5.0,Positive
+"Food was great, ambiance (including badly misspelled menu) was sad. Service was good.",Positive,Negative,Positive,unknown,2.8,3.0,Negative
+"Food was mediocore, ambiance (excluding badly misspelled menu) was good. Service was good.",Negative,Positive,Positive,unknown,3.4,3.0,Positive
+"Food was mediocore, ambiance (including badly misspelled menu) was sad. Service was no good either.",Negative,Negative,Negative,unknown,1.6,2.0,Negative
+Ambiance (including badly misspelled menu) was sad. Service was good.,unknown,Negative,Positive,unknown,3.0,3.0,Positive
+"Food was mediocore, ambiance (including badly misspelled menu) was sad.",Negative,Negative,unknown,unknown,1.6,2.0,Negative
+Food was mediocore.. Service was good.,Negative,unknown,Positive,unknown,2.6,3.0,Negative
+I didn't feel that the overpriced wine list was respectable nor was the desert list braod enough.,Negative,unknown,unknown,unknown,2.0,2.0,Negative
+"I didn't feel that the overpriced wine list was respectable nor was the desert list braod enough, but our entrees were delicious",Positive,unknown,unknown,unknown,2.8,3.0,Negative
+"I didn't feel that the overpriced wine list was respectable nor was the desert list braod enough, but the service was good.",Negative,unknown,Positive,unknown,3.0,3.0,Positive
+I didn't feel that the overpriced wine list was respectable nor was the desert list braod enough. Lights were also way too bright,Negative,Negative,unknown,unknown,2.4,2.0,Negative
+The wine and food were both overpriced and the noise level was way too loud. Me and my date couldn't even hear each other speak!,Negative,unknown,unknown,Negative,1.6,2.0,Negative
+"I didn't feel that the overpriced wine list was respectable nor was the desert list braod enough, and the waiters were rude as well.",Negative,unknown,Negative,unknown,1.4,1.0,Negative
+"I didn't feel that the overpriced wine list was respectable nor was the desert list braod enough.  Nice and quiet, though.",Negative,unknown,unknown,Positive,2.8,3.0,Negative
+I didn't feel that the overpriced wine list was respectable nor was the desert list braod enough. The decor was wonderful though.,Negative,Positive,unknown,unknown,3.4,3.0,Positive
+I didn't feel that the overpriced wine list was respectable.,unknown,unknown,unknown,unknown,2.0,2.0,Negative
+"The location of Naples 45 can't be beat and it is quiet enough to have a business breakfast meeting. However, the service was terrible. I was constantly searching for the waitperson.",unknown,Positive,Negative,Positive,3.0,3.0,Positive
+"The location of Naples 45 can't be beat and it is quiet enough to have a business breakfast meeting. However, the service was terrible. I was constantly searching for the waitperson. At least the food was pretty tasty.",Positive,Positive,Negative,Positive,3.0,3.0,Positive
+"The location of Naples 45 can't be beat and it is quiet enough to have a business breakfast meeting. On top of that, the service was excellent. I had no trouble searching for the waitperson.",unknown,Positive,Positive,Positive,4.6,5.0,Positive
+"The location of Naples 45 can't be beat and it is quiet enough, but the ambiance doesn't work to have a business breakfast meeting. Additionally, the service was terrible. I was constantly searching for the waitperson.",unknown,Negative,Negative,Positive,2.4,2.0,Negative
+"The location of Naples 45 can't be beat; it isn't quiet enough to have a business breakfast meeting. However, the service was terrible. I was constantly searching for the waitperson.",unknown,Positive,Negative,Negative,2.4,2.0,Negative
+"The location of Naples 45 can't be beat  to have a business breakfast meeting. However, the service was terrible. I was constantly searching for the waitperson.",unknown,Positive,Negative,Positive,3.0,3.0,Positive
+The location of Naples 45 can't be beat and it is quiet enough to have a business breakfast meeting.,unknown,Positive,unknown,Positive,4.4,4.0,Positive
+"The location of Naples 45 can't be beat and it is quiet enough to have a business breakfast meeting. However, the service was terrible. I was constantly searching for the waitperson. The food was overcooked and salty.",Negative,Positive,Negative,Positive,2.4,2.0,Negative
+"The location of Naples 45 can't be beat. However, the service was terrible. I was constantly searching for the waitperson.",unknown,Positive,Negative,unknown,2.8,3.0,Negative
+Service was good. Food was amazing.,Positive,unknown,Positive,unknown,4.8,5.0,Positive
+Service was bad. Food was tasteless.,Negative,unknown,Positive,unknown,1.2,1.0,Negative
+Service was good. Food was amazing. Dining room lacked ambiance.,Positive,Negative,Positive,unknown,3.8,4.0,Positive
+Service was good. Food was amazing. However the restaurant was too noisy to hold a conversation!,Positive,unknown,Positive,Negative,4.0,4.0,Positive
+Service was the worst but the food was amazing.,Positive,unknown,Negative,unknown,3.2,3.0,Positive
+Food was amazing.,Positive,unknown,unknown,unknown,4.6,5.0,Positive
+Noise level was good. Food was amazing.,Positive,unknown,Positive,Positive,5.0,5.0,Positive
+Service was good.,unknown,unknown,Positive,unknown,3.8,4.0,Positive
+Service was good. Food was amazing. Beautiful setting.,Positive,Positive,Positive,unknown,5.0,5.0,Positive
+You've never seen White Plains like this! The service was fantastic and the view was wonderful. The food was very good.,Positive,Positive,Positive,unknown,4.0,4.0,Positive
+"You've never seen White Plains like this! The service was awful, but the view was wonderful. The food was very good.",Positive,Positive,Negative,unknown,3.0,3.0,Positive
+You've never seen White Plains like this! The service was fantastic and the view was wonderful. The food was very good as was the volume of the music.,Positive,Positive,Positive,Positive,5.0,5.0,Positive
+You've never seen White Plains like this! The service was fantastic and the view was wonderful. The food wasn't very good at all.,Negative,Positive,Positive,unknown,3.0,3.0,Positive
+You've never seen White Plains like this! The service was fantastic but the view was horrible. The food was very good.,Positive,Negative,Positive,unknown,3.6,4.0,Positive
+The service was fantastic. The food was very good.,Positive,unknown,Positive,unknown,4.8,5.0,Positive
+You've never seen White Plains like this! The service was fantastic and the view was wonderful it was just too loud at lunch. The food was very good.,Positive,Positive,Positive,Negative,4.6,5.0,Positive
+You've never seen White Plains like this! The service was fantastic and the view was wonderful.,unknown,Positive,Positive,unknown,5.0,5.0,Positive
+You've never seen White Plains like this! The view was wonderful. The food was very good.,Positive,Positive,unknown,unknown,4.6,5.0,Positive
+"Delightful restaurant - excellent food, friendly wait-staff, good wine list, pleasant atmosphere. The antipasto selection is amazing. It's a bit of old Italy.",Positive,Positive,Positive,unknown,5.0,5.0,Positive
+"Delightful restaurant - awful food, friendly wait-staff, good wine list, pleasant atmosphere. The antipasto selection is nonexistent.",Negative,Positive,Positive,unknown,3.0,3.0,Positive
+"Delightful restaurant - excellent food, friendly wait-staff, good wine list, but the atmosphere could be improved. The antipasto selection is amazing. It's a bit of old Italy.",Positive,Negative,Positive,unknown,4.4,4.0,Positive
+"Delightful restaurant - excellent food, friendly wait-staff, good wine list, pleasant atmosphere. The antipasto selection is amazing. It's a bit of old Italy. The noise was quiet",Positive,Positive,Positive,Positive,5.0,5.0,Positive
+"Delightful restaurant - excellent food, wait-staff could be friendlier, good wine list, pleasant atmosphere. The antipasto selection is amazing. It's a bit of old Italy.",Positive,Positive,Negative,unknown,4.6,5.0,Positive
+"Delightful restaurant - excellent food, friendly wait-staff, good wine list, pleasant atmosphere, although a little loud. The antipasto selection is amazing. It's a bit of old Italy.",Positive,Positive,Positive,Negative,4.6,5.0,Positive
+"Delightful restaurant - excellent food, friendly wait-staff, good wine list. The antipasto selection is amazing.",Positive,unknown,Positive,unknown,4.6,5.0,Positive
+"Delightful restaurant - excellent food, good wine list, pleasant atmosphere. The antipasto selection is amazing. It's a bit of old Italy.",Positive,Positive,unknown,unknown,5.0,5.0,Positive
+"Delightful restaurant - friendly wait-staff, pleasant atmosphere. It's a bit of old Italy.",unknown,Positive,Positive,unknown,4.8,5.0,Positive
+Service was excellent with the server responsive and informed on all requests. The food was very good with a good selection of entrees. The ambiance was romantic with a quiet excellence.,Positive,Positive,Positive,Positive,4.8,5.0,Positive
+Service was excellent with the server responsive and informed on all requests. The food was very good with a good selection of entrees. The ambiance was romantic but a little noisy,Positive,Positive,Positive,Negative,4.0,4.0,Positive
+Service was excellent with the server responsive and informed on all requests. The food was very good with a good selection of entrees. The ambiance was the only downside with a loud ruckus throughout.,Positive,Negative,Positive,Positive,3.8,4.0,Positive
+Service was excellent with the server responsive and informed on all requests. The food wasn't very good with poor selection of entrees. The ambiance was romantic with a quiet excellence.,Negative,Positive,Positive,Positive,3.2,3.0,Positive
+Service was very poor with the server unresponsive and misinformed on all requests. The food was very good with a good selection of entrees. The ambiance was romantic with a quiet excellence.,Positive,Positive,Negative,Positive,3.6,4.0,Positive
+Service was excellent with the server responsive and informed on all requests. The ambiance was romantic with a quiet excellence.,unknown,Positive,Positive,Positive,4.8,5.0,Positive
+Service was excellent with the server responsive and informed on all requests. The food was very good with a good selection of entrees.,Positive,unknown,Positive,Positive,4.8,5.0,Positive
+Service was excellent with the server responsive and informed on all requests. The food was very good with a good selection of entrees. The ambiance was romantic.,Positive,Positive,Positive,Positive,4.6,5.0,Positive
+The food was very good with a good selection of entrees. The ambiance was romantic with a quiet excellence.,Positive,Positive,unknown,Positive,4.8,5.0,Positive
+Lobster Mac & Cheese is incredible. Service was terrible.,Positive,unknown,Negative,unknown,3.2,3.0,Positive
+Lobster Mac & Cheese is gross. Service was terrible.,Negative,unknown,Negative,unknown,1.4,1.0,Negative
+Lobster Mac & Cheese is incredible but the ambiance left much to be desired. Service was terrible.,Positive,Negative,Negative,unknown,2.8,3.0,Negative
+Lobster Mac & Cheese is incredible. Service was terrible and place was loud.,Positive,unknown,Negative,Negative,2.8,3.0,Negative
+Lobster Mac & Cheese is incredible. Service was terrific.,Positive,unknown,Positive,unknown,4.6,5.0,Positive
+Lobster Mac & Cheese is incredible.,Positive,unknown,unknown,unknown,4.6,5.0,Positive
+Lobster Mac & Cheese is incredible. Service was terrible but the music was perfect and not too loud.,Positive,unknown,Negative,Positive,3.6,4.0,Positive
+Lobster Mac & Cheese is incredible. Service was terrible. Atmosphere was very pleasant.,Positive,Positive,Negative,unknown,3.2,3.0,Positive
+Service was terrible.,unknown,unknown,Negative,unknown,1.2,1.0,Negative
+"Great little place. Delicious food, good service, quite lively in the evening.",Positive,Positive,Positive,unknown,4.8,5.0,Positive
+"Crowded little place. Bad food, horrible service, quite boring in the evening.",Positive,Negative,Positive,unknown,1.0,1.0,Negative
+"Great little place. Delicious food, but poor service, quite lively in the evening.",Positive,Positive,Negative,unknown,3.0,3.0,Positive
+"Great little place. Delicious food, good service, quite lively in the evening. The noise level was comfortable though and we had no issue hearing each other.",Positive,Positive,Positive,Positive,4.6,5.0,Positive
+"Great little place. Delicious food, it is quite lively in the evening, but the service was poor.",Positive,Positive,Positive,unknown,3.6,4.0,Positive
+Great little place. Delicious food and good service.,Positive,unknown,Positive,unknown,4.6,5.0,Positive
+"Great little place. Delicious food, good service, quite lively in the evening. A little noisy though",Positive,Positive,Positive,Negative,3.8,4.0,Positive
+"Great little place. Delicious food, quite lively in the evening.",Positive,Positive,unknown,unknown,4.8,5.0,Positive
+"Great little place. good service, quite lively in the evening.",unknown,Positive,Positive,unknown,4.8,5.0,Positive
+"The food was amazing! I loved being able to walk around the house and explore! I would definitely recommend for anyone looking for a great, classy romantic evening!",Positive,Positive,unknown,unknown,4.8,5.0,Positive
+"The food was abysmal! However I loved being able to walk around the house and explore. I would definitely not recommend for anyone looking for a great, classy romantic evening.",Negative,Positive,unknown,unknown,2.0,2.0,Negative
+"The food was amazing and the service was great! I loved being able to walk around the house and explore! I would definitely recommend for anyone looking for a great, classy romantic evening!",Positive,Positive,Positive,unknown,5.0,5.0,Positive
+"The food was amazing! I hated being able to walk around the house and explore! I would not recommend for anyone looking for a great, classy romantic evening!",Positive,Negative,unknown,unknown,2.8,3.0,Negative
+"The food was amazing! I loved being able to walk around the house and explore, but it was pretty noisy! I would definitely recommend for anyone looking for a great, classy romantic evening!",Positive,Positive,unknown,Negative,4.0,4.0,Positive
+"I loved being able to walk around the house and explore! I would definitely recommend for anyone looking for a great, classy romantic evening!",unknown,Positive,unknown,unknown,5.0,5.0,Positive
+"The food was amazing! I loved being able to walk around the house and explore! Excellent music in background. I would definitely recommend for anyone looking for a great, classy romantic evening!",Positive,Positive,unknown,Positive,5.0,5.0,Positive
+"The food was amazing! I loved being able to walk around the house and explore! I would definitely recommend for anyone looking for a great, classy romantic evening! The only downside was out waiter was a bit rude.",Positive,Positive,Negative,unknown,3.6,4.0,Positive
+"The food was amazing! I would definitely recommend for anyone looking for a great, classy romantic evening!",Positive,Positive,unknown,unknown,4.6,5.0,Positive
+"They offer wines by the glass for several of their wines, but offer a limited variety of reds. For example, they had no red zinfandel's by the glass.",unknown,unknown,unknown,unknown,2.0,2.0,Negative
+"They offer wines by the glass for several of their wines, but offer a limited variety of reds. For example, they had no red zinfandel's by the glass. Additionally, it was very loud inside.",unknown,unknown,unknown,Negative,2.0,2.0,Negative
+"They offer wines by the glass for several of their wines, but offer a limited variety of reds. For example, they had no red zinfandel's by the glass. Decor outdated.",unknown,Negative,unknown,unknown,2.6,3.0,Negative
+"They offer wines by the glass for several of their wines, but offer a limited variety of reds. For example, they had no red zinfandel's by the glass. Food doesn't have a wide enough selection and needs to be better prepared.",Negative,unknown,unknown,unknown,2.0,2.0,Negative
+"They offer wines by the glass for several of their wines, but offer a limited variety of reds. For example, they had no red zinfandel's by the glass. Great lighting and music.",unknown,Positive,unknown,unknown,2.8,3.0,Negative
+"They offer wines by the glass for several of their wines, but offer a limited variety of reds. For example, they had no red zinfandel's by the glass. Service was slow.",unknown,unknown,Negative,unknown,2.6,3.0,Negative
+"They offer wines by the glass for several of their wines, but offer a limited variety of reds. For example, they had no red zinfandel's by the glass. The noise level was pretty quiet, which made the experience even better.",unknown,unknown,unknown,Positive,3.4,3.0,Positive
+"They offer wines by the glass for several of their wines, but offer a limited variety of reds. For example, they had no red zinfandel's by the glass. The service was great though.",unknown,unknown,Positive,unknown,3.8,4.0,Positive
+"They offer wines by the glass for several of their wines, but offer a limited variety of reds. For example, they had no red zinfandel's by the glass. Great tasting entrees.",Positive,unknown,unknown,unknown,3.6,4.0,Positive
+I loved my dining experience. I felt as though I was treated as royalty. The environment was clean and relaxing. The food was really good.,Positive,Positive,Positive,Positive,5.0,5.0,Positive
+I loved my dining experience. I felt as though I was being a bother to the servers though. The environment was clean and relaxing. The food was really good.,Positive,Positive,Negative,Positive,4.4,4.0,Positive
+I loved my dining experience. I felt as though I was treated as royalty. The environment was clean and relaxing. The food was not up to par though.,Negative,Positive,Positive,Positive,3.6,4.0,Positive
+"I loved my dining experience. I felt as though I was treated as royalty. The environment was clean, but it was too loud to enjoy comfortably. The food was really good.",Positive,Positive,Positive,Negative,4.2,4.0,Positive
+"I loved my dining experience. I felt as though I was treated as royalty. The environment, however, was dirty and anxiety inducing. The food was really good.",Positive,Negative,Positive,Positive,3.6,4.0,Positive
+I loved my dining experience. I felt as though I was treated as royalty. The environment was clean and relaxing.,unknown,Positive,Positive,Positive,4.2,4.0,Positive
+I loved my dining experience. I felt as though I was treated as royalty. The environment was clean and relaxing. The food was really good,Positive,Positive,Positive,unknown,4.6,5.0,Positive
+I loved my dining experience. I felt as though I was treated as royalty. The food was really good.,Positive,unknown,Positive,Positive,5.0,5.0,Positive
+I loved my dining experience. The environment was clean and relaxing. The food was really good.,Positive,Positive,unknown,Positive,4.8,5.0,Positive
+Great food and service. Love coming here.,Positive,Positive,Positive,unknown,4.6,5.0,Positive
+"Great food, but bad service. Love coming here.",Positive,Positive,Negative,unknown,2.8,3.0,Negative
+"Great food, quiet ambiance, and quality service. Love coming here.",Positive,Positive,Positive,Positive,5.0,5.0,Positive
+Mediocre food and service. Hate coming here.,Negative,Positive,Positive,unknown,1.6,2.0,Negative
+The food and service was great but the atmosphere was missing. Tacky walls and felt dirty inside!,Positive,Negative,Positive,unknown,2.6,3.0,Negative
+Great food and service. Love coming here.,Positive,unknown,Positive,unknown,4.6,5.0,Positive
+Great food and service. Love coming here. Noise is a bit bad.,Positive,Positive,Positive,Negative,3.8,4.0,Positive
+Great food. Love coming here.,Positive,Positive,unknown,unknown,4.8,5.0,Positive
+Great service. Love coming here.,unknown,Positive,Positive,unknown,4.6,5.0,Positive
+"Service was way too rushed. Food was ok, but not spectacular.",Negative,unknown,Negative,unknown,2.4,2.0,Negative
+"Service was way too rushed. Food was ok, but not spectacular. Dining area was too crowded and noisy.",Negative,unknown,Negative,Negative,2.4,2.0,Negative
+"Service was way too rushed. Food was ok, but not spectacular.The feel of the restaurant itself was terrible.",Negative,Negative,Negative,unknown,2.2,2.0,Negative
+Service was way too rushed. Food was spectacular.,Positive,unknown,Negative,unknown,3.4,3.0,Positive
+"Service wasn't too rushed. Food was ok, but not spectacular.",Negative,unknown,Positive,unknown,2.6,3.0,Negative
+"Food was ok, but not spectacular.",Negative,unknown,unknown,unknown,3.4,3.0,Positive
+Service was way too rushed.,unknown,unknown,Negative,unknown,1.8,2.0,Negative
+"Service was way too rushed. Food was ok, but not spectacular. Background music was good at least.",Negative,unknown,Negative,Positive,3.0,3.0,Positive
+"Service was way too rushed. Food was ok, but not spectacular. Has great views of the water though.",Negative,Positive,Negative,unknown,2.6,3.0,Negative
+Food was good for the price. Nothing outstanding but decent food. Good service and great for a big group.,Positive,unknown,Positive,unknown,3.4,3.0,Positive
+Food was good for the price. Nothing outstanding but decent food. Bad service and horrible for a big group.,Positive,unknown,Positive,unknown,3.2,3.0,Positive
+Food was good for the price. Nothing outstanding but decent food. Good service and great for a big group. We were able to hear each other without shouting down the table.,Positive,unknown,Positive,Positive,3.4,3.0,Positive
+Food was good for the price. Nothing outstanding but decent food. Horrible service for a big group.,Positive,unknown,Negative,unknown,3.6,4.0,Positive
+"Food was not great for the price. Nothing outstanding about this place, including the food. Good service and great for a big group though.",Negative,unknown,Positive,unknown,2.6,3.0,Negative
+"Food was good for the price. Nothing outstanding but decent food. Good service and great for a big group, but be prepared for a really loud dining room.",Positive,unknown,Positive,Negative,3.4,3.0,Positive
+Food was good for the price. Nothing outstanding but decent food. Great for a big group.,Positive,unknown,unknown,unknown,3.6,4.0,Positive
+Good service and great for a big group.,unknown,unknown,Positive,unknown,4.4,4.0,Positive
+Love the high quality food and consistently excellent service at a moderate price. it is a restaurant I return to again and again.,Positive,unknown,Positive,unknown,4.2,4.0,Positive
+"Love the high quality food and consistently excellent service at a moderate price. it is a restaurant I return to again and again, but it does get pretty noisy.",Positive,unknown,Positive,Negative,4.0,4.0,Positive
+"Love the high quality food and consistently excellent service at a moderate price. it is a restaurant I return to again and again, despite the loud ambiance.",Positive,Negative,Positive,unknown,3.8,4.0,Positive
+"Love the high quality food, even if they have terrible service at a moderate price. it is a restaurant I return to again and again.",Positive,unknown,Negative,unknown,3.8,4.0,Positive
+"Love the high quality food, quiet atmosphere and consistently excellent service at a moderate price. it is a restaurant I return to again and again.",Positive,unknown,Positive,Positive,5.0,5.0,Positive
+The food was not that good and consistently excellent service at a moderate price. it is a restaurant I return to again and again.,Negative,unknown,Positive,unknown,2.8,3.0,Negative
+Love the high quality and consistently excellent service at a moderate price. it is a restaurant I return to again and again.,unknown,unknown,Positive,unknown,4.6,5.0,Positive
+Love the high quality food and consistently excellent service at a moderate price. it is a restaurant I return to again and again horrible ambiance though,Positive,Negative,Positive,unknown,3.6,4.0,Positive
+Love the high quality food at a moderate price. it is a restaurant I return to again and again.,Positive,unknown,unknown,unknown,5.0,5.0,Positive
+"Brought my parents to celebrate mother's birthday. Everyone loved the food, which is not always the case with such a picky father!",Positive,unknown,unknown,unknown,4.0,4.0,Positive
+"Brought my parents to celebrate mother's birthday. Everyone hated the food, which is not always the case with such a unpicky father!",Negative,unknown,unknown,unknown,1.2,1.0,Negative
+"Brought my parents to celebrate mother's birthday. Everyone loved the food and the ambiance, which is not always the case with such a picky father!",Positive,unknown,unknown,unknown,5.0,5.0,Positive
+"Brought my parents to celebrate mother's birthday. Everyone loved the food, which is not always the case with such a picky father! However, the service was very slow.",Positive,unknown,Negative,unknown,3.6,4.0,Positive
+"Brought my parents to celebrate mother's birthday. Everyone loved the food, which is not always the case with such a picky father! The ambiance was perfect!",Positive,Positive,unknown,unknown,4.4,4.0,Positive
+"Brought my parents to celebrate mother's birthday. It was pretty loud, but everyone loved the food, which is not always the case with such a picky father!",Positive,unknown,unknown,Negative,3.8,4.0,Positive
+Brought my parents to celebrate mother's birthday.  which is not always the case with such a picky father!,unknown,unknown,unknown,unknown,3.4,3.0,Positive
+"Brought my parents to celebrate mother's birthday. Everyone loved the food and service, which is not always the case with such a picky father!",Positive,unknown,Positive,unknown,4.2,4.0,Positive
+"Brought my parents to celebrate mother's birthday. Everyone loved the food, but not the ambiance, which is not always the case with such a picky father!",Positive,Negative,unknown,unknown,3.6,4.0,Positive
+"Food is good. Although the service is a little slow. Live music is good.
+I'll come back.",Positive,Positive,Negative,Positive,4.0,4.0,Positive
+"Food is good. Although the service is a little slow. Live music is irritating.
+I might not come back.",Positive,Negative,Negative,Positive,3.2,3.0,Positive
+"Food is good. Although the service is a little slow. Live music is too loud.
+I'll come back.",Positive,Positive,Negative,Negative,3.4,3.0,Positive
+"Food is good. The service was one step ahead the whole meal. Live music is good.
+I'll come back.",Positive,Positive,Positive,Positive,4.4,4.0,Positive
+"Food is poor. Although the service is a little slow. Live music is good.
+I'll come back.",Negative,Positive,Negative,Positive,2.8,3.0,Negative
+"Although the service is a little slow. Live music is good.
+I'll come back.",unknown,Positive,Negative,Positive,3.6,4.0,Positive
+"Food is good. Although the service is a little slow.
+I'll come back.",Positive,unknown,Negative,Positive,4.0,4.0,Positive
+Food is good. Although the service is a little slow. I'll come back.,Positive,Positive,Negative,unknown,3.8,4.0,Positive
+"Food is good. Live music is good.
+I'll come back.",Positive,Positive,unknown,Positive,4.2,4.0,Positive
+There are better options in New Brunswick.,unknown,unknown,unknown,unknown,2.0,2.0,Negative
+"There are better options in New Brunswick that have much better service than our snarky, bored server offered.",unknown,unknown,Negative,unknown,1.4,1.0,Negative
+"There are better options in New Brunswick, despite the nice ambiance.",unknown,Positive,unknown,unknown,2.0,2.0,Negative
+"There are better options in New Brunswick, this place was too noisy.",unknown,unknown,unknown,Negative,1.8,2.0,Negative
+There are no better options in New Brunswick for a delicious meal!,Positive,unknown,unknown,unknown,4.8,5.0,Positive
+There are better and quieter options in New Brunswick.,unknown,unknown,unknown,Negative,2.2,2.0,Negative
+There are better food options in New Brunswick.,Negative,unknown,unknown,unknown,2.2,2.0,Negative
+"There are better options in New Brunswick. It felt like dining in a hospital, sterile white walls and harsh lighting.",unknown,Negative,unknown,unknown,1.6,2.0,Negative
+There are better options in New Brunswick. Service was good.,unknown,unknown,Positive,unknown,2.8,3.0,Negative
+Too noisy. Had to shout across the table. Impressed by big portions but quality of food is mediocre.,Negative,unknown,unknown,Negative,2.6,3.0,Negative
+Impressed by big portions and the quality of food.,Positive,unknown,unknown,Negative,4.8,5.0,Positive
+Not too noisy. Didn't have to shout across the table. Impressed by big portions but quality of food is mediocre.,Negative,unknown,unknown,Positive,3.4,3.0,Positive
+"Too noisy. Had to shout across the table. Impressed by big portions and excellent, attentive service.",Negative,unknown,Positive,Negative,3.6,4.0,Positive
+Too noisy. Had to shout across the table. The decor itself was nice. Impressed by big portions but quality of food is mediocre.,Negative,Positive,unknown,Negative,2.4,2.0,Negative
+Impressed by big portions but quality of food is mediocre.,Negative,unknown,unknown,unknown,3.0,3.0,Positive
+Too noisy. Had to shout across the table,unknown,unknown,unknown,Negative,2.2,2.0,Negative
+Too noisy. Had to shout across the table. Our server forgot our order. Impressed by big portions but quality of food is mediocre.,Negative,unknown,Negative,Negative,2.4,2.0,Negative
+Too noisy. Had to shout across the table. The ambiance was dreary and depressing. Impressed by big portions but quality of food is mediocre.,Negative,Negative,unknown,Negative,2.0,2.0,Negative
+Very impressed. Had a blast. Service and food were top notch. Can't wait to go back!,Positive,unknown,Positive,unknown,3.8,4.0,Positive
+Very impressed with the service. Had a blast. Food was a bit too sweet. May go back.,Negative,unknown,Positive,unknown,3.4,3.0,Positive
+Very impressed. Had a blast. Service and food were top notch but please do something about the ambiance.,Positive,Negative,Positive,unknown,4.0,4.0,Positive
+Very impressed. Had a blast. Service and food were top notch. Can't wait to go back despite the loud noise level!,Positive,unknown,Positive,Negative,4.6,5.0,Positive
+Very impressed. Had a blast. Service was top notch. Food wasn't all that great though. Can't wait to go back!,Positive,unknown,Positive,unknown,3.6,4.0,Positive
+Very impressed. Had a blast. Food was top notch. Can't wait to go back!,Positive,unknown,unknown,unknown,5.0,5.0,Positive
+"Very impressed. Had a blast. Service and food were top notch, although it was a little noisy. Can't wait to go back!",Positive,unknown,Positive,Negative,4.4,4.0,Positive
+Very impressed. Had a blast. Service and food were top notch. Decorations were great too! Can't wait to go back!,Positive,Positive,Positive,unknown,5.0,5.0,Positive
+Very impressed. Had a blast. Service was top notch. Can't wait to go back!,unknown,unknown,Positive,unknown,4.8,5.0,Positive
+It was my first time at Cyrano's and I must say that I'm impressed!! The service is outstanding and the menu is impressive. I'm coming back soon!!,Positive,unknown,Positive,unknown,4.8,5.0,Positive
+It was my first time at Cyrano's and I must say that I would be impressed if it wasn't so loud and dirty in the restaurant!! The service is outstanding and the menu is impressive though. I might come back soon!!,Positive,Negative,Positive,unknown,3.4,3.0,Positive
+"It was my first time at Cyrano's and I must say that I'm impressed!! The service is outstanding and the menu is impressive, but the noise is unpleasant. I'm still coming back soon!!",Positive,unknown,Positive,Negative,4.0,4.0,Positive
+It was my first time at Cyrano's and I must say that I'm mostly impressed!! The service is outstanding but the menu is limited and unimpressive. I'm probably coming back soon!!,Negative,unknown,Positive,unknown,3.8,4.0,Positive
+It was my first time at Cyrano's and I must say that I'm not impressed!! The service is terrible and the menu is poorly designed. I'm not coming back!!,Positive,unknown,Negative,unknown,1.2,1.0,Negative
+It was my first time at Cyrano's and I must say that I'm impressed!! The menu is impressive. I'm coming back soon!!,Positive,unknown,unknown,unknown,5.0,5.0,Positive
+It was my first time at Cyrano's and I must say that I'm impressed!! The service is outstanding and the menu is impressive. I'm coming back soon!! The dining area was not loud.,Positive,unknown,Positive,Positive,5.0,5.0,Positive
+"It was my first time at Cyrano's and I must say that I'm impressed!! The service is outstanding and the menu is impressive. The place looks great, too. I'm coming back soon!!",Positive,Positive,Positive,unknown,4.4,4.0,Positive
+It was my first time at Cyrano's and I must say that I'm impressed!! The service is outstanding. I'm coming back soon!!,unknown,unknown,Positive,unknown,5.0,5.0,Positive
+"Very crowded and noisy, even on a rainy Wednesday night. Service was spotty--some good, some poor. Food was only average. Won't be back.",Negative,Negative,Negative,Negative,1.8,2.0,Negative
+"Not very crowded and noisy, even on a rainy Wednesday night. Service was spotty--some good, some poor. Food was only average. Won't be back.",Negative,unknown,Negative,Negative,2.6,3.0,Negative
+"Very crowded and noisy, even on a rainy Wednesday night. Service was spot on--very good. Food was only average. Won't be back.",Negative,Negative,Positive,Negative,2.4,2.0,Negative
+"Very crowded and noisy, even on a rainy Wednesday night. Service was spotty--some good, some poor. Food was very tasty, but I won't be back.",Positive,Negative,Negative,Negative,2.6,3.0,Negative
+"Very crowded but not noisy, even on a rainy Wednesday night. Service was spotty--some good, some poor. Food was only average. Won't be back.",Negative,Negative,Negative,Positive,2.6,3.0,Negative
+"Very crowded and noisy, even on a rainy Wednesday night.  Food was only average. Won't be back.",Negative,Negative,unknown,Negative,2.2,2.0,Negative
+"Very crowded and noisy, even on a rainy Wednesday night. Service was spotty--some good, some poor. Won't be back.",unknown,Negative,Negative,Negative,2.0,2.0,Negative
+"Very crowded, even on a rainy Wednesday night. Service was spotty--some good, some poor. Food was only average. Won't be back.",Negative,Negative,Negative,unknown,2.0,2.0,Negative
