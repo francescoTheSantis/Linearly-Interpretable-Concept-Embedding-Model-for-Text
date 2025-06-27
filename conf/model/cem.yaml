@@ -1,0 +1,12 @@
+defaults:
+  - common
+  - _self_
+  
+params:
+  _target_: "src.models.cem.ConceptEmbeddingModel"
+  task_penalty: ${task_penalty}
+  int_prob: ${int_prob}
+  embedding_size: ${embedding_size}
+
+metadata:
+  name: cem
