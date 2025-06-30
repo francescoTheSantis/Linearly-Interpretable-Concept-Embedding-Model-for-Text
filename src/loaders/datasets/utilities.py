@@ -21,3 +21,10 @@ def process3(elem):
         return 1
     else:
         return 2
+    
+def process4(elem):
+    elem = float(elem)
+    if elem<=2:
+        return 0
+    else:
+        return 1

@@ -23,16 +23,20 @@ class DeepConceptReasoner(BaseModel):
                  c_groups=None,
                  encoder=None,
                  supervision='supervised',
-                 use_embeddings=False
+                 use_embeddings=False,
+                 encoder_output_size=None,
+                 lm_embedding_size=None
                  ):
+
         super().__init__(
-            output_size,
-            activation,
-            latent_size,
-            c_groups,
-            encoder,
-            use_embeddings
-        )
+                 output_size = output_size,
+                 activation = activation,
+                 latent_size = latent_size,
+                 c_groups = c_groups,
+                 encoder = encoder,
+                 use_embeddings = use_embeddings,
+                 supervision = supervision
+                 )
 
         self.n_roles = 3
         
@@ -46,6 +50,14 @@ class DeepConceptReasoner(BaseModel):
         self.noise = noise
         self.semantic = semantic
         self.temperature = temperature
+        self.encoder_output_size = encoder_output_size
+        self.lm_embedding_size = lm_embedding_size
+
+        input_size = lm_embedding_size if use_embeddings else encoder_output_size
+        self.first_layer = nn.Sequential(
+            nn.Linear(input_size, latent_size),
+            getattr(nn, activation)(),
+        )
 
         self.bottleneck = pyc_nn.ConceptEmbeddingBottleneck(
             latent_size,
@@ -65,6 +77,8 @@ class DeepConceptReasoner(BaseModel):
     def forward(self, input):
         x, c_true, int_idxs = self.encode(input)
 
+        x = self.first_layer(x)
+
         c_emb, c_dict = self.bottleneck(
             x,
             c_true=c_true,
@@ -83,8 +97,7 @@ class DeepConceptReasoner(BaseModel):
         # batch_size x memory_size x n_concepts x n_tasks x n_roles
         c_weights = torch.cat([polarity, 1 - relevance], dim=-1)
 
-        c_input = (c_pred > 0.5).float() if self.hard_concepts else c_pred
-        y_pred = CF.logic_rule_eval(c_weights, c_input,
+        y_pred = CF.logic_rule_eval(c_weights, c_pred,
                                     semantic=self.semantic)
         # removing memory dimension
         y_pred = y_pred[:, :, 0]

@@ -24,10 +24,17 @@ class BaseModel(nn.Module):
         self.test_interventions = False
         self.c_groups = c_groups
         self.global_step = 0
-        self.encoder = encoder
         self.noise = None
         self.use_embeddings = use_embeddings
         self.supervision = supervision
+        self.has_ml_cls = False
+
+        if not self.use_embeddings:
+            self.encoder = encoder
+        else:
+            self.encoder = None
+            # Delete encoder
+            del encoder
 
         self.task_loss_form = nn.CrossEntropyLoss()
 
@@ -75,7 +82,7 @@ class BaseModel(nn.Module):
         if self.has_concepts:
             if self.supervision == 'supervised':
                 c = c_true
-            elif self.supervision in ['generative','self-geneative']:
+            elif self.supervision in ['generative','self-generative']:
                 c = gen_c
             else:
                 raise ValueError(f"Unknown supervision type: {self.supervision}")
@@ -84,25 +91,42 @@ class BaseModel(nn.Module):
             return x, c, int_idxs
         else:
             return x, None, None
-    
-    def concept_based_loss(self, y_hat, y, c_hat=None, c=None):
+
+    def _task_loss(self, y_hat, y):
+        """
+        Compute the task loss based on the task type.
+        """
         y = y.flatten().long()
-        # task loss
-        task_loss = 0
-        # In case of Monte Carlo sampling
-        if y_hat.ndim == 3:
-            for i in range(y_hat.shape[-1]):
-                task_loss += self.task_loss_form(y_hat[:,:,i].squeeze(), y)
-            task_loss /= y_hat.shape[-1]
+        # Task loss
+        # check whether there are -1 in the predictions
+        if torch.any(y_hat == -1) or self.classifier in ['dt', 'xg']:
+            # If there are -1 in the predictions, set the task loss to 0
+            task_loss = torch.tensor(0.0, device=y_hat.device, requires_grad=True)
         else:
-            task_loss = self.task_loss_form(y_hat.squeeze(), y)
-        # concept loss
-        concept_loss = 0
-        for i in range(c.shape[1]):
-            concept_loss += self.concept_loss_form(c_hat[:,i], c[:,i])
-        concept_loss /= c.shape[1]
-        # combine the two losses by considering the task penalty regularization
-        loss = concept_loss + self.task_penalty * task_loss
+            task_loss = self.task_loss_form(y_hat.squeeze(), y) 
+        task_loss = self.task_penalty * task_loss
+        return task_loss
+    
+    def _concept_loss(self, c_hat, c):
+        """
+        Compute the concept loss based on the concept loss form.
+        """
+        # If the the modality is supervised or generative,
+        # and there are no -1 in the concepts (which is associated to no concept annotation), 
+        # compute the concept loss.
+        if self.supervision in ['supervised', 'generative'] and not torch.any(c == -1):
+            concept_loss = 0
+            for i in range(c.shape[1]):
+                concept_loss += self.concept_loss_form(c_hat[:,i], c[:,i])
+            concept_loss /= c.shape[1]
+        else:
+            concept_loss = torch.tensor(0.0, device=c_hat.device, requires_grad=True)
+        return concept_loss
+
+    def concept_based_loss(self, y_hat, y, c_hat=None, c=None):
+        task_loss = self._task_loss(y_hat, y)
+        concept_loss = self._concept_loss(c_hat, c) 
+        loss = task_loss + concept_loss
         return loss
         
     def get_intervened_concepts_predictions(self, labels, groups=None):

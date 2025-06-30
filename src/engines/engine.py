@@ -3,50 +3,27 @@ from torch import nn
 import torch
 import pytorch_lightning as pl
 from src.metrics import Task_Accuracy, Concept_Accuracy
+from torchmetrics.classification import F1Score
 from collections import OrderedDict
 import pandas as pd
 import torch.nn.functional as F
-
 from src.models.base import BaseModel
 
-
 class Engine(pl.LightningModule):
-    """
-    PyTorch Lightning module wrapper.
-
-    Args:
-        model (Optional[nn.Module]): The pytorch model to train.
-        c_names (Optional[list]): List of concept names.
-        y_name (Optional[str]): Target variable name.
-
-    Attributes:
-        model (nn.Module): The wrapped model.
-        c_names (list): List of concept names.
-        y_name (str): Target variable name.
-        task_metric (Task_Accuracy): Metric to evaluate task prediction accuracy.
-        concept_metric (Concept_Accuracy): Metric to evaluate concept prediction accuracy.
-
-    Methods:
-        forward(input): Forward pass through the model.
-        predict(input): Alias for forward.
-        unpack_batch(batch): Extracts inputs, concepts, and targets from a batch.
-        shared_step(batch): Performs a forward pass, computes loss, and returns outputs and labels.
-        training_step(batch, batch_idx): Executes one training step and logs training loss.
-        validation_step(batch, batch_idx): Executes one validation step, computes and logs loss and accuracies.
-        test_step(batch, batch_idx): Executes one test step, computes and logs loss and accuracies.
-        configure_optimizers(): Returns the optimizer and learning rate scheduler.
-    """
+    """"""
     def __init__(self,
                 model: Optional[BaseModel] = None,
                 c_names: Optional[list] = None,
                 y_name: Optional[str] = None,
                 csv_log_dir: Optional[str] = None,
-                concept_annotations: Optional[bool] = True
+                concept_annotations: Optional[bool] = True,
+                supervision: Optional[str] = 'supervised'
                 ):
         super(Engine, self).__init__()         
         self.model = model
         self.save_hyperparameters(ignore=["model"], logger=False)
         self.concept_annotations = concept_annotations
+        self.supervision = supervision
 
         self.c_names = c_names
         self.y_name = y_name
@@ -54,14 +31,16 @@ class Engine(pl.LightningModule):
         self.class_names = y_name if len(y_name)>1 else ['0','1']
 
         self.task_metric = Task_Accuracy()
-        self.concept_metric = Concept_Accuracy()
+        self.concept_metric = F1Score(task="multiclass", 
+                                      num_classes=self.num_classes, 
+                                      average="macro")
 
         self.csv_log_dir = csv_log_dir
 
-        # If we are using the LinearMemoryReasoner model,
+        # If we are using the LinearConceptEmbeddingModel model,
         # we need to save the tensors required for the explanations.
-        if self.model.__class__.__name__ == 'LinearMemoryReasoner':
-            self.pred_CBMs = []
+        if self.model.__class__.__name__ == 'LinearConceptEmbeddingModel':
+            self.pred_weights = []
             self.c_trues = []
             self.c_preds = []
             self.y_trues = []
@@ -95,32 +74,32 @@ class Engine(pl.LightningModule):
             'y': y,
             'gen_c': gen_c
         }
+
         # model forward
         model_output = self.forward(inputs)
+
         # Compute loss
         y_output, c_output = self.model.filter_output_for_loss(*model_output)
         loss = self.model.loss(y_output, y, c_output, c)
+    
         return loss, model_output, y, c
 
     def training_step(self, batch, batch_idx):
         self.model.global_step = self.global_step
         loss, model_output, y, c = self.shared_step(batch)
         self.log("train_loss", loss)
-        output_x_metrics = self.model.filter_output_for_metrics(*model_output)
-        task_acc = self.task_metric(output_x_metrics[0], y) #TODO: check we have an output list for all models
+        y_output, c_output = self.model.filter_output_for_metrics(*model_output)
+        task_acc = self.task_metric(y_output, y)
         self.log('train_task_acc', task_acc)
-        if self.model.has_concepts:
-            concept_acc = self.concept_metric(output_x_metrics[1], c)
-            self.log('train_concept_acc', concept_acc)
-        # If the name of the class is LinearMemoryReasoner,
-        # compute the selection entropy
-        if self.model.__class__.__name__ == 'LinearMemoryReasoner':
-            # Compute the entropy of the selection distribution
-            selection_dist = model_output[3]
-            selection_dist = torch.softmax(selection_dist, dim=-1)
-            selection_entropy = -torch.sum(selection_dist * torch.log(selection_dist + 1e-10), dim=1)
-            selection_entropy = selection_entropy.mean()
-            self.log('train_selection_entropy', selection_entropy)
+        # If the model has concepts and concept annotations are available, 
+        # compute the concept accuracy.
+        if self.model.has_concepts and not torch.any(c == -1):
+            concept_acc = self.concept_metric(c_output, c)
+            self.log('train_concept_f1', concept_acc)
+
+        #if ('dt' in self.model.__class__.__name__ or 'xg' in self.model.__class__.__name__) and self.supervision == 'self-generative':
+        #    return y_output.mean() * -1
+        #else:
         return loss
 
     def validation_step(self, batch, batch_idx):
@@ -129,18 +108,11 @@ class Engine(pl.LightningModule):
         y_output, c_output = self.model.filter_output_for_metrics(*model_output)
         task_acc = self.task_metric(y_output, y)
         self.log('val_task_acc', task_acc)
-        if self.model.has_concepts:
+        # If the model has concepts and concept annotations are available, 
+        # compute the concept accuracy.
+        if self.model.has_concepts and not torch.any(c == -1):
             concept_acc = self.concept_metric(c_output, c)
-            self.log('val_concept_acc', concept_acc)
-        # If the name of the class is LinearMemoryReasoner,
-        # compute the selection entropy
-        if self.model.__class__.__name__ == 'LinearMemoryReasoner':
-            # Compute the entropy of the selection distribution
-            selection_dist = model_output[3]
-            selection_dist = torch.softmax(selection_dist, dim=-1)
-            selection_entropy = -torch.sum(selection_dist * torch.log(selection_dist + 1e-10), dim=1)
-            selection_entropy = selection_entropy.mean()
-            self.log('val_selection_entropy', selection_entropy)
+            self.log('val_concept_f1', concept_acc)
         return loss 
     
     def test_step(self, batch, batch_idx):
@@ -149,14 +121,16 @@ class Engine(pl.LightningModule):
         self.log("test_loss", loss)
         task_acc = self.task_metric(y_output, y)
         self.log('test_task_acc', task_acc)
-        if self.model.has_concepts:
+        # If the model has concepts and concept annotations are available, 
+        # compute the concept accuracy.
+        if self.model.has_concepts and not torch.any(c == -1):
             concept_acc = self.concept_metric(c_output, c)
-            self.log('test_concept_acc', concept_acc)
+            self.log('test_concept_f1', concept_acc)
 
-        # If the name of the class is LinearMemoryReasoner,
+        # If the name of the class is LinearConceptEmbeddingModel,
         # update the tensors required for the explanations.
-        if self.model.__class__.__name__ == 'LinearMemoryReasoner':
-            self.pred_CBMs.append(model_output[2])
+        if self.model.__class__.__name__ == 'LinearConceptEmbeddingModel':
+            self.pred_weights.append(model_output[2])
             self.c_trues.append(c)
             self.c_preds.append(c_output)
             self.y_trues.append(y)
@@ -164,21 +138,16 @@ class Engine(pl.LightningModule):
         return loss 
     
     def on_test_epoch_end(self):
-        # If the name of the class is LinearMemoryReasoner,
-        # store the tensors required for the explanations.
-        if self.model.__class__.__name__ == 'LinearMemoryReasoner':
+        '''
+        If the name of the class is LinearConceptEmbeddingModel, store the tensors required for the explanations.
+        '''
+        if self.model.__class__.__name__ == 'LinearConceptEmbeddingModel':
             # Concatenate the tensors
-            self.pred_CBMs = torch.cat(self.pred_CBMs, dim=0)
+            self.pred_weights = torch.cat(self.pred_weights, dim=0)
             self.c_trues = torch.cat(self.c_trues, dim=0)
             self.c_preds = torch.cat(self.c_preds, dim=0)
             self.y_trues = torch.cat(self.y_trues, dim=0)
-            if self.num_classes > 2:
-                # If the number of classes is greater than 1, we need to take the argmax
-                self.y_preds = torch.cat(self.y_preds, dim=0).argmax(-1)
-            else:
-                # If the number of classes is 1, we just discretize the predictions
-                # to get the predicted labels.
-                self.y_preds = (torch.cat(self.y_preds, dim=0) > 0.5).long()
+            self.y_preds = torch.cat(self.y_preds, dim=0).argmax(-1)
 
             # Convert the tensors to pandas dfs
             c_preds = pd.DataFrame(self.c_preds.cpu().numpy(), columns=self.c_names)
@@ -197,9 +166,14 @@ class Engine(pl.LightningModule):
             y_preds.to_csv(f"{self.csv_log_dir}/y_preds.csv", index=False)
             y_trues.to_csv(f"{self.csv_log_dir}/y_trues.csv", index=False)
 
-            # Save the predicted_CBM to a .pt file
-            torch.save(self.pred_CBMs, f"{self.csv_log_dir}/pred_CBMs.pt")
+            # Save the predicted_weights to a .pt file
+            torch.save(self.pred_weights, f"{self.csv_log_dir}/pred_weights.pt")
 
     def configure_optimizers(self):
+        if ('dt' in self.model.__class__.__name__ or 'xg' in self.model.__class__.__name__) and self.supervision == 'self-generative':
+            # If the model is a decision tree or XGBoost, 
+            # the supervision is 'self-generative',
+            # then we do not need an optimizer.
+            return None
         return [self.optimizer], [self.scheduler]
  

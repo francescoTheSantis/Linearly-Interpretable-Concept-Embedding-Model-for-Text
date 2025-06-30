@@ -25,6 +25,7 @@ class TextDataLoader:
         self.model_name = model_name
         self.tokenizer = tokenizer
         self.llm_client = llm_client
+        self.llm_client.n_concepts = len(self.get_info()[0])
         self.concept_annotations = concept_annotations
 
     def get_info(self):

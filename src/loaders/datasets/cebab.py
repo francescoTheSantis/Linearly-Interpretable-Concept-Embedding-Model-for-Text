@@ -4,7 +4,7 @@ from torch.utils.data import Dataset
 import pandas as pd
 import numpy as np
 import os
-from src.loaders.datasets.utilities import process, process2, MAX_LEN
+from src.loaders.datasets.utilities import process, process2, process4, MAX_LEN
 
 class CEBABDataset(Dataset):
     def __init__(self, root, split, tokenizer=None):
@@ -14,7 +14,8 @@ class CEBABDataset(Dataset):
         self.data['ambiance'] = self.data.apply(lambda row: process(row['ambiance']), axis=1)
         self.data['service'] = self.data.apply(lambda row: process(row['service']), axis=1)
         self.data['noise'] = self.data.apply(lambda row: process(row['noise']), axis=1)
-        self.data['bin_rating'] = self.data.apply(lambda row: process2(row['average_rating']), axis=1) # bin_rating
+        #self.data['bin_rating'] = self.data.apply(lambda row: process4(row['average_rating']), axis=1) # bin_rating
+        self.data['bin_rating'] = self.data.apply(lambda row: process2(row['bin_rating']), axis=1)
 
         # Use the provided tokenizer or default to AutoTokenizer
         self.tokenizer = tokenizer if tokenizer else AutoTokenizer.from_pretrained('bert-base-uncased')

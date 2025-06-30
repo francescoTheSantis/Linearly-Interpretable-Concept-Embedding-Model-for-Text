@@ -13,7 +13,8 @@ class Task_Accuracy(Metric):
         self.add_state("total", default=torch.tensor(0), dist_reduce_fx="sum")
 
     def update(self, preds: torch.Tensor, target: torch.Tensor):
-        preds = torch.argmax(preds, dim=1)
+        if preds.dim() > 1:
+            preds = torch.argmax(preds, dim=1)
         target = target.squeeze()
         assert preds.shape == target.shape
         self.correct += torch.sum(preds == target)

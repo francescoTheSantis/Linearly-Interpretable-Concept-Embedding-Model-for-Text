@@ -5,7 +5,7 @@ defaults:
 params:
   _target_: "src.models.cbm.ConceptBottleneckModel"
   task_penalty: ${task_penalty}
-  task_interpretable: false
+  classifier: mlp
   int_prob: ${int_prob}
 
 metadata:

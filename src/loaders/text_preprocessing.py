@@ -3,7 +3,6 @@ from torch.utils.data import DataLoader, TensorDataset
 from sentence_transformers import SentenceTransformer
 from transformers import BertTokenizer, AutoTokenizer
 from tqdm import tqdm
-from src.loaders.llm_client import llm_client
 
 class EmbeddingExtractor_text:
     def __init__(self, 
@@ -40,8 +39,6 @@ class EmbeddingExtractor_text:
         labels = []
 
         with torch.no_grad():
-            # CANCELLARE
-            i = 0
             for review, concepts, targets in tqdm(loader):
                 # decode the reviews
                 ids = review['input_ids']
@@ -66,10 +63,6 @@ class EmbeddingExtractor_text:
                 token_type_ids.append(review['token_type_ids'].cpu())
                 attention_mask.append(review['attention_mask'].cpu())
                 generated_concepts.append(gen_concepts.cpu())
-                # CANCELLARE
-                if i==100:
-                    break
-                i+=1
 
         # Concatenate all embeddings and labels
         embeddings = torch.cat(embeddings, dim=0)

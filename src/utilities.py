@@ -96,7 +96,8 @@ def update_config_from_data(cfg: DictConfig, train_loader, c_names, y_names, c_g
             c_names = c_names,
             y_name = y_names,
             csv_log_dir = csv_log_dir,
-            concept_annotations = concept_annotations
+            concept_annotations = concept_annotations,
+            supervision = cfg.supervision
         )
         
         cfg.model.params.update(

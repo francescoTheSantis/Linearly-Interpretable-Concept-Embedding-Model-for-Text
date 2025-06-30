@@ -64,11 +64,14 @@ def main(cfg: DictConfig) -> None:
     # Test the model on the test-set
     trainer.test(loaded_test)
 
+    '''
+    # Only on datasets with concepts annotations
     if model.model.has_concepts:
         ###### Perform Intervetions ######
         intervention_df = trainer.interventions(loaded_test)
         log_dir = csv_logger.log_dir
         intervention_df.to_csv(f"{log_dir}/interventions.csv", index=False)
+    '''
 
     # Close the wandb logger if it is used
     if wandb_logger is not None:

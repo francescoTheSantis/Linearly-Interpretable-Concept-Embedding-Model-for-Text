@@ -2,7 +2,8 @@ params:
   activation: ${activation}
   latent_size: ${dataset.latent_size}
   use_embeddings: ${use_embeddings}
-  # The decoder can be overridden by the dataset configuration
+
+  # Encoder parameters
   encoder:
     _target_: src.models.encoders.base_encoder.BaseEncoder
     model_name: ${encoder_name}

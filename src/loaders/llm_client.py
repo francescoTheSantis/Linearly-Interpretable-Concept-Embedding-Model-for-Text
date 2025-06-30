@@ -13,14 +13,15 @@ class llm_client:
         self.LLM = LLM
         self.temperature = temperature
         self.max_tries = max_tries
+        self.n_concepts = None
         
         if 'gpt' in self.LLM:     
             openai.api_key = OPENAI_API_KEY
-        elif 'mistral' in self.LLM or 'mixtral' in self.LLM:
+        elif 'mistral' in self.LLM or 'mixtral' in self.LLM or 'ministral' in self.LLM:
             api_key = MISTRALAIKEY
             self.client = Mistral(api_key=api_key)
         else:                     
-            raise ValueError(f"model ({self.LLM}) still not implemented")
+            raise ValueError(f"model ({self.LLM}) not supported.")
                                   
     def _invoke(self, question, temperature=0):
         if 'gpt' in self.LLM:
@@ -33,7 +34,7 @@ class llm_client:
                 temperature=temperature
             )
             answer = response.choices[0].message.content
-        elif 'mistral' in self.LLM or 'mixtral' in self.LLM:
+        elif 'mistral' in self.LLM or 'mixtral' in self.LLM or 'ministral' in self.LLM:
             chat_response = self.client.chat.complete(
                 model = self.LLM,
                 messages = [
@@ -71,10 +72,8 @@ class llm_client:
                 concept, value = part.split(':', 1)
                 concept = concept.strip()
                 value = value.strip()
-                if value.isdigit() and int(value) in [0, 1]:
+                if int(value) in [0, 1]:
                     concepts[concept] = int(value)
-                else:
-                    raise ValueError(f"Invalid value '{value}' for concept '{concept}'. Expected 0 or 1.")
         
         if return_tensor:
             # Convert the concepts dictionary to a tensor
@@ -83,6 +82,14 @@ class llm_client:
             concepts_tensor = torch.tensor(concept_values, dtype=torch.float32)
             return concepts_tensor
         return concepts
+    
+    def _default_answer(self):
+        # Return a default answer in case of failure.
+        if self.n_concepts is None:
+            raise ValueError("Number of concepts not set. Please set n_concepts before calling _default_answer.")
+        default_answer = {f"concept_{i+1}": 0 for i in range(self.n_concepts)}
+        default_answer = ', '.join([f"{k}: {v}" for k, v in default_answer.items()])
+        return default_answer
 
     def ask(self, question, istruction_prompt, return_tensor=False):
         """
@@ -99,5 +106,8 @@ class llm_client:
             answer = self._parse_answer(answer, return_tensor)
             return answer
         except Exception as e:
-            print(f"Error: {e}. Retrying...")
-            raise RuntimeError("Failed to get a valid response after multiple attempts.")
+            print(f"Error: {e}. Returning default answer.")
+            answer = self._default_answer() 
+            answer = self._parse_answer(answer, return_tensor)
+            return answer
+            

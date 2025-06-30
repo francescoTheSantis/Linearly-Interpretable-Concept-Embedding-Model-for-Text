@@ -21,7 +21,9 @@ class LinearConceptEmbeddingModel(BaseModel):
                  weight_reg=1e-4,
                  bias_reg=1e-4,
                  encoder=None,
-                 use_embeddings=False
+                 use_embeddings=False,
+                 encoder_output_size=None,
+                 lm_embedding_size=None
                  ):
 
         super().__init__(
@@ -42,6 +44,14 @@ class LinearConceptEmbeddingModel(BaseModel):
         self.noise = noise
         self.use_bias = use_bias
         self.y_names = list(y_names)
+        self.encoder_output_size = encoder_output_size
+        self.lm_embedding_size = lm_embedding_size 
+
+        input_size = lm_embedding_size if use_embeddings else encoder_output_size
+        self.first_layer = nn.Sequential(
+            nn.Linear(input_size, latent_size),
+            getattr(nn, activation)(),
+        )
 
         self.bottleneck = pyc_nn.ConceptEmbeddingBottleneck(
             latent_size,
@@ -83,6 +93,8 @@ class LinearConceptEmbeddingModel(BaseModel):
     def forward(self, input):
         latent, c_true, int_idxs = self.encode(input)
         
+        latent = self.first_layer(latent)
+
         c_emb, c_dict = self.bottleneck(
             latent,
             c_true=c_true,
@@ -102,7 +114,7 @@ class LinearConceptEmbeddingModel(BaseModel):
             self.__predicted_bias = y_bias
 
         y_pred = CF.linear_equation_eval(c_weights, c_pred, y_bias)
-        return y_pred[:, :, 0], c_pred
+        return y_pred[:, :, 0], c_pred, c_weights
     
     def loss(self, y_hat, y, c_hat=None, c=None):
         loss = self.concept_based_loss(y_hat, y, c_hat, c)
@@ -114,5 +126,3 @@ class LinearConceptEmbeddingModel(BaseModel):
             b_loss = self.bias_reg * self.__predicted_bias.norm(p=1)
             loss += b_loss
         return loss
-
-

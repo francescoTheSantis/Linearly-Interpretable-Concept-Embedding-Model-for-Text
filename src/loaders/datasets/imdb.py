@@ -7,15 +7,7 @@ from src.loaders.datasets.utilities import process, process2, MAX_LEN
 
 class IMDBDataset(Dataset):
     def __init__(self, root, split, selected_concepts=None, tokenizer_name='bert-base-uncased'):
-        """
-        Initialize the dataset with a CSV file and tokenizer.
-
-        Args:
-            root (str): Path to the dataset folder.
-            split (str): Dataset split (train/val/test).
-            selected_concepts (list, optional): List of selected concepts. Defaults to all concepts.
-            tokenizer_name (str, optional): Name of the tokenizer model. Defaults to 'bert-base-uncased'.
-        """
+        """"""
         self.folder = root
         self.data = pd.concat([pd.read_csv(f'{self.folder}/IMDB-{split}-generated.csv'), pd.read_csv(f'{self.folder}/IMDB-{split}-manual.csv')]).reset_index()
         self.data['acting'] = self.data.apply(lambda row: process(row['acting']), axis=1)

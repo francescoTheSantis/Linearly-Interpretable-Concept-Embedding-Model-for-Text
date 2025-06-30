@@ -69,13 +69,32 @@ class Trainer:
         self.model.scheduler = self.scheduler
 
     def train(self, train_dataloader, val_dataloader):
-        self.trainer.fit(self.model, 
-                         train_dataloader, 
-                         val_dataloader)
+        self.trainer.fit(self.model, train_dataloader, val_dataloader)
+        
+        # Check if the model has a machine learning classifier
+        if self.model.model.has_ml_cls:
+            # Load the best model from the checkpoint
+            self.load_model()
+            # Execute the function to fit the ml model (if present).
+            self.model.model.fit_ml_model(train_dataloader)
+            # Save the best model
+            self.trainer.save_checkpoint(self.trainer.checkpoint_callback.best_model_path)
 
     def test(self, test_dataloader):
         # Load the best model and test
         self.trainer.test(self.model, test_dataloader, ckpt_path=self.trainer.checkpoint_callback.best_model_path)
+
+    def load_model(self):
+        best_ckpt = torch.load(self.trainer.checkpoint_callback.best_model_path)  # or 'cuda' if you want GPU
+        state_dict = best_ckpt['state_dict']  # Lightning checkpoints store weights under 'state_dict'
+        new_state_dict = {}
+        for key, value in state_dict.items():
+            if key.startswith("model."):
+                new_key = key[len("model."):]  # remove "model." prefix
+            else:
+                new_key = key
+            new_state_dict[new_key] = value
+        self.model.model.load_state_dict(new_state_dict, strict=False)
 
     def interventions(self, test_dataloader, verbose=True):
         """
@@ -110,13 +129,7 @@ class Trainer:
                     y = torch.cat(y_trues, dim=0)
                     y_preds = torch.cat(y_preds, dim=0)
                     y = y.cpu().numpy()
-                    if len(self.cfg.model.params.y_names)==1:
-                        if self.model.model.__class__.__name__ in ['DeepConceptReasoner', 'ConceptMemoryReasoner']:
-                            y_preds = (y_preds > 0.5).long().cpu().numpy()
-                        else:
-                            y_preds = (y_preds > 0.).long().cpu().numpy()
-                    else:
-                        y_preds = y_preds.argmax(-1).cpu().numpy()
+                    y_preds = y_preds.argmax(-1).cpu().numpy()
                     task_f1, task_acc = f1_acc_metrics(y, y_preds)
                     intervention_results = {'noise': round(eps,1), 'p_int': round(p_int,1), 'f1': round(task_f1,2), 'accuracy': round(task_acc,2)}
                     intervention_df = pd.concat([intervention_df, pd.DataFrame([intervention_results])], ignore_index=True)

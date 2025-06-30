@@ -16,6 +16,7 @@ class BlackBox(BaseModel):
                  encoder_output_size=None,
                  lm_embedding_size=None
                  ):
+        
         super().__init__(
                  output_size = output_size,
                  activation = activation,
