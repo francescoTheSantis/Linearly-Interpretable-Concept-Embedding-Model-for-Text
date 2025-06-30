@@ -32,14 +32,15 @@ def set_loggers(cfg):
         cfg.update(
             note = "_" if cfg.note is None else "_"+str(cfg.note)
         )
-    name = f"{cfg.dataset.metadata.name}.{cfg.model.metadata.name}.{cfg.seed}.{int(time())}"
+    name = f"{cfg.supervision}.{cfg.dataset.metadata.name}.{cfg.model.metadata.name}.{cfg.seed}.{int(time())}"
     group_format = (
+        "{supervision}_"
         "{dataset}_"
         "{model}"
         "{note}"
     )
     # Define the tags for wandb
-    tags = [cfg.dataset.metadata.name, cfg.model.metadata.name, cfg.note]
+    tags = [cfg.dataset.metadata.name, cfg.model.metadata.name, cfg.supervision, cfg.note]
     # Define the group for wandb
     group = group_format.format(**parse_hyperparams(cfg))
     if cfg.wandb.project is None or cfg.wandb.entity is None:
@@ -59,6 +60,7 @@ def parse_hyperparams(cfg: DictConfig):
     hyperparams = {
         "dataset": cfg.dataset.metadata.name,
         "model": cfg.model.metadata.name,
+        "supervision": cfg.supervision,
         "seed": cfg.seed,
         "hydra_cfg": OmegaConf.to_container(cfg),
         "note": cfg.note,
