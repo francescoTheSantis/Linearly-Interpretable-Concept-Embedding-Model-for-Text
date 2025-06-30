@@ -29,8 +29,7 @@ def main(cfg: DictConfig) -> None:
     # If the data have been preprocessed and use_stored_dataset=True, load the preprocessed data
     if os.path.exists(train_path) and os.path.exists(val_path)\
                                   and os.path.exists(test_path)\
-                                  and cfg.use_stored_dataset\
-                                  and loader.extract_embeddings:
+                                  and cfg.use_stored_dataset:
         print('Loading pre-processed data...')
         loaded_train = torch.load(f"{data_path}/train.pt")
         loaded_val = torch.load(f"{data_path}/val.pt")
@@ -39,14 +38,13 @@ def main(cfg: DictConfig) -> None:
     else:
         print('Preprocessing data...')
         loaded_train, loaded_val, loaded_test = loader.load_data()
-        if loader.extract_embeddings:
-            os.makedirs(data_path, exist_ok=True)
-            torch.save(loaded_train, train_path)
-            torch.save(loaded_val, val_path)
-            torch.save(loaded_test, test_path)
+        os.makedirs(data_path, exist_ok=True)
+        torch.save(loaded_train, train_path)
+        torch.save(loaded_val, val_path)
+        torch.save(loaded_test, test_path)
 
     # Load the concept names and groups
-    c_names, y_names, c_groups = loader.get_names()
+    c_names, y_names, c_groups = loader.get_info()
 
     # Set the c_names and y_names in the config
     cfg = update_config_from_data(cfg, loaded_train, c_names, y_names, c_groups, csv_logger.log_dir)

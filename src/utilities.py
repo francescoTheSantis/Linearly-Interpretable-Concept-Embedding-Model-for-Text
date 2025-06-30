@@ -65,14 +65,27 @@ def parse_hyperparams(cfg: DictConfig):
     }
     return hyperparams
 
+
+def check_concept_annotation(c):
+    """
+    Check if there are concept annotation and return a boolean value.
+    The concepts annotations are not present if a column tensor of -1 is passed.
+    If the concepts annotations are present, return True, otherwise return False.
+    """
+    if c[0,0] == -1:
+        return False
+    return True
+
 def update_config_from_data(cfg: DictConfig, train_loader, c_names, y_names, c_groups, csv_log_dir) -> DictConfig:
     """
     Update the config with the input size, output size, and concept names.
     """
-    x, c, y = next(iter(train_loader))
-    input_size = torch.prod(torch.tensor(x.shape[1:])).item()
-    concept_size = c.shape[1]
+    ids, type, attention, embedding, c, y, gen_c = next(iter(train_loader))
+
+    # If the concepts are not present, set c to None
+    concept_annotations = check_concept_annotation(c)
     n_labels = len(y_names)
+
     if c_groups is None or not isinstance(c_groups, dict):
         c_groups = c_groups
     else:
@@ -82,58 +95,18 @@ def update_config_from_data(cfg: DictConfig, train_loader, c_names, y_names, c_g
         cfg.engine.update(
             c_names = c_names,
             y_name = y_names,
-            csv_log_dir = csv_log_dir
+            csv_log_dir = csv_log_dir,
+            concept_annotations = concept_annotations
         )
         
         cfg.model.params.update(
             output_size = n_labels,
             c_names = c_names,
             y_names = y_names,
-            task = cfg.dataset.metadata.task,
-            c_groups = c_groups
+            c_groups = c_groups,
+            supervision = cfg.supervision
         )
-
-        if 'encoder' in cfg.dataset and not cfg.dataset.loader.extract_embeddings:
-            # If the encoder is defined in the dataset, update the entire encoder config
-            cfg.model.params.encoder = cfg.dataset.encoder
-
-        cfg.model.params.encoder.update(
-            input_size = input_size,
-        )
-
     return cfg
-
-# def plot_data(data, predictions):
-#     """
-#     Return the figure of a plotting of data and predictions for logical problems with two variables
-#     and one output class (e.g. OR, NOR, XOR, XNOR). The data should be a 2D tensor
-#     with shape (n_samples, 2) and the predictions should be a 1D tensor with shape
-#     (n_samples,). The function will create a scatter plot of the data points and color them
-#     according to the predictions. The prediction take values between 0 and 1.
-#     """
-#     import matplotlib.pyplot as plt
-#     import seaborn as sns
-#     from matplotlib.colors import Normalize
-#     from matplotlib.cm import ScalarMappable
-#
-#     assert data.shape[1] == 2, "Data should have shape (n_samples, 2)"
-#     predictions = predictions.squeeze().cpu().numpy()
-#     assert len(predictions.shape) == 1, "Predictions should be a 1D tensor"
-#
-#     # Create a scatter plot of the data points
-#     fig = plt.figure(figsize=(8, 6))
-#     norm = Normalize(vmin=0, vmax=1)
-#     cmap = sns.color_palette("coolwarm", as_cmap=True)
-#     sm = ScalarMappable(cmap=cmap, norm=norm)
-#     sm.set_array([])
-#
-#     plt.scatter(data[:, 0], data[:, 1], c=predictions, cmap=cmap, norm=norm, s=100)
-#     plt.colorbar(sm, label='Predictions')
-#     plt.xlabel('Feature 1')
-#     plt.ylabel('Feature 2')
-#     plt.title('Data and Predictions')
-#
-#     return fig
 
 
 def plot_explanations(lmr_paths):

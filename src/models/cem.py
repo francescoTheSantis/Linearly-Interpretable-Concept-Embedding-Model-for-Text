@@ -10,7 +10,6 @@ class ConceptEmbeddingModel(BaseModel):
                  output_size,
                  c_names,
                  y_names,
-                 task, 
                  task_penalty,
                  activation='ReLU',
                  int_prob=0.1,
@@ -19,17 +18,18 @@ class ConceptEmbeddingModel(BaseModel):
                  embedding_size = 16,
                  latent_size = 128,
                  c_groups=None,
-                 hard_concepts=False,
                  encoder=None,
+                 supervision='supervised',
+                 use_embeddings=False
                  ):
 
         super().__init__(
                  output_size,
-                 task,
                  activation,
                  latent_size,
                  c_groups,
-                 encoder
+                 encoder,
+                 use_embeddings
                  )
 
         self.embedding_size = embedding_size
@@ -39,7 +39,6 @@ class ConceptEmbeddingModel(BaseModel):
         self.int_idxs = int_idxs
         self.has_concepts = True
         self.noise = noise
-        self.hard_concepts = hard_concepts
 
         self.bottleneck = pyc_nn.ConceptEmbeddingBottleneck(
             latent_size,

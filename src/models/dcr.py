@@ -11,7 +11,6 @@ class DeepConceptReasoner(BaseModel):
                  output_size,
                  c_names,
                  y_names,
-                 task, 
                  task_penalty,
                  activation='ReLU',
                  int_prob=0.1,
@@ -22,20 +21,20 @@ class DeepConceptReasoner(BaseModel):
                  semantic = ProductTNorm(),
                  temperature = 100,
                  c_groups=None,
-                 hard_concepts=False,
                  encoder=None,
+                 supervision='supervised',
+                 use_embeddings=False
                  ):
         super().__init__(
             output_size,
-            task,
             activation,
             latent_size,
             c_groups,
-            encoder
+            encoder,
+            use_embeddings
         )
 
         self.n_roles = 3
-        self.memory_names = ['Positive', 'Negative', 'Irrelevant']
         
         self.embedding_size = embedding_size
         self.latent_size = latent_size
@@ -47,7 +46,6 @@ class DeepConceptReasoner(BaseModel):
         self.noise = noise
         self.semantic = semantic
         self.temperature = temperature
-        self.hard_concepts = hard_concepts
 
         self.bottleneck = pyc_nn.ConceptEmbeddingBottleneck(
             latent_size,

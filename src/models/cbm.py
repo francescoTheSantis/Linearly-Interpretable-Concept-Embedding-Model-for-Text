@@ -8,11 +8,8 @@ class ConceptBottleneckModel(BaseModel):
                  output_size,
                  c_names,
                  y_names,
-                 task, 
                  task_penalty,
                  task_interpretable=True,
-                 neg_concepts=False,
-                 hard_concepts=False,
                  bias=True,
                  activation='ReLU',
                  int_prob=0.1,
@@ -20,21 +17,21 @@ class ConceptBottleneckModel(BaseModel):
                  noise=None,
                  latent_size = 128,
                  c_groups=None,
-                 encoder=None
+                 encoder=None,
+                 supervision='supervised',
+                 use_embeddings=False
                  ):
         
         super().__init__(
                  output_size,
-                 task,
                  activation,
                  latent_size,
                  c_groups,
-                 encoder
+                 encoder,
+                 use_embeddings
                  )
 
         self.task_interpretable = task_interpretable
-        self.neg_concepts = neg_concepts
-        self.hard_concepts = hard_concepts
         self.task_penalty = task_penalty
         self.c_names = list(c_names)
         self.int_prob = int_prob
@@ -74,16 +71,9 @@ class ConceptBottleneckModel(BaseModel):
             intervention_idxs=int_idxs,
             intervention_rate=1.,
         )
-        if self.hard_concepts:
-            input_concepts = (c_pred > 0.5).float()
-        else:
-            input_concepts = c_pred
-        if self.neg_concepts and self.task_interpretable:
-            pos_concepts = input_concepts
-            neg_concepts = 1 - input_concepts
-            y_pred = self.pos_y_predictor(pos_concepts) + self.neg_y_predictor(neg_concepts)
-        else:
-            y_pred = self.y_predictor(input_concepts)
+        
+        y_pred = self.y_predictor(c_pred)
+        
         return y_pred, c_pred
 
     def loss(self, y_hat, y, c_hat=None, c=None):

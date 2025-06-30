@@ -1,11 +1,11 @@
 params:
   activation: ${activation}
   latent_size: ${dataset.latent_size}
-  hard_concepts: ${dataset.hard_concepts}
-
+  use_embeddings: ${use_embeddings}
   # The decoder can be overridden by the dataset configuration
   encoder:
-    _target_: src.models.encoders.LinearEncoder
-    input_size: ${input_size}
-    output_size: ${dataset.latent_size}
-    activation: ${activation}
+    _target_: src.models.encoders.base_encoder.BaseEncoder
+    model_name: ${encoder_name}
+    fine_tune: ${fine_tune_encoder}
+  encoder_output_size: ${encoder_output_size}
+  lm_embedding_size: ${lm_embedding_size}

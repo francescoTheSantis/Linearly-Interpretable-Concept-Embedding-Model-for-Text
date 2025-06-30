@@ -1,41 +1,10 @@
 import torch.nn as nn
 import torch
 import torch.nn.functional as F
-
-from src.models.encoders import BaseEncoder
-
+from src.models.encoders.base_encoder import BaseEncoder
 
 class BaseModel(nn.Module):
-    """
-    Base class for concept models (and blackbox).
-
-    Args:
-        input_size (int): Number of input features.
-        output_size (int): Number of output targets.
-        task (str): Task type, either 'classification' or 'regression'. Default is 'classification'.
-        activation (str): Name of the activation function to use in the encoder (e.g., 'ReLU').
-        latent_size (int): Size of the latent representation in the encoder. Default is 64.
-        c_groups (dict, optional): Dictionary defining concept groups for interventions.
-
-    Attributes:
-        encoder (nn.Sequential): Encoder mapping input to latent space.
-        task_loss_form (nn.Module): Loss function for the task.
-        concept_loss_form (nn.Module): Loss function for concepts.
-        task_penalty (float): Weighting factor for the task loss.
-        int_idxs (Tensor): Indices of intervened concepts (Default None).
-        test_interventions (bool): Whether to apply interventions during testing.
-        c_groups (dict): Concept groups for interventions.
-        current_epoch (int): Current training epoch.
-
-    Methods:
-        encode(input):
-            Encodes input data, computes indxes for applying concept interventions and add noise
-            to the latent embedding (if specified).
-        concept_based_loss(y_hat, y, c_hat=None, c=None):
-            Computes the following loss: L_{task}*task_penalty + L_{concepts} .
-        get_intervened_concepts_predictions(labels, groups=None):
-            Generates a mask for concept interventions based on intervention probability and groups.
-    """
+    """"""
     def __init__(self, 
                  output_size,
                  task='classification',
@@ -43,6 +12,8 @@ class BaseModel(nn.Module):
                  latent_size=64,
                  c_groups=None,
                  encoder: BaseEncoder=None,
+                 use_embeddings=False,
+                 supervision=None
                  ):
         super().__init__()
         
@@ -54,21 +25,37 @@ class BaseModel(nn.Module):
         self.c_groups = c_groups
         self.global_step = 0
         self.encoder = encoder
+        self.noise = None
+        self.use_embeddings = use_embeddings
+        self.supervision = supervision
 
-        if task == 'classification':
-            if output_size > 1:
-                self.task_loss_form = nn.CrossEntropyLoss()
-            else:
-                self.task_loss_form = nn.BCEWithLogitsLoss()
-        elif task == 'regression':
-            self.task_loss_form = nn.MSELoss()
+        self.task_loss_form = nn.CrossEntropyLoss()
 
         self.concept_loss_form = None
         self.task_penalty = None
 
+    def _get_int_idxs(self, c):
+        if self.supervision in ['supervised', 'generative']:
+            if self.training or self.test_interventions:
+                # intervene on the concepts according to the int_prob
+                int_idxs = self.get_intervened_concepts_predictions(
+                    c,
+                    groups=self.c_groups
+                )
+            else:
+                int_idxs = torch.zeros_like(c)
+        elif self.supervision == 'self-generative':
+            int_idxs = torch.ones_like(c, dtype=torch.bool)
+        int_idxs = int_idxs.bool()
+        return int_idxs
+    
     def encode(self, input):
-        x = input['x']
+        ids = input['ids']
+        type = input['type']
+        attention = input['attention']
+        embs = input['embedding']
         c_true = input['c']
+        gen_c = input['gen_c'] 
     
         # If noise is provided, create a convex combination of the input and noise
         if self.noise!=None:
@@ -76,51 +63,30 @@ class BaseModel(nn.Module):
             x = eps * self.noise + x * (1-self.noise)
          
         # Pass the input through the encoder
-        x = self.encoder(x)
-
-        if self.training or self.test_interventions:
-            # intervene on the concepts according to the int_prob
-            int_idxs = self.get_intervened_concepts_predictions(
-                c_true,
-                groups=self.c_groups
-            )
+        if not self.use_embeddings:
+            x = self.encoder({
+                'ids': ids,
+                'type': type,
+                'attention': attention,
+            })
         else:
-            int_idxs = torch.zeros_like(c_true)
-        int_idxs = int_idxs.bool()
-        
-        return x, c_true, int_idxs
-    
-    def _logic_model_checker(self):
-        """
-        Check if the model is a logic-based model.
-        Logic-based models are identified by their class name.
-        """
-        return self.__class__.__name__ in ['DeepConceptReasoner', 'ConceptMemoryReasoner']
+            x = embs
 
-    def _task_loss_variable_check(self, y, y_hat):
-        """
-        Check the type and shape of y and y_hat before computing the task loss.
-        This is useful to ensure that the task loss function receives the correct input format.
-        """
-        # Check if the model is a logic-based model
-        logic_model_check = self._logic_model_checker()
-        # Check y type and shape before task loss computation
-        if self.task == 'classification':
-            if logic_model_check and self.output_size > 1:
-                y = F.one_hot(y.flatten().long(), num_classes=self.output_size).float()
-            elif self.output_size > 1:
-                y = y.flatten().long()
+        if self.has_concepts:
+            if self.supervision == 'supervised':
+                c = c_true
+            elif self.supervision in ['generative','self-geneative']:
+                c = gen_c
             else:
-                y = y.flatten().float()
-        elif self.task == 'regression':
-            raise NotImplementedError("Regression task is not implemented for concept-based loss.")
+                raise ValueError(f"Unknown supervision type: {self.supervision}")
+
+            int_idxs = self._get_int_idxs(c)
+            return x, c, int_idxs
         else:
-            raise ValueError(f"Unknown task type: {self.task}. Supported tasks are 'classification' and 'regression'.")
-        return y, y_hat
+            return x, None, None
     
     def concept_based_loss(self, y_hat, y, c_hat=None, c=None):
-        # Update type and shape of y and y_hat before task loss computation
-        y, y_hat = self._task_loss_variable_check(y, y_hat)
+        y = y.flatten().long()
         # task loss
         task_loss = 0
         # In case of Monte Carlo sampling
@@ -180,22 +146,3 @@ class BaseModel(nn.Module):
         This method can be overridden in subclasses to customize the output filtering.
         """
         return y_output, c_output
-
-
-class LogicModel(BaseModel):
-    """
-    Base class for logic-based models. So far, it is used to only identify
-    the logic-based models that produce a logic-based output and convert the
-    output to a binary format for the loss computation.
-    """
-
-    def loss(self, y_hat, y, c_hat=None, c=None):
-        """
-        Logic models do not use the concept loss, so we only compute the task loss.
-        """
-        if self.task == 'classification' and self.output_size > 1:
-            y = F.one_hot(y.flatten().long(),
-                              num_classes=self.output_size).float()
-        elif self.output_size == 1:
-            y = y.squeeze().float()
-        return self.task_loss_form(y_hat.squeeze(), y)

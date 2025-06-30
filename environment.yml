@@ -1,4 +1,4 @@
-name: lmr
+name: licem
 channels:
   - pytorch
   - nvidia
@@ -26,3 +26,7 @@ dependencies:
     - numpy==1.26.4
     - pandas
     - git+https://github.com/pyc-team/pytorch_concepts.git@models
+    - transformers
+    - datasets
+    - openai
+    - mistralai

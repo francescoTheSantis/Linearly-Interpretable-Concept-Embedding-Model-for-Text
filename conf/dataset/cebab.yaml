@@ -1,0 +1,12 @@
+defaults:
+  - common
+  - _self_
+
+loader:
+  dataset: cebab
+  concept_annotations: true
+  
+metadata:
+  lr: 0.001
+  name: cebab
+  finetune_backbone: false

@@ -1,0 +1,12 @@
+defaults:
+  - common
+  - _self_
+
+loader:
+  dataset: imdb
+  selected_concepts: ["acting", "storyline", "emotional arousal", "cinematography"]
+  concept_annotations: true
+
+metadata:
+  lr: 0.001
+  name: imdb

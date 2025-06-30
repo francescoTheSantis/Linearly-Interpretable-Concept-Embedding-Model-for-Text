@@ -7,7 +7,7 @@ from collections import OrderedDict
 import pandas as pd
 import torch.nn.functional as F
 
-from src.models.base import LogicModel, BaseModel
+from src.models.base import BaseModel
 
 
 class Engine(pl.LightningModule):
@@ -41,17 +41,19 @@ class Engine(pl.LightningModule):
                 c_names: Optional[list] = None,
                 y_name: Optional[str] = None,
                 csv_log_dir: Optional[str] = None,
+                concept_annotations: Optional[bool] = True
                 ):
         super(Engine, self).__init__()         
         self.model = model
         self.save_hyperparameters(ignore=["model"], logger=False)
+        self.concept_annotations = concept_annotations
 
         self.c_names = c_names
         self.y_name = y_name
         self.num_classes = len(y_name) if len(y_name)>1 else 2
         self.class_names = y_name if len(y_name)>1 else ['0','1']
 
-        self.task_metric = Task_Accuracy(logic_reasoning=self.model._logic_model_checker())
+        self.task_metric = Task_Accuracy()
         self.concept_metric = Concept_Accuracy()
 
         self.csv_log_dir = csv_log_dir
@@ -72,14 +74,27 @@ class Engine(pl.LightningModule):
         return self.model(input)
 
     def unpack_batch(self, batch):
-        x = batch[0]
-        c = batch[1]
-        y = batch[2]
-        return x, c, y
+        ids = batch[0]
+        type = batch[1]
+        attention = batch[2]
+        embedding = batch[3]
+        c = batch[4]
+        y = batch[5]
+        gen_c = batch[6] 
+        return ids, type, attention, embedding, c, y, gen_c
 
     def shared_step(self, batch):
-        x, c, y = self.unpack_batch(batch)
-        inputs = {'x':x, 'c':c, 'y':y.float()}
+        ids, type, attention, embedding, c, y, gen_c = self.unpack_batch(batch)
+
+        inputs = {
+            'ids': ids,
+            'type': type,
+            'attention': attention,
+            'embedding': embedding,
+            'c': c,
+            'y': y,
+            'gen_c': gen_c
+        }
         # model forward
         model_output = self.forward(inputs)
         # Compute loss
