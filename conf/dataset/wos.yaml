@@ -1,0 +1,13 @@
+defaults:
+  - common
+  - _self_
+
+loader:
+  dataset: wos
+  selected_concepts: ["Mentions_statistical_methods", "Focus_on_human_subjects", "Uses_neural_networks", "Mentions_DNA/genetics", "Refers_to_electrical_components", "Mentions_software_systems", "Uses_clinical_trial_terminology"]
+  concept_annotations: false
+  
+metadata:
+  lr: 0.001
+  name: wos
+  finetune_backbone: false

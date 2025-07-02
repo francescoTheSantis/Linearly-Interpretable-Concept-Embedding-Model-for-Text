@@ -4,7 +4,7 @@ defaults:
   - engine: engine
 
 ## Training parameters
-max_epochs: 40
+max_epochs: 1
 # The patience is set to the max_epochs to avoid early stopping. 
 # If you want to use early stopping, set it to a lower value.
 patience: 40
@@ -63,18 +63,18 @@ hydra:
   sweeper:
     params:
       seed: 1 #1, 2, 3
-      # implemented textual datasets: cebab, imdb, trec50, wos, clinc, banking
-      dataset: wos, banking # cebab, imdb, trec50, wos, clinc, banking
+      # implemented textual datasets: cebab, imdb, (trec50), wos, clinc, banking
+      dataset: clinc
       # implemented models: blackbox, cbm_dt, cbm_xg, cbm_linear, cbm_mlp, cem, dcr, licem
-      model: blackbox, cbm_dt, cbm_xg, cbm_linear, cbm_mlp, cem, dcr, licem
+      model: cbm_linear # blackbox, cbm_dt, cbm_xg, cbm_linear, cbm_mlp, cem, dcr, licem
       # possible supervision strategies: supervised, generative, self_generative
-      supervision: generative, self-generative # supervised, generative, self-generative
+      supervision: generative # supervised, generative, self-generative
 
 wandb:
   # Set the params below if you want to use wandb as logger.
   # Set it to null if you do not want to use wandb.
-  project: "licem" # Set to your project name
-  entity: "francescothesantis-politecnico-di-torino" # Set to your wandb entity name
+  project: null #"licem" # Set to your project name
+  entity: null #"francescothesantis-politecnico-di-torino" # Set to your wandb entity name
 
 # The note will be appended to the group name in wandb 
 # and will be considered as an additional tag (for filtering).

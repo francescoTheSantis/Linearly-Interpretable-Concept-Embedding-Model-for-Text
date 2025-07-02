@@ -1,0 +1,13 @@
+defaults:
+  - common
+  - _self_
+
+loader:
+  dataset: banking
+  selected_concepts: [Transaction_Mention, Issue/Problem_Description, Account_Reference, Request_for_Help_or_Clarification]
+  concept_annotations: false
+  
+metadata:
+  lr: 0.001
+  name: banking
+  finetune_backbone: false

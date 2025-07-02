@@ -1,5 +1,6 @@
-_OLD
+_OLD/
 multirun/
+figs/
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

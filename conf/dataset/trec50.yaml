@@ -1,0 +1,13 @@
+defaults:
+  - common
+  - _self_
+
+loader:
+  dataset: trec50
+  selected_concepts: [definition_request, person_entity, location_reference, numeric_expectation, abbreviation_or_acronym, object_reference]
+  concept_annotations: false
+  
+metadata:
+  lr: 0.001
+  name: trec50
+  finetune_backbone: false

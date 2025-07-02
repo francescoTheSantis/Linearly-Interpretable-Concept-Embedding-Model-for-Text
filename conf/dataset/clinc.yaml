@@ -1,0 +1,13 @@
+defaults:
+  - common
+  - _self_
+
+loader:
+  dataset: clinc
+  selected_concepts: [Domain_Mention, Intent_Specific_Keywords, Action_Request, Out-of-Scope_Indicators]
+  concept_annotations: false
+  
+metadata:
+  lr: 0.001
+  name: clinc
+  finetune_backbone: false

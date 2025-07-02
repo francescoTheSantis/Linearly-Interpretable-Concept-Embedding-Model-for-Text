@@ -14,6 +14,7 @@ class LinearConceptEmbeddingModel(BaseModel):
                  int_prob=0.1,
                  int_idxs=None,
                  noise=None,
+                 classifier=None,
                  embedding_size = 16,
                  latent_size = 128,
                  c_groups=None,
@@ -23,16 +24,18 @@ class LinearConceptEmbeddingModel(BaseModel):
                  encoder=None,
                  use_embeddings=False,
                  encoder_output_size=None,
-                 lm_embedding_size=None
+                 lm_embedding_size=None,
+                 supervision='supervised'
                  ):
 
         super().__init__(
-                 output_size,
-                 activation,
-                 latent_size,
-                 c_groups,
-                 encoder,
-                 use_embeddings
+                 output_size = output_size,
+                 activation = activation,
+                 latent_size = latent_size,
+                 c_groups = c_groups,
+                 encoder = encoder,
+                 use_embeddings = use_embeddings,
+                 supervision = supervision
                  )
 
         self.embedding_size = embedding_size
@@ -46,6 +49,7 @@ class LinearConceptEmbeddingModel(BaseModel):
         self.y_names = list(y_names)
         self.encoder_output_size = encoder_output_size
         self.lm_embedding_size = lm_embedding_size 
+        self.classifier = classifier
 
         input_size = lm_embedding_size if use_embeddings else encoder_output_size
         self.first_layer = nn.Sequential(
@@ -126,3 +130,15 @@ class LinearConceptEmbeddingModel(BaseModel):
             b_loss = self.bias_reg * self.__predicted_bias.norm(p=1)
             loss += b_loss
         return loss
+    
+    def filter_output_for_loss(self, y_output, c_output=None, c_weights=None):
+        """
+        Filter the output of the model for loss computation.
+        """
+        return y_output, c_output
+    
+    def filter_output_for_metrics(self, y_output, c_output=None, c_weights=None):
+        """
+        Filter the output of the model for metrics computation.
+        """
+        return y_output, c_output

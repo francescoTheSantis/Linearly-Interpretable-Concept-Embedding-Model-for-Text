@@ -96,14 +96,24 @@ class BaseModel(nn.Module):
         """
         Compute the task loss based on the task type.
         """
-        y = y.flatten().long()
-        # Task loss
-        # check whether there are -1 in the predictions
-        if torch.any(y_hat == -1) or self.classifier in ['dt', 'xg']:
-            # If there are -1 in the predictions, set the task loss to 0
-            task_loss = torch.tensor(0.0, device=y_hat.device, requires_grad=True)
+        if self.__class__.__name__ != 'DeepConceptReasoner':
+            y = y.flatten().long()
+            # Task loss
+            # Check whether there are -1 in the predictions
+            if torch.any(y_hat == -1) or self.classifier in ['dt', 'xg']:
+                # If there are -1 in the predictions, set the task loss to 0
+                task_loss = torch.tensor(0.0, device=y_hat.device, requires_grad=True)
+            else:
+                task_loss = self.task_loss_form(y_hat.squeeze(), y) 
         else:
-            task_loss = self.task_loss_form(y_hat.squeeze(), y) 
+            y = F.one_hot(y, num_classes=self.output_size).float()
+            # Task loss for DCR
+            if torch.any(y_hat == -1):
+                # If there are -1 in the predictions, set the task loss to 0
+                task_loss = torch.tensor(0.0, device=y_hat.device, requires_grad=True)
+            else:
+                task_loss = self.task_loss_form(y_hat, y)
+            
         task_loss = self.task_penalty * task_loss
         return task_loss
     

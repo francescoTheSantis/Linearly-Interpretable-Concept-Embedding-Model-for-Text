@@ -51,6 +51,10 @@ class EmbeddingExtractor_text:
                 else:
                     raise ValueError("LLM client or instruction prompt not provided.")
 
+                if not self.concept_annotations:
+                    # If no concept annotations, create a tensor of -1 with the same shape as the embeddings
+                    concepts = -1 * torch.ones_like(gen_concepts)
+                
                 embs = embs.unsqueeze(0)
                 concepts = concepts.unsqueeze(0)
                 targets = targets.unsqueeze(0)

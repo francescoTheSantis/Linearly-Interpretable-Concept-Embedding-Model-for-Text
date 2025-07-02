@@ -8,7 +8,7 @@ params:
   int_prob: ${int_prob}
   embedding_size: ${embedding_size}
   use_bias: true
-  weight_reg: 1e-4
+  weight_reg: ${weight_reg}
   bias_reg: 1e-4
 
 metadata:

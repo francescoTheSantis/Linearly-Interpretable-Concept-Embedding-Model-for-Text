@@ -6,8 +6,7 @@ from transformers import AutoTokenizer
 from src.loaders.datasets.utilities import process, process2, MAX_LEN
 
 class IMDBDataset(Dataset):
-    def __init__(self, root, split, selected_concepts=None, tokenizer_name='bert-base-uncased'):
-        """"""
+    def __init__(self, root, split, selected_concepts=None, tokenizer='bert-base-uncased'):
         self.folder = root
         self.data = pd.concat([pd.read_csv(f'{self.folder}/IMDB-{split}-generated.csv'), pd.read_csv(f'{self.folder}/IMDB-{split}-manual.csv')]).reset_index()
         self.data['acting'] = self.data.apply(lambda row: process(row['acting']), axis=1)
@@ -21,7 +20,7 @@ class IMDBDataset(Dataset):
         self.data['sentiment'] = self.data.apply(lambda row: process2(row['sentiment']), axis=1)
         
         # Use AutoTokenizer to dynamically load the tokenizer
-        self.tokenizer = AutoTokenizer.from_pretrained(tokenizer_name)
+        self.tokenizer = AutoTokenizer.from_pretrained(tokenizer) if tokenizer else AutoTokenizer.from_pretrained('bert-base-uncased')
         
         if selected_concepts is None:
             self.selected_concepts = ['acting', 'storyline', 'emotional arousal', 'cinematography', 'soundtrack', 'directing', 'background setting', 'editing']

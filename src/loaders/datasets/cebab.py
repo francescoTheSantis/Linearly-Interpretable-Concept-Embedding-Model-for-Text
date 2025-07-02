@@ -7,7 +7,7 @@ import os
 from src.loaders.datasets.utilities import process, process2, process4, MAX_LEN
 
 class CEBABDataset(Dataset):
-    def __init__(self, root, split, tokenizer=None):
+    def __init__(self, root, split, tokenizer='bert-base-uncased'):
         path = os.path.join(root, f'cebab_{split}.csv')
         self.data = pd.read_csv(path)
         self.data['food'] = self.data.apply(lambda row: process(row['food']), axis=1)
@@ -18,7 +18,7 @@ class CEBABDataset(Dataset):
         self.data['bin_rating'] = self.data.apply(lambda row: process2(row['bin_rating']), axis=1)
 
         # Use the provided tokenizer or default to AutoTokenizer
-        self.tokenizer = tokenizer if tokenizer else AutoTokenizer.from_pretrained('bert-base-uncased')
+        self.tokenizer = AutoTokenizer.from_pretrained(tokenizer) if tokenizer else AutoTokenizer.from_pretrained('bert-base-uncased')
 
     def __len__(self):
         return len(self.data)

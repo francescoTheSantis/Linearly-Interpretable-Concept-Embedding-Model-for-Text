@@ -11,6 +11,7 @@ class ConceptEmbeddingModel(BaseModel):
                  y_names,
                  task_penalty,
                  activation='ReLU',
+                 classifier=None,
                  int_prob=0.1,
                  int_idxs=None,
                  noise=None,
@@ -43,6 +44,7 @@ class ConceptEmbeddingModel(BaseModel):
         self.noise = noise
         self.encoder_output_size = encoder_output_size
         self.lm_embedding_size = lm_embedding_size 
+        self.classifier = classifier
 
         input_size = lm_embedding_size if use_embeddings else encoder_output_size
         self.first_layer = nn.Sequential(

@@ -31,9 +31,10 @@ class Engine(pl.LightningModule):
         self.class_names = y_name if len(y_name)>1 else ['0','1']
 
         self.task_metric = Task_Accuracy()
-        self.concept_metric = F1Score(task="multiclass", 
-                                      num_classes=self.num_classes, 
-                                      average="macro")
+        #self.concept_metric = F1Score(task="multiclass", 
+        #                              num_classes=self.num_classes, 
+        #                              average="macro")
+        self.concept_metric = Concept_Accuracy()
 
         self.csv_log_dir = csv_log_dir
 
@@ -95,7 +96,7 @@ class Engine(pl.LightningModule):
         # compute the concept accuracy.
         if self.model.has_concepts and not torch.any(c == -1):
             concept_acc = self.concept_metric(c_output, c)
-            self.log('train_concept_f1', concept_acc)
+            self.log('train_concept_acc', concept_acc)
 
         #if ('dt' in self.model.__class__.__name__ or 'xg' in self.model.__class__.__name__) and self.supervision == 'self-generative':
         #    return y_output.mean() * -1
@@ -112,7 +113,7 @@ class Engine(pl.LightningModule):
         # compute the concept accuracy.
         if self.model.has_concepts and not torch.any(c == -1):
             concept_acc = self.concept_metric(c_output, c)
-            self.log('val_concept_f1', concept_acc)
+            self.log('val_concept_acc', concept_acc)
         return loss 
     
     def test_step(self, batch, batch_idx):
@@ -125,7 +126,7 @@ class Engine(pl.LightningModule):
         # compute the concept accuracy.
         if self.model.has_concepts and not torch.any(c == -1):
             concept_acc = self.concept_metric(c_output, c)
-            self.log('test_concept_f1', concept_acc)
+            self.log('test_concept_acc', concept_acc)
 
         # If the name of the class is LinearConceptEmbeddingModel,
         # update the tensors required for the explanations.

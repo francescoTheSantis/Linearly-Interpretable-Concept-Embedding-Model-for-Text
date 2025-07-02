@@ -3,7 +3,7 @@ import torch.nn as nn
 import torch_concepts.nn as pyc_nn
 from torch_concepts.semantic import ProductTNorm
 from torch_concepts.nn import functional as CF
-from src.models.base import BaseModel, LogicModel
+from src.models.base import BaseModel
 from torch.nn import functional as F
 
 class DeepConceptReasoner(BaseModel):
@@ -14,6 +14,7 @@ class DeepConceptReasoner(BaseModel):
                  task_penalty,
                  activation='ReLU',
                  int_prob=0.1,
+                 classifier=None,
                  int_idxs=None,
                  noise=None,
                  embedding_size = 16,
@@ -52,6 +53,7 @@ class DeepConceptReasoner(BaseModel):
         self.temperature = temperature
         self.encoder_output_size = encoder_output_size
         self.lm_embedding_size = lm_embedding_size
+        self.classifier = classifier
 
         input_size = lm_embedding_size if use_embeddings else encoder_output_size
         self.first_layer = nn.Sequential(
