@@ -8,7 +8,7 @@ import os
 from env import CACHE
 from src.utilities import update_config_from_data
 
-@hydra.main(config_path="conf", config_name="sweep")
+@hydra.main(config_path="conf", config_name="general_sweep")
 def main(cfg: DictConfig) -> None:
 
     # Initialize the wandb logger
@@ -49,20 +49,27 @@ def main(cfg: DictConfig) -> None:
     # Set the c_names and y_names in the config
     cfg = update_config_from_data(cfg, loaded_train, c_names, y_names, c_groups, csv_logger.log_dir)
 
-    ###### Instantiate the model ######
-    model = instantiate(cfg.engine)
+    if cfg.model.metadata.name in ['LLM_zero_shot', 'LLM_few_shot']:
+        ###### Instantiate the LLM model ######
+        model = instantiate(cfg.model)
 
-    ###### Training ######
-    # Initialize the trainer
-    trainer = Trainer(model, cfg, wandb_logger, csv_logger)
-    trainer.build_trainer()
+        ###### Test the LLM model ######
+        model.test(loaded_test)
+    else:
+        ###### Instantiate the model ######
+        model = instantiate(cfg.engine)
 
-    # Train the model
-    trainer.train(loaded_train, loaded_val)
+        ###### Training ######
+        # Initialize the trainer
+        trainer = Trainer(model, cfg, wandb_logger, csv_logger)
+        trainer.build_trainer()
 
-    ###### Test ######
-    # Test the model on the test-set
-    trainer.test(loaded_test)
+        # Train the model
+        trainer.train(loaded_train, loaded_val)
+
+        ###### Test ######
+        # Test the model on the test-set
+        trainer.test(loaded_test)
 
     '''
     # Only on datasets with concepts annotations

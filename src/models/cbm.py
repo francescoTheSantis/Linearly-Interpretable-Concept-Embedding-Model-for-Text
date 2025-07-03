@@ -5,8 +5,6 @@ from src.models.base import BaseModel
 from sklearn.tree import DecisionTreeClassifier
 import xgboost as xgb
 
-print(xgb.__version__)
-
 import numpy as np
 import torch.nn.functional as F
 
@@ -164,11 +162,6 @@ class ConceptBottleneckModel(BaseModel):
         if self.y_predictor.__class__.__name__ == 'DecisionTreeClassifier':
             self.y_predictor.fit(c_preds, y_true)
         elif self.y_predictor.__class__.__name__ == 'XGBClassifier':
-            # params = {'objective': 'multi:softmax', 'num_class': self.output_size, 'max_depth': 3, 'eta': 0.3, 'eval_metric': 'merror'}
-            # print(f"Training XGBoost with c_preds shape: {c_preds.shape}, y_true shape: {y_true.shape}")
-            # dtrain = xgb.DMatrix(c_preds, label=y_true)
-            # dtree = xgb.train(params, dtrain, 100)
-            # self.y_predictor = dtree
             self.y_predictor.fit(c_preds, y_true)
         self.ml_fit = True
 
@@ -179,11 +172,13 @@ class ConceptBottleneckModel(BaseModel):
         device = c_preds.device
         if self.ml_fit:
             c_preds = c_preds.cpu().numpy()
+            # hard concepts to facilitate the decision tree/ XGboost model
+            hard_c_preds = np.where(c_preds > 0.5, 1, 0)
             # Predict using the decision tree/ XGboost model
             if isinstance(self.y_predictor, DecisionTreeClassifier):
-                y_preds = self.y_predictor.predict(c_preds)
+                y_preds = self.y_predictor.predict(hard_c_preds)
             elif isinstance(self.y_predictor, xgb.XGBClassifier):
-                y_preds = self.y_predictor.predict(c_preds)
+                y_preds = self.y_predictor.predict(hard_c_preds)
             # Transform to torch tensor
             return torch.tensor(y_preds, device=device, dtype=torch.float32)
         else:

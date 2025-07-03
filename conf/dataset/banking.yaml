@@ -11,3 +11,4 @@ metadata:
   lr: 0.001
   name: banking
   finetune_backbone: false
+  examples: "Query: how do i locate my card?\nAnswer: 11\n\nQuery: can i use google pay with this account?\nAnswer: 2"

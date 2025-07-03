@@ -10,3 +10,4 @@ loader:
 metadata:
   lr: 0.001
   name: imdb
+  examples: "Review: The performances were outstanding, especially the lead actor.\nAnswer: 1\n\nReview: The story dragged in the middle and felt uninspired.\nAnswer: 0"

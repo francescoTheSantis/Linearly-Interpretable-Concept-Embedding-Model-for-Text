@@ -1,5 +1,3 @@
-
-
 ###### Prompts for labeling datasets with specific concepts ######
 
 CEBAB_LABELING_PROMPT = """
@@ -188,3 +186,102 @@ Answer:
 
 
 ###### Prompts Zero-Shot Classification ######
+
+CEBAB_ZERO_SHOT = """
+Classify the sentiment of the given restaurant review into one of the following categories:
+
+{class_dict}
+
+The list above shows the class name followed by its corresponding class index. Based on the class you select, provide the corresponding class index as the answer.
+
+Examples:
+{examples}
+
+Do not add any text other than the class index.
+Review: <query>
+Answer:
+"""
+
+IMDB_ZERO_SHOT = """
+Classify the sentiment of the given film review into one of the following categories:
+
+{class_dict}
+
+The list above shows the class name followed by its corresponding class index. Based on the class you select, provide the corresponding class index as the answer.
+
+Examples:
+{examples}
+
+Do not add any text other than the class index.
+Review: <query>
+Answer:
+"""
+
+TREC_ZERO_SHOT = """
+Classify the type of the given question into one of the following categories. Each category belongs to one of six main groups as explained below:
+
+Category groups and their meanings:
+ABBR - Abbreviation
+DESC - Description and abstract concepts
+ENTY - Entities
+HUM - Human beings
+LOC - Locations
+NUM - Numeric values
+
+Here are the categories with their indexes:
+{class_dict}
+
+The list above shows the category (class) name followed by its corresponding index. Based on the category you select, provide the corresponding index as the answer.
+
+Examples:
+{examples}
+
+Do not add any text other than the class index.
+Question: <query>
+Answer:
+"""
+
+WOS_ZERO_SHOT = """
+Classify the focus of the given scientific abstract into one of the following categories:
+
+{class_dict}
+
+The list above shows the class name followed by its corresponding class index. Based on the class you select, provide the corresponding class index as the answer.
+
+Examples:
+{examples}
+
+Do not add any text other than the class index.
+Abstract: <query>
+Answer:
+"""
+
+CLINC_ZERO_SHOT = """
+Classify the intent of the given user query into one of the following categories:
+
+{class_dict}
+
+The list above shows the class name followed by its corresponding class index. Based on the class you select, provide the corresponding class index as the answer.
+
+Examples:
+{examples}
+
+Do not add any text other than the class index.
+Query: <query>
+Answer:
+"""
+
+BANK_ZERO_SHOT = """
+Classify the type of the given banking query into one of the following categories:
+
+{class_dict}
+
+The list above shows the class name followed by its corresponding class index. Based on the class you select, provide the corresponding class index as the answer.
+
+Examples:
+{examples}
+
+Do not add any text other than the class index.
+Query: <query>
+Answer:
+"""

@@ -10,6 +10,8 @@ from pytorch_lightning.loggers import WandbLogger, CSVLogger
 import pandas as pd
 import matplotlib.pyplot as plt
 import scienceplots
+from src.loaders.prompts import CEBAB_ZERO_SHOT, IMDB_ZERO_SHOT, \
+    TREC_ZERO_SHOT, WOS_ZERO_SHOT, CLINC_ZERO_SHOT, BANK_ZERO_SHOT
 
 # I used scienceplots for the style of the plots,
 # but you can use any other style you want.
@@ -78,6 +80,22 @@ def check_concept_annotation(c):
         return False
     return True
 
+def set_istruction_prompt(dataset_name: str) -> str:
+    if dataset_name == 'banking':
+        return BANK_ZERO_SHOT
+    elif dataset_name == 'clinc':
+        return CLINC_ZERO_SHOT
+    elif dataset_name == 'cebab':
+        return CEBAB_ZERO_SHOT
+    elif dataset_name == 'imdb':
+        return IMDB_ZERO_SHOT
+    elif dataset_name == 'trec50':
+        return TREC_ZERO_SHOT
+    elif dataset_name == 'wos':
+        return WOS_ZERO_SHOT
+    else:
+        raise ValueError(f"Dataset {dataset_name} not supported for zero-shot LLM classification. Please provide a valid dataset name.")
+
 def update_config_from_data(cfg: DictConfig, train_loader, c_names, y_names, c_groups, csv_log_dir) -> DictConfig:
     """
     Update the config with the input size, output size, and concept names.
@@ -99,16 +117,27 @@ def update_config_from_data(cfg: DictConfig, train_loader, c_names, y_names, c_g
             y_name = y_names,
             csv_log_dir = csv_log_dir,
             concept_annotations = concept_annotations,
-            supervision = cfg.supervision
+            supervision = cfg.supervision,
         )
         
-        cfg.model.params.update(
-            output_size = n_labels,
-            c_names = c_names,
-            y_names = y_names,
-            c_groups = c_groups,
-            supervision = cfg.supervision
-        )
+        if cfg.model.metadata.name in ['LLM_zero_shot', 'LLM_few_shot']:
+            
+            cfg.model.update(
+                class_dict = {name: i for i, name in enumerate(y_names)},
+                LLM = cfg.llm_name,
+                storing_path = os.getcwd(),
+                tokenizer = cfg.encoder_name,
+                examples = cfg.dataset.metadata.examples,
+                istruction_prompt = set_istruction_prompt(cfg.dataset.metadata.name),
+            )
+        else:
+            cfg.model.params.update(
+                output_size = n_labels,
+                c_names = c_names,
+                y_names = y_names,
+                c_groups = c_groups,
+                supervision = cfg.supervision,
+            )
     return cfg
 
 

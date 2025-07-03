@@ -6,7 +6,7 @@ import numpy as np
 import pandas as pd
 from src.metrics import f1_acc_metrics
 from tqdm import tqdm
-
+import os
 class Trainer:
     """
     Trainer class for the pytorch_lightning model.
@@ -73,19 +73,22 @@ class Trainer:
         
         # Check if the model has a machine learning classifier
         if self.model.model.has_ml_cls:
+            # Last checkpoint path
+            #last_checkpoint_path = os.path.join(self.trainer.checkpoint_callback.dirpath, "last.ckpt")
+
             # Load the best model from the checkpoint
-            self.load_model()
+            #self.load_model()
             # Execute the function to fit the ml model (if present).
             self.model.model.fit_ml_model(train_dataloader)
             # Save the best model
-            self.trainer.save_checkpoint(self.trainer.checkpoint_callback.best_model_path)
+            #self.trainer.save_checkpoint(os.path.join(self.trainer.checkpoint_callback.dirpath, "last.ckpt"))
 
     def test(self, test_dataloader):
-        # Load the best model and test
-        self.trainer.test(self.model, test_dataloader, ckpt_path=self.trainer.checkpoint_callback.best_model_path)
+        #self.trainer.test(self.model, test_dataloader, ckpt_path=self.trainer.checkpoint_callback.best_model_path)
+        self.trainer.test(self.model, test_dataloader) #, ckpt_path='last') 
 
-    def load_model(self):
-        best_ckpt = torch.load(self.trainer.checkpoint_callback.best_model_path)  # or 'cuda' if you want GPU
+    def load_model(self, last_checkpoint_path):
+        best_ckpt = torch.load(last_checkpoint_path)  # or 'cuda' if you want GPU
         state_dict = best_ckpt['state_dict']  # Lightning checkpoints store weights under 'state_dict'
         new_state_dict = {}
         for key, value in state_dict.items():

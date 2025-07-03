@@ -19,8 +19,8 @@ class LinearConceptEmbeddingModel(BaseModel):
                  latent_size = 128,
                  c_groups=None,
                  use_bias=True,
-                 weight_reg=1e-4,
-                 bias_reg=1e-4,
+                 weight_reg=1e-6,
+                 bias_reg=1e-6,
                  encoder=None,
                  use_embeddings=False,
                  encoder_output_size=None,
@@ -123,11 +123,11 @@ class LinearConceptEmbeddingModel(BaseModel):
     def loss(self, y_hat, y, c_hat=None, c=None):
         loss = self.concept_based_loss(y_hat, y, c_hat, c)
         # adding l1 regularization to the weights
-        w_loss = self.weight_reg * self.__predicted_weights.norm(p=2)
+        w_loss = self.weight_reg * self.__predicted_weights.norm(p=1)
         loss += w_loss
         # adding l2 regularization to the biases if used
         if self.use_bias:
-            b_loss = self.bias_reg * self.__predicted_bias.norm(p=1)
+            b_loss = self.bias_reg * self.__predicted_bias.norm(p=2)
             loss += b_loss
         return loss
     

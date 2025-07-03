@@ -1,7 +1,6 @@
 from torch.utils.data import Dataset
 from transformers import AutoTokenizer
 import torch
-from datasets import load_dataset
 from src.loaders.datasets.utilities import MAX_LEN
 
 class Banking77Dataset(Dataset):

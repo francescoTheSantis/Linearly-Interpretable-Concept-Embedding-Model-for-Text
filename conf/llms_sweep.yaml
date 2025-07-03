@@ -56,27 +56,22 @@ lm_embedding_size: 768
 use_stored_dataset: True
 
 ## LICEM specific parameter
-weight_reg: 1e-4
+weight_reg: 1e-6
 
 hydra:
   mode: MULTIRUN
+  sweep:
+    # Name of the repository where the sweep is stored.
+    dir: outputs/llm_results/${now:%Y-%m_%d_%H-%M-%S}
   sweeper:
     params:
-      seed: 1 #1, 2, 3
-      # implemented textual datasets: cebab, imdb, trec50, wos, clinc, banking
-      dataset: wos, banking # cebab, imdb, trec50, wos, clinc, banking
-      # implemented models: blackbox, cbm_dt, cbm_xg, cbm_linear, cbm_mlp, cem, dcr, licem
-      model: blackbox, cbm_dt, cbm_xg, cbm_linear, cbm_mlp, cem, dcr, licem
-      # possible supervision strategies: supervised, generative, self_generative
-      supervision: generative, self-generative # supervised, generative, self-generative
+      seed: 1, 2, 3
+      dataset: banking, trec50, clinc, imdb
+      model: llm_few_shot, llm_zero_shot
+      supervision: generative # eaach supervsiion strategy is the same when employing the LLMs for classification
 
 wandb:
-  # Set the params below if you want to use wandb as logger.
-  # Set it to null if you do not want to use wandb.
-  project: "licem" # Set to your project name
-  entity: "francescothesantis-politecnico-di-torino" # Set to your wandb entity name
+  project: null 
+  entity: null 
 
-# The note will be appended to the group name in wandb 
-# and will be considered as an additional tag (for filtering).
-# If you do not want to add any note, set it to null.
 note: null

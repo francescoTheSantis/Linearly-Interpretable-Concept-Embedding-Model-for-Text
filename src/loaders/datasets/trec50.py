@@ -12,11 +12,13 @@ class TREC50Dataset(Dataset):
         # Use provided tokenizer or default to BERT
         self.tokenizer = AutoTokenizer.from_pretrained(tokenizer) if tokenizer else AutoTokenizer.from_pretrained('bert-base-uncased')
 
+        '''
         # Map fine_label to int if needed
         self.label_map = {label: idx for idx, label in enumerate(set(self.dataset['fine_label']))}
         self.dataset = self.dataset.map(lambda example: {
             'label_id': self.label_map[example['fine_label']]
         })
+        '''
 
         # Store the y names
         self.y_names = list(self.dataset.features['fine_label'].names)
@@ -30,7 +32,8 @@ class TREC50Dataset(Dataset):
 
         example = self.dataset[idx]
         question = example['text']
-        label = example['label_id']
+        #label = example['label_id']
+        label = example['fine_label']
 
         # Tokenize the question
         encoded = self.tokenizer(

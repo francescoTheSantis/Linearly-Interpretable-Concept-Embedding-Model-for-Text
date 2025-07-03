@@ -1,6 +1,8 @@
 _OLD/
 multirun/
 figs/
+outputs/
+debugging.yaml
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

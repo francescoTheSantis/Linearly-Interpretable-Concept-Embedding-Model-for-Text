@@ -1,0 +1,5 @@
+_target_: "src.models.llm_classifier.LLMClassifier"
+use_examples: False
+  
+metadata:
+  name: LLM_zero_shot

@@ -11,3 +11,4 @@ metadata:
   lr: 0.001
   name: clinc
   finetune_backbone: false
+  examples: "Query: what's the exchange rate for euros today\nAnswer: 38\n\nQuery: i'd like to update my shopping list\nAnswer: 125"

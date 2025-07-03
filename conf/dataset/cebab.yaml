@@ -10,3 +10,9 @@ metadata:
   lr: 0.001
   name: cebab
   finetune_backbone: false
+  examples: "
+    Review: The food was delicious and the service fantastic.
+    Answer: 0
+
+    Review: The staff was very rough but the restaurant decorations were great.
+    Answer: 1"

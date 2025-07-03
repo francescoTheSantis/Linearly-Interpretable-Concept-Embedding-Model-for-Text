@@ -1,0 +1,5 @@
+_target_: "src.models.llm_classifier.LLMClassifier"
+use_examples: True
+  
+metadata:
+  name: LLM_few_shot

@@ -14,7 +14,7 @@ plt.style.use(['science', 'ieee', 'no-latex'])
 
 # List the paths containing the results
 paths = [
-    "/home/fdesantis/projects/Linearly-Interpretable-Concept-Embedding-Model-for-Text/multirun/2025-07-01/16-08-08",
+    "/home/fdesantis/projects/Linearly-Interpretable-Concept-Embedding-Model-for-Text/outputs/accuracy_results/2025-07_02_17-13-29",
 ]
 
 # create the figs folder if it does not exist
@@ -41,25 +41,32 @@ for exp in exps_path:
             d['seed'] = conf['seed']
             d['dataset'] = conf['dataset']['metadata']['name']
             d['model'] = conf['model']['metadata']['name']
-            d['supervision'] = conf['supervision']
 
-            with open(result_file, 'r') as file:
-                result = pd.read_csv(file, header=0)
-
-            d['task'] = result['test_task_acc'].iloc[-1]
-
-            # Select the last row of the dataframe where we test the model
-            try:
-                d['concept'] = result['test_concept_acc'].iloc[-1]
-            except KeyError:
+            if d['model'] in ['llm_zero_shot', 'llm_few_shot']:
+                llm_acc = pd.read_csv(os.path.join(exp, 'results.csv'), header=0)['accuracy'].iloc[0]
+                d['task'] = llm_acc
                 d['concept'] = 0
+                d['supervision'] = 'supervised' # LLM do not follow any of the learning paradigms, we set it to supervised as default.
+            else:
+                d['supervision'] = conf['supervision']
 
-            print(d)
-            
-            if d['model'] == 'm_licem' and d['seed']==1:
-                expl_dict = d.copy()
-                expl_dict['path'] = exp
-                lmr_paths.append(expl_dict)
+                with open(result_file, 'r') as file:
+                    result = pd.read_csv(file, header=0)
+
+                d['task'] = result['test_task_acc'].iloc[-1]
+
+                # Select the last row of the dataframe where we test the model
+                try:
+                    d['concept'] = result['test_concept_acc'].iloc[-1]
+                except KeyError:
+                    d['concept'] = 0
+
+                print(d)
+                
+                if d['model'] == 'm_licem' and d['seed']==1:
+                    expl_dict = d.copy()
+                    expl_dict['path'] = exp
+                    lmr_paths.append(expl_dict)
 
             performance = pd.concat([performance, pd.DataFrame([d])], ignore_index=True)
         except:
@@ -73,6 +80,14 @@ def get_df_name(df):
         return 'IMDB'
     elif df=='cebab':
         return 'CEBaB'
+    elif df=='trec50':
+        return 'TREC50'
+    elif df=='wos':
+        return 'WOS'
+    elif df=='clinc':
+        return 'CLINC-OOS'
+    elif df=='banking':
+        return 'Banking77'
 
 marker_size = 14
 
@@ -87,13 +102,19 @@ model_styles = {
     'cbm_dt': {'marker': 'v', 'name': 'CBM+DT', 'color': 'tab:pink', 'size': marker_size},
     'cbm_xg': {'marker': 'v', 'name': 'CBM+XG', 'color': 'tab:green', 'size': marker_size},
     'dcr': {'marker': 'h', 'name': 'DCR', 'color': 'tab:gray', 'size': marker_size},
+    'llm_zero_shot': {'marker': 'D', 'name': 'LLM Zero-Shot', 'color': 'tab:cyan', 'size': marker_size},
+    'llm_few_shot': {'marker': 'D', 'name': 'LLM Few-Shot', 'color': 'tab:cyan', 'size': marker_size},
     'licem': {'marker': 's', 'name': 'LICEM', 'color': 'tab:blue', 'size': marker_size},
 }
 
 # Define the custom order
 # If the experiment you run does not contain a dataset, just remove it from the list.
-custom_order = ['cebab',
+custom_order = [#'cebab',
                 'imdb',
+                'trec50',
+                'wos',
+                'clinc',
+                'banking'
                 ]
 
 
@@ -171,38 +192,43 @@ for supervision in merged_task['supervision'].unique():
 
 ########## Concept Accuracy Table ##########
 
-task_avg = concept_stats[['model', 'dataset', 'avg_accuracy_concept']]
-task_std = concept_stats[['model', 'dataset', 'std_accuracy_concept']]
+concept_avg = concept_stats[['model', 'dataset', 'supervision', 'avg_accuracy_concept']]
+concept_std = concept_stats[['model', 'dataset', 'supervision', 'std_accuracy_concept']]
 
 # Merge task_avg and task_std dataframes on 'model' and 'dataset'
-merged_task = pd.merge(task_avg, task_std, on=['model', 'dataset'])
+merged_concept = pd.merge(concept_avg, concept_std, on=['model', 'dataset', 'supervision'])
 
-# Create a pivot table with the desired format
-pivot_table_avg = task_avg.pivot(index='model', columns='dataset', values=['avg_accuracy_concept'])
-pivot_table_avg.columns = pivot_table_avg.columns.get_level_values(1)
-pivot_table_std = task_std.pivot(index='model', columns='dataset', values=['std_accuracy_concept'])
-pivot_table_std.columns = pivot_table_std.columns.get_level_values(1)
+for supervision in merged_task['supervision'].unique():
+    filtered_concept_avg = concept_avg[task_avg['supervision'] == supervision]
+    filtered_concept_std = concept_std[task_std['supervision'] == supervision]
+        
+    # Create a pivot table with the desired format
+    pivot_table_avg = filtered_concept_avg.pivot(index='model', columns='dataset', values=['avg_accuracy_concept'])
+    pivot_table_avg.columns = pivot_table_avg.columns.get_level_values(1)
+    pivot_table_std = filtered_concept_std.pivot(index='model', columns='dataset', values=['std_accuracy_concept'])
+    pivot_table_std.columns = pivot_table_std.columns.get_level_values(1)
 
-final_table = pd.DataFrame()
-for i, row in pivot_table_avg.iterrows():
-    d={}
-    for j in pivot_table_std.columns:
-        acc = row[j]*100
-        std = pivot_table_std.loc[i, j]*100
-        d[j] = f"{acc:.2f} ± {std:.2f}"
-    # add a column to the final_table dataframe called row.name which contains d
-    final_table = pd.concat([final_table, pd.DataFrame(d, index=[row.name])], axis=0)
-    
-# Reindex the columns of final_table according to the custom order
-final_table = final_table.reindex(columns=custom_order)
+    final_table = pd.DataFrame()
+    for i, row in pivot_table_avg.iterrows():
+        d={}
+        for j in pivot_table_std.columns:
+            acc = row[j]*100
+            std = pivot_table_std.loc[i, j]*100
+            d[j] = f"{acc:.2f} ± {std:.2f}"
+        # add a column to the final_table dataframe called row.name which contains d
+        final_table = pd.concat([final_table, pd.DataFrame(d, index=[row.name])], axis=0)
+        
+    # Reindex the columns of final_table according to the custom order
+    final_table = final_table.reindex(columns=custom_order)
 
-# Replace the model and dataset names
-final_table.index = final_table.index.map(lambda x: model_styles[x]['name'] if x in model_styles else x)
-final_table.columns = final_table.columns.map(lambda x: get_df_name(x))
+    # Replace the model and dataset names
+    final_table.index = final_table.index.map(lambda x: model_styles[x]['name'] if x in model_styles else x)
+    final_table.columns = final_table.columns.map(lambda x: get_df_name(x))
 
-print('\n\nConcept Accuracy Table:')
-print('-------------------')
-print(final_table)
+    print('\n\n')
+    print(f'Concept Accuracy with supervision strategy: {supervision}')
+    print('-------------------')
+    print(final_table)
 
-# store the table in a csv file
-final_table.to_csv('figs/concept_accuracy.csv', index=True)
+    # store the table in a csv file
+    final_table.to_csv(f'figs/{supervision}_concept_accuracy.csv', index=True)

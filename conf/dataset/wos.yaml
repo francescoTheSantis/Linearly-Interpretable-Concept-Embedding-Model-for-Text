@@ -6,8 +6,15 @@ loader:
   dataset: wos
   selected_concepts: ["Mentions_statistical_methods", "Focus_on_human_subjects", "Uses_neural_networks", "Mentions_DNA/genetics", "Refers_to_electrical_components", "Mentions_software_systems", "Uses_clinical_trial_terminology"]
   concept_annotations: false
+  y_names:
   
 metadata:
   lr: 0.001
   name: wos
   finetune_backbone: false
+  examples: "
+    Abstract: This study develops a neural network model to predict disease progression.
+    Answer: 0
+
+    Abstract: We propose a software system that leverages statistical inference to optimize electrical component performance.
+    Answer: 1"

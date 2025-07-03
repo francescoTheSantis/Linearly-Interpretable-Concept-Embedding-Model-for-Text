@@ -11,3 +11,4 @@ metadata:
   lr: 0.001
   name: trec50
   finetune_backbone: false
+  examples: "Question: what currency is used in Japan?\nAnswer: 6\n\nQuestion: who is the CEO of the company?\nAnswer: 29"

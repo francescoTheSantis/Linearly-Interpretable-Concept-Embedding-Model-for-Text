@@ -28,7 +28,8 @@ class TextDataLoader:
                  selected_concepts=None,
                  llm_client=None,
                  concept_annotations=False,
-                 seed=42
+                 seed=42,
+                 y_names=None,
                 ):
         
         self.dataset = dataset
@@ -42,6 +43,7 @@ class TextDataLoader:
         self.llm_client.n_concepts = len(self.get_info()[0])
         self.concept_annotations = concept_annotations
         self.seed = seed
+        self.y_names = y_names
 
     def get_info(self):
         if self.dataset == 'cebab':
@@ -61,7 +63,7 @@ class TextDataLoader:
                 raise ValueError("selected_concepts must be provided for TREC50 dataset")
             test_dataset = load_dataset("cogcomp/trec", split='test')
             self.loaded_test = TREC50Dataset(test_dataset, self.tokenizer)
-            y_names = self.loaded_test.y_names
+            y_names = self.loaded_test.y_names # 50 classes
             del self.loaded_test
             del test_dataset
             c_groups = None
@@ -70,7 +72,8 @@ class TextDataLoader:
                 c_names = self.selected_concepts 
             else:
                 raise ValueError("selected_concepts must be provided for WOS dataset")
-            y_names = [f'{i}' for i in range(35)]  # WOS has 35 classes, no specific names provided.
+            #y_names = [f'{i}' for i in range(35)]  
+            y_names = self.y_names # 35 classes
             c_groups = None
         elif self.dataset == 'clinc':
             if self.selected_concepts!=None:
@@ -78,7 +81,7 @@ class TextDataLoader:
             else:
                 raise ValueError("selected_concepts must be provided for CLINC dataset")
             dataset = load_dataset("clinc_oos", "small", trust_remote_code=True)
-            y_names = list(dataset['train'].features['intent'].names)
+            y_names = list(dataset['train'].features['intent'].names) # 151 classes
             del dataset
             c_groups = None
         elif self.dataset == 'banking':
@@ -86,7 +89,7 @@ class TextDataLoader:
                 c_names = self.selected_concepts 
             else:
                 raise ValueError("selected_concepts must be provided for Banking77 dataset")
-            dataset = load_dataset("banking77", split='train')
+            dataset = load_dataset("banking77", split='train') # 77 classes
             y_names = list(dataset.features['label'].names)
             del dataset
             c_groups = None
@@ -109,7 +112,7 @@ class TextDataLoader:
             self.istruction_prompt = IMDB_LABELING_PROMPT
         elif self.dataset == 'trec50':
             full_train_dataset = load_dataset("cogcomp/trec", split='train')
-            split_datasets = full_train_dataset.train_test_split(test_size=0.1, seed=self.seed, shuffle=False)
+            split_datasets = full_train_dataset.train_test_split(test_size=0.1, seed=self.seed, stratify_by_column='fine_label')
             train_dataset = split_datasets['train']
             # Shuffle the train dataset to ensure randomness
             train_dataset = train_dataset.shuffle(seed=self.seed)
@@ -121,8 +124,8 @@ class TextDataLoader:
             self.istruction_prompt = TREC_LABELING_PROMPT
         elif self.dataset == 'wos':
             full_train_dataset = load_dataset("web_of_science", "WOS11967", split='train', trust_remote_code=True)
-            split_datasets = full_train_dataset.train_test_split(test_size=0.2, seed=self.seed, shuffle=False)
-            train_val_dataset = split_datasets['train'].train_test_split(test_size=1/8, seed=self.seed, shuffle=False)
+            split_datasets = full_train_dataset.train_test_split(test_size=0.2, seed=self.seed, stratify_by_column='label')
+            train_val_dataset = split_datasets['train'].train_test_split(test_size=1/8, seed=self.seed, stratify_by_column='label')
             train_dataset = train_val_dataset['train']
             # Shuffle the train dataset to ensure randomness
             train_dataset = train_dataset.shuffle(seed=self.seed)
@@ -142,7 +145,7 @@ class TextDataLoader:
             self.istruction_prompt = CLINC_LABELING_PROMPT
         elif self.dataset == 'banking':
             dataset = load_dataset("banking77", split='train')
-            train_val_dataset = dataset.train_test_split(test_size=0.2, seed=self.seed, shuffle=False)
+            train_val_dataset = dataset.train_test_split(test_size=0.2, seed=self.seed, stratify_by_column='label')
             train_dataset = train_val_dataset['train']
             # Shuffle the train dataset to ensure randomness
             train_dataset = train_dataset.shuffle(seed=self.seed)

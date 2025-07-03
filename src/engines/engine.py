@@ -81,7 +81,15 @@ class Engine(pl.LightningModule):
 
         # Compute loss
         y_output, c_output = self.model.filter_output_for_loss(*model_output)
-        loss = self.model.loss(y_output, y, c_output, c)
+
+        # If the supervision is 'self-generative' or 'generative', the loss is copmuted with respcet to the 
+        # generated concept labels.
+        if self.supervision == 'self-generative' or self.supervision == 'generative':
+            c_loss = gen_c
+        else:
+            c_loss = c
+
+        loss = self.model.loss(y_output, y, c_output, c_loss)
     
         return loss, model_output, y, c
 
