@@ -7,6 +7,7 @@ import os
 import yaml
 from matplotlib.ticker import FuncFormatter
 from src.utilities import plot_explanations
+import torch
 
 # I used scienceplots for the style of the plots, but you can use any other style you want.
 warnings.filterwarnings("ignore")
@@ -240,7 +241,6 @@ for supervision in merged_task['supervision'].unique():
 
 ########## Sparsity ablation ##########
 
-# List the paths containing the results
 paths = [
     "/home/fdesantis/projects/Linearly-Interpretable-Concept-Embedding-Model-for-Text/outputs/sparsity_results/2025-07_03_22-22-53",
 ]
@@ -248,7 +248,6 @@ paths = [
 ###### Collect results regarding task performance and concept sparsity (c_pred * weights) ######
 
 exps_path = []
-lmr_paths = []
 for path in paths:
     exps = os.listdir(path)
     exps_path += [os.path.join(path, exp) for exp in exps if 'multirun' not in exp]
@@ -260,20 +259,18 @@ for exp in exps_path:
     conf_file = os.path.join(exp, '.hydra/config.yaml')
     result_file = os.path.join(exp, 'logs/experiment_metrics/version_0/metrics.csv')  
     llm_result_file = os.path.join(exp, 'results.csv')
-    #if os.path.exists(conf_file) and (os.path.exists(result_file) or os.path.exists(llm_result_file)):
+    c_preds_file = os.path.join(exp, 'logs/experiment_metrics/version_0/c_preds.csv')
+    c_trues_file = os.path.join(exp, 'logs/experiment_metrics/version_0/c_trues.csv')
+    ids_file = os.path.join(exp, 'logs/experiment_metrics/version_0/ids.pt')
+    pred_weights_file = os.path.join(exp, 'logs/experiment_metrics/version_0/pred_weights.pt')
     try:
         with open(conf_file, 'r') as file:
             conf = yaml.safe_load(file)
         d['seed'] = conf['seed']
         d['dataset'] = conf['dataset']['metadata']['name']
-        d['model'] = conf['model']['metadata']['name']
+        model = conf['model']['metadata']['name']
 
-        if d['model'] in ['LLM_zero_shot', 'LLM_few_shot']:
-            llm_acc = pd.read_csv(llm_result_file, header=0)['accuracy'].iloc[0]
-            d['task'] = llm_acc
-            d['concept'] = 0
-            d['supervision'] = 'self-generative' # LLM do not follow any of the learning paradigms, we set it to self-generative as default.
-        else:
+        if model in ['licem']:
             d['supervision'] = conf['supervision']
 
             with open(result_file, 'r') as file:
@@ -287,13 +284,88 @@ for exp in exps_path:
             except KeyError:
                 d['concept'] = 0
 
-            #print(d)
-            
-            if d['model'] == 'm_licem' and d['seed']==1:
-                expl_dict = d.copy()
-                expl_dict['path'] = exp
-                lmr_paths.append(expl_dict)
+            # get weight regularization
+            d['weight_reg'] = conf['weight_reg']
 
-        performance = pd.concat([performance, pd.DataFrame([d])], ignore_index=True)
+            # Read c_preds and c_trues
+            c_preds = pd.read_csv(c_preds_file, header=0)
+            c_trues = pd.read_csv(c_trues_file, header=0)
+            # read ids, which is a torch tensor
+            ids = torch.load(ids_file).cpu().numpy()
+            # read pred_weights, which is a torch tensor
+            pred_weights = torch.load(pred_weights_file).squeeze().cpu().numpy()
+            d['c_preds'] = c_preds
+            d['c_trues'] = c_trues
+            d['ids'] = ids
+            d['pred_weights'] = pred_weights
+
+            performance = pd.concat([performance, pd.DataFrame([d])], ignore_index=True)
     except Exception as e:
         print(f"Error processing {exp}: {e}")
+
+
+def plot_sparsity_ablation(performance, sparsity_threshold=1e-5, output_dir='figs'):
+    """
+    Plots task accuracy vs concept sparsity for each supervision strategy and dataset.
+
+    Args:
+        performance (pd.DataFrame): DataFrame containing experiment results.
+        sparsity_threshold (float): Threshold for concept sparsity calculation.
+        output_dir (str): Directory to save the plots.
+    """
+
+    # Group the data by supervision strategy
+    grouped = performance.groupby('supervision')
+
+    # Iterate over each supervision strategy
+    for supervision, group in grouped:
+        # Prepare data for plotting
+        datasets = group['dataset'].unique()
+        weight_regs = group['weight_reg'].values
+
+        # Compute concept sparsity
+        sparsities = []
+        for _, row in group.iterrows():
+            c_preds = row['c_preds'].values  # (n_samples, n_concepts)
+            pred_weights = row['pred_weights']  # (n_samples, n_concepts, n_classes)
+
+            # Multiply c_preds with pred_weights along the concept axis
+            weighted_preds = c_preds[:, :, None] * pred_weights  # (n_samples, n_concepts, n_classes)
+
+            # Check which values go above the threshold
+            sparsity_mask = np.abs(weighted_preds) > sparsity_threshold  # (n_samples, n_concepts, n_classes)
+
+            # Sample sparsity
+            sparsity = np.mean(sparsity_mask)
+
+            sparsities.append(sparsity)
+
+        # Create the plots
+        fig, axes = plt.subplots(1, 2, figsize=(12, 6))
+
+        # Line plot for task accuracy vs weight_reg (one line per dataset)
+        for dataset in datasets:
+            dataset_group = group[group['dataset'] == dataset]
+            task_accuracies = dataset_group['task'].values
+            axes[0].plot(dataset_group['weight_reg'], task_accuracies, marker='o', label=f'Task Accuracy ({dataset})')
+
+        axes[0].set_title(f'Task Accuracy vs Weight Regularization ({supervision})')
+        axes[0].set_xlabel('Weight Regularization')
+        axes[0].set_ylabel('Task Accuracy')
+        axes[0].grid(True)
+        axes[0].legend()
+
+        # Bar plot for concept sparsity vs weight_reg
+        axes[1].bar(weight_regs, sparsities, color='orange', label='Concept Sparsity')
+        axes[1].set_title(f'Concept Sparsity vs Weight Regularization ({supervision})')
+        axes[1].set_xlabel('Weight Regularization')
+        axes[1].set_ylabel('Concept Sparsity')
+        axes[1].grid(True)
+        axes[1].legend()
+
+        # Save the plot
+        plt.tight_layout()
+        plt.savefig(os.path.join(output_dir, f'sparsity_ablation_{supervision}.png'))
+        plt.show()
+
+plot_sparsity_ablation(performance)
