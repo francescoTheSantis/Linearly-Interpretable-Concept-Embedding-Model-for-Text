@@ -3,6 +3,7 @@ multirun/
 figs/
 outputs/
 debugging.yaml
+show_results.ipynb
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

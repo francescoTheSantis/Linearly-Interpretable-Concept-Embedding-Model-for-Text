@@ -8,7 +8,7 @@ import os
 from env import CACHE
 from src.utilities import update_config_from_data
 
-@hydra.main(config_path="conf", config_name="general_sweep")
+@hydra.main(config_path="conf", config_name="sparsity_ablation")
 def main(cfg: DictConfig) -> None:
 
     # Initialize the wandb logger

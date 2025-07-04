@@ -15,6 +15,7 @@ plt.style.use(['science', 'ieee', 'no-latex'])
 # List the paths containing the results
 paths = [
     "/home/fdesantis/projects/Linearly-Interpretable-Concept-Embedding-Model-for-Text/outputs/accuracy_results/2025-07_02_17-13-29",
+    "/home/fdesantis/projects/Linearly-Interpretable-Concept-Embedding-Model-for-Text/outputs/llm_results/2025-07_03_19-10-16",
 ]
 
 # create the figs folder if it does not exist
@@ -30,47 +31,50 @@ for path in paths:
 
 performance = pd.DataFrame()
 
+#exps_path = [x for x in exps_path if 'llm_results' in x]  # Filter out LLM results if not needed)]
+
 for exp in exps_path:
     d = {}
     conf_file = os.path.join(exp, '.hydra/config.yaml')
     result_file = os.path.join(exp, 'logs/experiment_metrics/version_0/metrics.csv')  
-    if os.path.exists(conf_file) and os.path.exists(result_file):
-        try:
-            with open(conf_file, 'r') as file:
-                conf = yaml.safe_load(file)
-            d['seed'] = conf['seed']
-            d['dataset'] = conf['dataset']['metadata']['name']
-            d['model'] = conf['model']['metadata']['name']
+    llm_result_file = os.path.join(exp, 'results.csv')
+    #if os.path.exists(conf_file) and (os.path.exists(result_file) or os.path.exists(llm_result_file)):
+    try:
+        with open(conf_file, 'r') as file:
+            conf = yaml.safe_load(file)
+        d['seed'] = conf['seed']
+        d['dataset'] = conf['dataset']['metadata']['name']
+        d['model'] = conf['model']['metadata']['name']
 
-            if d['model'] in ['llm_zero_shot', 'llm_few_shot']:
-                llm_acc = pd.read_csv(os.path.join(exp, 'results.csv'), header=0)['accuracy'].iloc[0]
-                d['task'] = llm_acc
+        if d['model'] in ['LLM_zero_shot', 'LLM_few_shot']:
+            llm_acc = pd.read_csv(llm_result_file, header=0)['accuracy'].iloc[0]
+            d['task'] = llm_acc
+            d['concept'] = 0
+            d['supervision'] = 'self-generative' # LLM do not follow any of the learning paradigms, we set it to self-generative as default.
+        else:
+            d['supervision'] = conf['supervision']
+
+            with open(result_file, 'r') as file:
+                result = pd.read_csv(file, header=0)
+
+            d['task'] = result['test_task_acc'].iloc[-1]
+
+            # Select the last row of the dataframe where we test the model
+            try:
+                d['concept'] = result['test_concept_acc'].iloc[-1]
+            except KeyError:
                 d['concept'] = 0
-                d['supervision'] = 'supervised' # LLM do not follow any of the learning paradigms, we set it to supervised as default.
-            else:
-                d['supervision'] = conf['supervision']
 
-                with open(result_file, 'r') as file:
-                    result = pd.read_csv(file, header=0)
+            #print(d)
+            
+            if d['model'] == 'm_licem' and d['seed']==1:
+                expl_dict = d.copy()
+                expl_dict['path'] = exp
+                lmr_paths.append(expl_dict)
 
-                d['task'] = result['test_task_acc'].iloc[-1]
-
-                # Select the last row of the dataframe where we test the model
-                try:
-                    d['concept'] = result['test_concept_acc'].iloc[-1]
-                except KeyError:
-                    d['concept'] = 0
-
-                print(d)
-                
-                if d['model'] == 'm_licem' and d['seed']==1:
-                    expl_dict = d.copy()
-                    expl_dict['path'] = exp
-                    lmr_paths.append(expl_dict)
-
-            performance = pd.concat([performance, pd.DataFrame([d])], ignore_index=True)
-        except:
-            pass
+        performance = pd.concat([performance, pd.DataFrame([d])], ignore_index=True)
+    except Exception as e:
+        print(f"Error processing {exp}: {e}")
 
 
 ######### Dataset and model styles #########
@@ -102,8 +106,8 @@ model_styles = {
     'cbm_dt': {'marker': 'v', 'name': 'CBM+DT', 'color': 'tab:pink', 'size': marker_size},
     'cbm_xg': {'marker': 'v', 'name': 'CBM+XG', 'color': 'tab:green', 'size': marker_size},
     'dcr': {'marker': 'h', 'name': 'DCR', 'color': 'tab:gray', 'size': marker_size},
-    'llm_zero_shot': {'marker': 'D', 'name': 'LLM Zero-Shot', 'color': 'tab:cyan', 'size': marker_size},
-    'llm_few_shot': {'marker': 'D', 'name': 'LLM Few-Shot', 'color': 'tab:cyan', 'size': marker_size},
+    'LLM_zero_shot': {'marker': 'D', 'name': 'LLM Zero-Shot', 'color': 'tab:cyan', 'size': marker_size},
+    'LLM_few_shot': {'marker': 'D', 'name': 'LLM Few-Shot', 'color': 'tab:cyan', 'size': marker_size},
     'licem': {'marker': 's', 'name': 'LICEM', 'color': 'tab:blue', 'size': marker_size},
 }
 
@@ -112,7 +116,7 @@ model_styles = {
 custom_order = [#'cebab',
                 'imdb',
                 'trec50',
-                'wos',
+                #'wos',
                 'clinc',
                 'banking'
                 ]
@@ -232,3 +236,64 @@ for supervision in merged_task['supervision'].unique():
 
     # store the table in a csv file
     final_table.to_csv(f'figs/{supervision}_concept_accuracy.csv', index=True)
+
+
+########## Sparsity ablation ##########
+
+# List the paths containing the results
+paths = [
+    "/home/fdesantis/projects/Linearly-Interpretable-Concept-Embedding-Model-for-Text/outputs/sparsity_results/2025-07_03_22-22-53",
+]
+
+###### Collect results regarding task performance and concept sparsity (c_pred * weights) ######
+
+exps_path = []
+lmr_paths = []
+for path in paths:
+    exps = os.listdir(path)
+    exps_path += [os.path.join(path, exp) for exp in exps if 'multirun' not in exp]
+
+performance = pd.DataFrame()
+
+for exp in exps_path:
+    d = {}
+    conf_file = os.path.join(exp, '.hydra/config.yaml')
+    result_file = os.path.join(exp, 'logs/experiment_metrics/version_0/metrics.csv')  
+    llm_result_file = os.path.join(exp, 'results.csv')
+    #if os.path.exists(conf_file) and (os.path.exists(result_file) or os.path.exists(llm_result_file)):
+    try:
+        with open(conf_file, 'r') as file:
+            conf = yaml.safe_load(file)
+        d['seed'] = conf['seed']
+        d['dataset'] = conf['dataset']['metadata']['name']
+        d['model'] = conf['model']['metadata']['name']
+
+        if d['model'] in ['LLM_zero_shot', 'LLM_few_shot']:
+            llm_acc = pd.read_csv(llm_result_file, header=0)['accuracy'].iloc[0]
+            d['task'] = llm_acc
+            d['concept'] = 0
+            d['supervision'] = 'self-generative' # LLM do not follow any of the learning paradigms, we set it to self-generative as default.
+        else:
+            d['supervision'] = conf['supervision']
+
+            with open(result_file, 'r') as file:
+                result = pd.read_csv(file, header=0)
+
+            d['task'] = result['test_task_acc'].iloc[-1]
+
+            # Select the last row of the dataframe where we test the model
+            try:
+                d['concept'] = result['test_concept_acc'].iloc[-1]
+            except KeyError:
+                d['concept'] = 0
+
+            #print(d)
+            
+            if d['model'] == 'm_licem' and d['seed']==1:
+                expl_dict = d.copy()
+                expl_dict['path'] = exp
+                lmr_paths.append(expl_dict)
+
+        performance = pd.concat([performance, pd.DataFrame([d])], ignore_index=True)
+    except Exception as e:
+        print(f"Error processing {exp}: {e}")

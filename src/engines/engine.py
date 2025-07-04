@@ -46,6 +46,7 @@ class Engine(pl.LightningModule):
             self.c_preds = []
             self.y_trues = []
             self.y_preds = []
+            self.ids = []
 
     def forward(self, input):
         return self.model(input)
@@ -91,11 +92,11 @@ class Engine(pl.LightningModule):
 
         loss = self.model.loss(y_output, y, c_output, c_loss)
     
-        return loss, model_output, y, c
+        return loss, model_output, y, c, ids
 
     def training_step(self, batch, batch_idx):
         self.model.global_step = self.global_step
-        loss, model_output, y, c = self.shared_step(batch)
+        loss, model_output, y, c, ids = self.shared_step(batch)
         self.log("train_loss", loss)
         y_output, c_output = self.model.filter_output_for_metrics(*model_output)
         task_acc = self.task_metric(y_output, y)
@@ -112,7 +113,7 @@ class Engine(pl.LightningModule):
         return loss
 
     def validation_step(self, batch, batch_idx):
-        loss, model_output, y, c = self.shared_step(batch)
+        loss, model_output, y, c, ids = self.shared_step(batch)
         self.log("val_loss", loss)
         y_output, c_output = self.model.filter_output_for_metrics(*model_output)
         task_acc = self.task_metric(y_output, y)
@@ -125,7 +126,7 @@ class Engine(pl.LightningModule):
         return loss 
     
     def test_step(self, batch, batch_idx):
-        loss, model_output, y, c = self.shared_step(batch)
+        loss, model_output, y, c, ids = self.shared_step(batch)
         y_output, c_output = self.model.filter_output_for_metrics(*model_output)
         self.log("test_loss", loss)
         task_acc = self.task_metric(y_output, y)
@@ -144,6 +145,7 @@ class Engine(pl.LightningModule):
             self.c_preds.append(c_output)
             self.y_trues.append(y)
             self.y_preds.append(y_output)
+            self.ids.append(ids)
         return loss 
     
     def on_test_epoch_end(self):
@@ -157,6 +159,7 @@ class Engine(pl.LightningModule):
             self.c_preds = torch.cat(self.c_preds, dim=0)
             self.y_trues = torch.cat(self.y_trues, dim=0)
             self.y_preds = torch.cat(self.y_preds, dim=0).argmax(-1)
+            self.ids = torch.cat(self.ids, dim=0)
 
             # Convert the tensors to pandas dfs
             c_preds = pd.DataFrame(self.c_preds.cpu().numpy(), columns=self.c_names)
@@ -177,6 +180,7 @@ class Engine(pl.LightningModule):
 
             # Save the predicted_weights to a .pt file
             torch.save(self.pred_weights, f"{self.csv_log_dir}/pred_weights.pt")
+            torch.save(self.ids, f"{self.csv_log_dir}/ids.pt")
 
     def configure_optimizers(self):
         if ('dt' in self.model.__class__.__name__ or 'xg' in self.model.__class__.__name__) and self.supervision == 'self-generative':

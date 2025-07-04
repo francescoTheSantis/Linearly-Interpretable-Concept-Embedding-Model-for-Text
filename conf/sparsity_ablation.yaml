@@ -1,0 +1,83 @@
+defaults:
+  - dataset: cebab
+  - model: blackbox
+  - engine: engine
+
+## Training parameters
+max_epochs: 40
+# The patience is set to the max_epochs to avoid early stopping. 
+# If you want to use early stopping, set it to a lower value.
+patience: 40
+gamma: 0.1
+lr_patience: 10
+gpus: [0]
+seed: 1
+activation: ReLU
+num_workers: 0
+latent_size: 64
+batch_size: 64
+
+## Shared Concept-based model parameters
+task_penalty: 0.1
+int_prob: 0.25
+
+## Shared Concept-embedding based model
+embedding_size: 16
+
+## Default supervision strategy
+supervision: supervised
+
+## Name of the LLM used to generate the concepts
+# The implementation supports LLMs from Mistral AI and OpenAI. Few examples below:
+# - mistral-8b-latest
+# - mistral-small-latest
+# - gpt-4o
+# - gpt-4o-mini
+llm_name: 'gpt-4o' 
+
+## Whether to use the embeddings of a pre-trained language model.
+# If true, the embeddings are extracted from the pre-trained language model.
+# If false, the embeddings extracted from the encoder are stored in the batch.
+# This second option does not allow fine-tuning but speed-up the training.
+use_embeddings: True
+
+## Parameters for the encoder
+# Those parameters are needed if the "use_embedding" is set to False
+encoder_name: bert-base-uncased
+fine_tune_encoder: True
+encoder_output_size: 768 # This is the output size of the encoder, e.g., 768 for BERT, 1024 for RoBERTa
+
+## Pre-trained Language model name
+lm_name: all-distilroberta-v1
+lm_embedding_size: 768
+
+# Set this parameter to True if you want to use the stored, preprocessed dataset,
+# otherwise it will be preprocessed from scratch and saved in the cache. 
+use_stored_dataset: True
+
+## LICEM specific parameter
+weight_reg: 1e-6
+
+hydra:
+  mode: MULTIRUN
+  sweep:
+    dir: outputs/sparsity_results/${now:%Y-%m_%d_%H-%M-%S}
+  sweeper:
+    params:
+      seed: 1, 2, 3
+      dataset: banking, trec50, clinc 
+      # implemented models: blackbox, cbm_dt, cbm_xg, cbm_linear, cbm_mlp, cem, dcr, licem
+      model: licem
+      weight_reg: 1e-6, 1e-5, 1e-4, 1e-3, 1e-2, 1e-1, 1, 10, 100
+      supervision: self-generative 
+
+wandb:
+  # Set the params below if you want to use wandb as logger.
+  # Set it to null if you do not want to use wandb.
+  project: "licem" # Set to your project name
+  entity: "francescothesantis-politecnico-di-torino" # Set to your wandb entity name
+
+# The note will be appended to the group name in wandb 
+# and will be considered as an additional tag (for filtering).
+# If you do not want to add any note, set it to null.
+note: null
