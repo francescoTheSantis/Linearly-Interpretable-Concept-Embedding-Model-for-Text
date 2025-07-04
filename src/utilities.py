@@ -223,3 +223,121 @@ def plot_explanations(lmr_paths):
             print(f"Error while plotting explanations for {exp['model']} on {exp['dataset']}. Skipping...")
             continue
     print("Explanations plotted successfully.")
+
+
+def plot_sparsity_ablation(performance, sparsity_threshold=1e-5, output_dir='figs', style=None):
+    """
+    Plots task accuracy vs concept sparsity for each supervision strategy and dataset.
+    Averages results over seeds, includes standard deviation shading, and supports custom styling.
+    """
+    
+    default_style = {
+        'title_size': 14,
+        'label_size': 12,
+        'tick_size': 10,
+        'xtick_labelsize': 16,
+        'ytick_labelsize': 16,
+        'legend_fontsize': 10,
+        'line_width': 2,
+        'marker_size': 6,
+        'colors': ['tab:red', 'tab:green', 'tab:blue'],  # List of colors, or None to auto-generate
+        'alpha': 0.3     # Transparency for standard deviation shading
+    }
+    if style is None:
+        style = {}
+    style = {**default_style, **style}
+
+    os.makedirs(output_dir, exist_ok=True)
+    grouped = performance.groupby('supervision')
+
+    for supervision, group in grouped:
+        datasets = group['dataset'].unique()
+        fig, axes = plt.subplots(1, 2, figsize=(10, 4))
+        used_labels = set()
+
+        for i, dataset in enumerate(datasets):
+            dataset_group = group[group['dataset'] == dataset]
+            grouped_by_reg = dataset_group.groupby('weight_reg')
+
+            weight_regs = []
+            mean_accuracies, std_accuracies = [], []
+            mean_sparsities, std_sparsities = [], []
+
+            for weight_reg, sub_group in grouped_by_reg:
+                weight_regs.append(weight_reg)
+
+                # Task accuracy mean and std
+                task_vals = sub_group['task'].values
+                mean_accuracies.append(np.mean(task_vals))
+                std_accuracies.append(np.std(task_vals))
+
+                # Concept sparsity mean and std
+                sparsities = []
+                for _, row in sub_group.iterrows():
+                    c_preds = row['c_preds'].values
+                    pred_weights = row['pred_weights']
+                    weighted_preds = c_preds[:, :, None] * pred_weights
+                    mask = np.abs(weighted_preds) > sparsity_threshold
+                    sparsities.append(np.mean(mask))
+                mean_sparsities.append(np.mean(sparsities))
+                std_sparsities.append(np.std(sparsities))
+
+            # Sort by weight_reg
+            sorted_idx = np.argsort(weight_regs)
+            weight_regs = np.array(weight_regs)[sorted_idx]
+            mean_accuracies = np.array(mean_accuracies)[sorted_idx]
+            std_accuracies = np.array(std_accuracies)[sorted_idx]
+            mean_sparsities = np.array(mean_sparsities)[sorted_idx]
+            std_sparsities = np.array(std_sparsities)[sorted_idx]
+
+            label = dataset if dataset not in used_labels else None
+            color = (style['colors'][i] if style['colors'] and i < len(style['colors']) else None)
+
+            # Task accuracy plot
+            line1, = axes[0].plot(weight_regs, mean_accuracies, label=label, marker='o',
+                                  linewidth=style['line_width'], markersize=style['marker_size'], color=color)
+            color1 = line1.get_color()
+            axes[0].fill_between(weight_regs, mean_accuracies - std_accuracies,
+                                 mean_accuracies + std_accuracies, color=color1, alpha=style['alpha'])
+
+            # Concept sparsity plot
+            line2, = axes[1].plot(weight_regs, mean_sparsities, label=label, marker='o',
+                                  linewidth=style['line_width'], markersize=style['marker_size'], color=color)
+            color2 = line2.get_color()
+            axes[1].fill_between(weight_regs, mean_sparsities - std_sparsities,
+                                 mean_sparsities + std_sparsities, color=color2, alpha=style['alpha'])
+
+            used_labels.add(dataset)
+
+        # Style axes
+        for ax, ylabel, title in zip(
+            axes,
+            ['Task Accuracy', 'Concept Sparsity'],
+            [f'Task Accuracy vs Weight Regularization ({supervision})',
+             f'Concept Sparsity vs Weight Regularization ({supervision})']
+        ):
+            ax.set_xlabel('Weight Regularization', fontsize=style['label_size'])
+            ax.set_ylabel(ylabel, fontsize=style['label_size'])
+            #ax.set_title(title, fontsize=style['title_size'])
+            ax.set_xscale('log')
+            ax.grid(True)
+
+            # Remove all minor ticks on all sides
+            ax.tick_params(axis='both', which='minor', bottom=False, top=False, left=False, right=False)
+            ax.tick_params(labelsize=style['tick_size'])
+
+        # Unified legend below the figure
+        handles, labels = axes[0].get_legend_handles_labels()
+        by_label = dict(zip(labels, handles))
+        fig.legend(by_label.values(), by_label.keys(),
+                   loc='lower center', ncol=len(by_label),
+                   bbox_to_anchor=(0.5, -0.05),
+                   frameon=True,  # Enable the legend frame
+                   facecolor='white',  # Set the background color
+                   edgecolor='tab:grey',  # Set the border color
+                   fontsize=style['legend_fontsize'])
+
+        plt.tight_layout()
+        plt.subplots_adjust(bottom=0.2)
+        plt.savefig(os.path.join(output_dir, f'sparsity_ablation_{supervision}.png'), bbox_inches='tight')
+        plt.show()

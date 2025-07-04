@@ -66,8 +66,7 @@ hydra:
     params:
       seed: 1, 2, 3
       dataset: banking, trec50, clinc 
-      # implemented models: blackbox, cbm_dt, cbm_xg, cbm_linear, cbm_mlp, cem, dcr, licem
-      model: licem
+      model: cbm_linear # licem, cbm_linear
       weight_reg: 1e-6, 1e-5, 1e-4, 1e-3, 1e-2, 1e-1, 1, 10, 100
       supervision: self-generative 
 

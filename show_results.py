@@ -6,7 +6,7 @@ import warnings
 import os
 import yaml
 from matplotlib.ticker import FuncFormatter
-from src.utilities import plot_explanations
+from src.utilities import plot_explanations, plot_sparsity_ablation
 import torch
 
 # I used scienceplots for the style of the plots, but you can use any other style you want.
@@ -31,8 +31,6 @@ for path in paths:
     exps_path += [os.path.join(path, exp) for exp in exps if 'multirun' not in exp]
 
 performance = pd.DataFrame()
-
-#exps_path = [x for x in exps_path if 'llm_results' in x]  # Filter out LLM results if not needed)]
 
 for exp in exps_path:
     d = {}
@@ -68,7 +66,7 @@ for exp in exps_path:
 
             #print(d)
             
-            if d['model'] == 'm_licem' and d['seed']==1:
+            if d['model'] == 'licem' and d['seed']==1:
                 expl_dict = d.copy()
                 expl_dict['path'] = exp
                 lmr_paths.append(expl_dict)
@@ -129,10 +127,22 @@ performance = performance[performance['model'].isin(model_styles.keys()) & \
                           performance['dataset'].isin(custom_order)]
 
 
-######### Only for the LinearMemoryReasoner with seed=1, plot explanations #########
-#plot_explanations(lmr_paths)
 
+
+
+####################################################################################
+############################ Plot explanations #####################################
+####################################################################################
+
+plot_explanations(lmr_paths)
+
+
+
+
+
+#############################################
 ########## Task & Concept Accuracy ##########
+#############################################
 
 # Filter data for 'task' and 'concept'
 task_df = performance.copy()
@@ -239,13 +249,16 @@ for supervision in merged_task['supervision'].unique():
     final_table.to_csv(f'figs/{supervision}_concept_accuracy.csv', index=True)
 
 
+#######################################
 ########## Sparsity ablation ##########
+#######################################
 
 paths = [
     "/home/fdesantis/projects/Linearly-Interpretable-Concept-Embedding-Model-for-Text/outputs/sparsity_results/2025-07_03_22-22-53",
+    "/home/fdesantis/projects/Linearly-Interpretable-Concept-Embedding-Model-for-Text/outputs/sparsity_results/2025-07_04_13-38-58",
 ]
 
-###### Collect results regarding task performance and concept sparsity (c_pred * weights) ######
+###### Collect results regarding task performance and concept sparsity ######
 
 exps_path = []
 for path in paths:
@@ -270,9 +283,9 @@ for exp in exps_path:
         d['dataset'] = conf['dataset']['metadata']['name']
         model = conf['model']['metadata']['name']
 
-        if model in ['licem']:
+        if model in ['licem', 'cbm_linear']:
             d['supervision'] = conf['supervision']
-
+            d['model'] = model
             with open(result_file, 'r') as file:
                 result = pd.read_csv(file, header=0)
 
@@ -303,69 +316,5 @@ for exp in exps_path:
     except Exception as e:
         print(f"Error processing {exp}: {e}")
 
-
-def plot_sparsity_ablation(performance, sparsity_threshold=1e-5, output_dir='figs'):
-    """
-    Plots task accuracy vs concept sparsity for each supervision strategy and dataset.
-
-    Args:
-        performance (pd.DataFrame): DataFrame containing experiment results.
-        sparsity_threshold (float): Threshold for concept sparsity calculation.
-        output_dir (str): Directory to save the plots.
-    """
-
-    # Group the data by supervision strategy
-    grouped = performance.groupby('supervision')
-
-    # Iterate over each supervision strategy
-    for supervision, group in grouped:
-        # Prepare data for plotting
-        datasets = group['dataset'].unique()
-        weight_regs = group['weight_reg'].values
-
-        # Compute concept sparsity
-        sparsities = []
-        for _, row in group.iterrows():
-            c_preds = row['c_preds'].values  # (n_samples, n_concepts)
-            pred_weights = row['pred_weights']  # (n_samples, n_concepts, n_classes)
-
-            # Multiply c_preds with pred_weights along the concept axis
-            weighted_preds = c_preds[:, :, None] * pred_weights  # (n_samples, n_concepts, n_classes)
-
-            # Check which values go above the threshold
-            sparsity_mask = np.abs(weighted_preds) > sparsity_threshold  # (n_samples, n_concepts, n_classes)
-
-            # Sample sparsity
-            sparsity = np.mean(sparsity_mask)
-
-            sparsities.append(sparsity)
-
-        # Create the plots
-        fig, axes = plt.subplots(1, 2, figsize=(12, 6))
-
-        # Line plot for task accuracy vs weight_reg (one line per dataset)
-        for dataset in datasets:
-            dataset_group = group[group['dataset'] == dataset]
-            task_accuracies = dataset_group['task'].values
-            axes[0].plot(dataset_group['weight_reg'], task_accuracies, marker='o', label=f'Task Accuracy ({dataset})')
-
-        axes[0].set_title(f'Task Accuracy vs Weight Regularization ({supervision})')
-        axes[0].set_xlabel('Weight Regularization')
-        axes[0].set_ylabel('Task Accuracy')
-        axes[0].grid(True)
-        axes[0].legend()
-
-        # Bar plot for concept sparsity vs weight_reg
-        axes[1].bar(weight_regs, sparsities, color='orange', label='Concept Sparsity')
-        axes[1].set_title(f'Concept Sparsity vs Weight Regularization ({supervision})')
-        axes[1].set_xlabel('Weight Regularization')
-        axes[1].set_ylabel('Concept Sparsity')
-        axes[1].grid(True)
-        axes[1].legend()
-
-        # Save the plot
-        plt.tight_layout()
-        plt.savefig(os.path.join(output_dir, f'sparsity_ablation_{supervision}.png'))
-        plt.show()
-
+# Plot the sparsity ablation results
 plot_sparsity_ablation(performance)

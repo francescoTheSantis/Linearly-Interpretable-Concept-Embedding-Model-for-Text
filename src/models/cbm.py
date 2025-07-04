@@ -21,6 +21,7 @@ class ConceptBottleneckModel(BaseModel):
                  noise=None,
                  latent_size = 128,
                  c_groups=None,
+                 weight_reg=1e-6,
                  encoder=None,
                  supervision='supervised',
                  use_embeddings=False,
@@ -51,6 +52,7 @@ class ConceptBottleneckModel(BaseModel):
         self.latent_size = latent_size 
         self.ml_params = ml_params 
         self.output_size = output_size
+        self.weight_reg = weight_reg
 
         input_size = lm_embedding_size if use_embeddings else encoder_output_size
         self.first_layer = nn.Sequential(
@@ -118,6 +120,10 @@ class ConceptBottleneckModel(BaseModel):
 
     def loss(self, y_hat, y, c_hat=None, c=None):
         loss = self.concept_based_loss(y_hat, y, c_hat, c)
+        # adding l1 regularization to the weights if neural classifier
+        if self.classifier in ['linear', 'mlp']:
+            w_loss = self.weight_reg * self.y_predictor.weight.flatten().norm(p=1)
+            loss += w_loss
         return loss
     
     def unpack_batch(self, batch):
