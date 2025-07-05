@@ -4,6 +4,8 @@ figs/
 outputs/
 debugging.yaml
 show_results.ipynb
+paper_figs/
+stored_env.py
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

@@ -1,8 +1,8 @@
 from os import environ as env
 from pathlib import Path
 
-PROJECT_NAME = "linearly-interpretable-concept-embedding-model" # Name of the project used to name the directory in the cache
-HOME = "/home/fdesantis/projects/Linearly-Interpretable-Concept-Embedding-Model-for-Text" # Path to the project
+PROJECT_NAME = "" # Name of the project used to name the directory in the cache
+HOME = "" # Path to the project
 
 CACHE = Path(
     env.get(
@@ -15,7 +15,7 @@ CACHE = Path(
 ).expanduser()
 CACHE.mkdir(exist_ok=True)
 
-DATA_PATH = "/home/fdesantis/datasets" # Path to the datasets
+DATA_PATH = "" # Path to the datasets
 
 env['HYDRA_FULL_ERROR'] = '1'
 

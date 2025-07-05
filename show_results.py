@@ -6,7 +6,7 @@ import warnings
 import os
 import yaml
 from matplotlib.ticker import FuncFormatter
-from src.utilities import plot_explanations, plot_sparsity_ablation
+from src.utilities import plot_explanations, plot_sparsity_ablation, plot_sparsity_vs_accuracy
 import torch
 
 # I used scienceplots for the style of the plots, but you can use any other style you want.
@@ -15,8 +15,8 @@ plt.style.use(['science', 'ieee', 'no-latex'])
 
 # List the paths containing the results
 paths = [
-    "/home/fdesantis/projects/Linearly-Interpretable-Concept-Embedding-Model-for-Text/outputs/accuracy_results/2025-07_02_17-13-29",
-    "/home/fdesantis/projects/Linearly-Interpretable-Concept-Embedding-Model-for-Text/outputs/llm_results/2025-07_03_19-10-16",
+    "", # Path to the first set of results
+    # Add more paths if needed
 ]
 
 # create the figs folder if it does not exist
@@ -66,6 +66,7 @@ for exp in exps_path:
 
             #print(d)
             
+            # if the model is licem, we need to collect the explanations
             if d['model'] == 'licem' and d['seed']==1:
                 expl_dict = d.copy()
                 expl_dict['path'] = exp
@@ -84,13 +85,13 @@ def get_df_name(df):
     elif df=='cebab':
         return 'CEBaB'
     elif df=='trec50':
-        return 'TREC50'
+        return 'TREC-50'
     elif df=='wos':
         return 'WOS'
     elif df=='clinc':
         return 'CLINC-OOS'
     elif df=='banking':
-        return 'Banking77'
+        return 'Banking-77'
 
 marker_size = 14
 
@@ -254,8 +255,8 @@ for supervision in merged_task['supervision'].unique():
 #######################################
 
 paths = [
-    "/home/fdesantis/projects/Linearly-Interpretable-Concept-Embedding-Model-for-Text/outputs/sparsity_results/2025-07_03_22-22-53",
-    "/home/fdesantis/projects/Linearly-Interpretable-Concept-Embedding-Model-for-Text/outputs/sparsity_results/2025-07_04_13-38-58",
+    "", # Path to the first set of results
+    # Add more paths if needed
 ]
 
 ###### Collect results regarding task performance and concept sparsity ######
@@ -316,5 +317,11 @@ for exp in exps_path:
     except Exception as e:
         print(f"Error processing {exp}: {e}")
 
+
+dataset_to_show = ['trec50']  # Specify the datasets you want to plot
+
 # Plot the sparsity ablation results
-plot_sparsity_ablation(performance)
+plot_sparsity_ablation(performance, dataset_func=get_df_name, datasets_to_plot=dataset_to_show)
+
+# Plot sparsity vs task accuracy
+plot_sparsity_vs_accuracy(performance, dataset_func=get_df_name, datasets_to_plot=dataset_to_show)

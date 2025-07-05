@@ -39,14 +39,22 @@ class Engine(pl.LightningModule):
         self.csv_log_dir = csv_log_dir
 
         # If we are using the LinearConceptEmbeddingModel model,
-        # we need to save the tensors required for the explanations.
-        if self.model.__class__.__name__ == 'LinearConceptEmbeddingModel':
+        # we need to save the tensors required for the explanations and sparsity ablation.
+        if self._model_check():
             self.pred_weights = []
             self.c_trues = []
             self.c_preds = []
             self.y_trues = []
             self.y_preds = []
             self.ids = []
+
+    def _model_check(self):
+        if self.model.__class__.__name__ == 'LinearConceptEmbeddingModel':
+            return True
+        if self.model.__class__.__name__ == 'ConceptBottleneckModel':
+            if self.model.classifier in ['linear', 'mlp']:
+                return True
+        return False
 
     def forward(self, input):
         return self.model(input)
@@ -106,10 +114,6 @@ class Engine(pl.LightningModule):
         if self.model.has_concepts and not torch.any(c == -1):
             concept_acc = self.concept_metric(c_output, c)
             self.log('train_concept_acc', concept_acc)
-
-        #if ('dt' in self.model.__class__.__name__ or 'xg' in self.model.__class__.__name__) and self.supervision == 'self-generative':
-        #    return y_output.mean() * -1
-        #else:
         return loss
 
     def validation_step(self, batch, batch_idx):
@@ -126,6 +130,7 @@ class Engine(pl.LightningModule):
         return loss 
     
     def test_step(self, batch, batch_idx):
+        bsz = batch[0].shape[0]
         loss, model_output, y, c, ids = self.shared_step(batch)
         y_output, c_output = self.model.filter_output_for_metrics(*model_output)
         self.log("test_loss", loss)
@@ -139,8 +144,12 @@ class Engine(pl.LightningModule):
 
         # If the name of the class is LinearConceptEmbeddingModel,
         # update the tensors required for the explanations.
-        if self.model.__class__.__name__ == 'LinearConceptEmbeddingModel':
-            self.pred_weights.append(model_output[2])
+        if self._model_check():
+            # check if model_output has the expected number of elements
+            if len(model_output) < 3:
+                self.pred_weights.append(self.model.y_predictor.weight.T.unsqueeze(0).expand(bsz, -1, -1))
+            else:
+                self.pred_weights.append(model_output[2])
             self.c_trues.append(c)
             self.c_preds.append(c_output)
             self.y_trues.append(y)
@@ -150,9 +159,9 @@ class Engine(pl.LightningModule):
     
     def on_test_epoch_end(self):
         '''
-        If the name of the class is LinearConceptEmbeddingModel, store the tensors required for the explanations.
+        Store the tensors required for the explanations and the sparsity ablation.
         '''
-        if self.model.__class__.__name__ == 'LinearConceptEmbeddingModel':
+        if self._model_check():
             # Concatenate the tensors
             self.pred_weights = torch.cat(self.pred_weights, dim=0)
             self.c_trues = torch.cat(self.c_trues, dim=0)
