@@ -16,19 +16,20 @@ This repository contains the implementation of the **Linearly Interpretable Conc
 
 To set up the environment, follow these steps:
 
-1. Clone the repository:
+1. Clone the repository
+
+2. Move to the working directory:
    ```bash
-   git clone https://github.com/your-username/Linearly-Interpretable-Concept-Embedding-Model-for-Text.git
    cd Linearly-Interpretable-Concept-Embedding-Model-for-Text
    ```
 
-2. Install dependencies using `conda`:
+3. Install dependencies using `conda`:
    ```bash
    conda env create -f environment.yml
    conda activate licem
    ```
 
-3. Configure environment variables:
+4. Configure environment variables:
    After installing dependencies, update the environment variables in `env.py`:
    - **PROJECT_NAME**: Set this to your project name.
    - **HOME**: Specify the path to your project directory.
