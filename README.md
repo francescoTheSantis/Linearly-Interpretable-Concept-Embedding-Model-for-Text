@@ -1,6 +1,6 @@
 # Linearly Interpretable Concept Embedding Model for Text (LICEM)
 
-This repository contains the implementation of the **Linearly Interpretable Concept Embedding Model (LICEM)** for text classification tasks. LICEM leverages concept-based embeddings to provide interpretable predictions while maintaining competitive performance.
+This repository contains the implementation of the [Linearly Interpretable Concept Embedding Model (LICEM)](https://arxiv.org/pdf/2406.14335) for text classification tasks. LICEM leverages concept-based embeddings to provide interpretable predictions while maintaining competitive performance.
 
 ## Table of Contents
 1. [Installation](#installation)
